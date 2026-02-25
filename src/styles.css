@@ -1,3 +1,22 @@
+.legal-page {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 40px;
+  background: #161622;
+  border-radius: 8px;
+  color: white;
+  line-height: 1.8;
+}
+
+.legal-page h1 {
+  color: #00e0ff;
+  margin-bottom: 20px;
+}
+
+.legal-page h2 {
+  margin-top: 30px;
+  color: #ccc;
+}
 /* PREMIUM ABOUT PAGE */
 .premium-about {
   max-width: 900px;

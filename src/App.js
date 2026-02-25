@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles.css";
 import { Routes, Route, Link } from "react-router-dom";
+import AdminOrders from "./AdminOrders";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+import Disclaimer from "./pages/Disclaimer";
 
-const API = "https://nova-backend-lu2l.onrender.com";
+const API = process.env.REACT_APP_API;
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -19,6 +23,7 @@ function App() {
       .get(`${API}/api/products`)
       .then((res) => setProducts(res.data))
       .catch((err) => console.error("Product fetch error:", err));
+        <Route path="/admin/orders" element={<AdminOrders />} />
   }, []);
 
   /* ======================
@@ -262,35 +267,9 @@ function App() {
           }
         />
 
-        <Route
-          path="/terms"
-          element={
-            <section className="legal-page">
-              <h2>Terms & Conditions</h2>
-              <p>All research compounds are for laboratory use only. Not for human consumption.</p>
-            </section>
-          }
-        />
-
-        <Route
-          path="/privacy"
-          element={
-            <section className="legal-page">
-              <h2>Privacy Policy</h2>
-              <p>Your personal information is protected and never shared with third parties.</p>
-            </section>
-          }
-        />
-
-        <Route
-          path="/disclaimer"
-          element={
-            <section className="legal-page">
-              <h2>Research Use Disclaimer</h2>
-              <p>These products are intended for research purposes only and must be handled in accordance with applicable regulations.</p>
-            </section>
-          }
-        />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/disclaimer" element={<Disclaimer />} />
 
       </Routes>
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles.css";
 import { Routes, Route, Link } from "react-router-dom";
-import AdminOrders from "./AdminOrders";
+import AdminOrders from "./pages/AdminOrders";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Disclaimer from "./pages/Disclaimer";

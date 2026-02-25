@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles.css";
 import { Routes, Route, Link } from "react-router-dom";
-import AdminOrders from "./pages/AdminOrders";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Disclaimer from "./pages/Disclaimer";
@@ -23,7 +22,6 @@ function App() {
       .get(`${API}/api/products`)
       .then((res) => setProducts(res.data))
       .catch((err) => console.error("Product fetch error:", err));
-        <Route path="/admin/orders" element={<AdminOrders />} />
   }, []);
 
   /* ======================

@@ -6,7 +6,7 @@ function Terms() {
       <h1>Terms and Conditions</h1>
 
       <p>
-        Effective Date: {new Date().getFullYear()}
+        Effective Date: January 1, 2026
       </p>
 
       <h2>1. Acceptance of Terms</h2>

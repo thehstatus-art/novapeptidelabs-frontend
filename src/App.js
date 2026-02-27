@@ -1,3 +1,4 @@
+  import Home from "./pages/Home";
   import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
@@ -71,6 +72,7 @@ function App() {
 
         {/* ROUTES */}
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/disclaimer" element={<Disclaimer />} />

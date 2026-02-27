@@ -1,4 +1,38 @@
 
+.user-greeting {
+  color: #6ec1ff;
+  font-weight: 600;
+}
+
+.hero {
+  text-align: center;
+  padding: 80px 20px 40px;
+}
+
+.hero h1 {
+  font-size: 42px;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #6ec1ff, #4ea8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  margin-top: 15px;
+  font-size: 18px;
+  color: #9bb3c9;
+}
+
+/* STICKY NAVBAR */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  background: rgba(5, 15, 25, 0.75);
+  border-bottom: 1px solid rgba(110, 193, 255, 0.15);
+}
+
 /* NAV FIX */
 
 .nav-links {

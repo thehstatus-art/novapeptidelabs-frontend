@@ -1,11 +1,18 @@
 import React from "react";
+
+const token = localStorage.getItem("token");
 import { Link, useLocation } from "react-router-dom";
 
 function Header({ cart, setCheckoutOpen }) {
   const location = useLocation();
 
+
   const total = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  const itemCount = cart.reduce(
+    (sum, item) => sum + item.quantity,
     0
   );
 
@@ -39,15 +46,23 @@ function Header({ cart, setCheckoutOpen }) {
       </nav>
 
       <div className="nav-right">
-        <Link to="/login" className="login-btn">
-          LOGIN / REGISTER
-        </Link>
+
+        {token ? (
+          <span className="user-greeting">My Account</span>
+        ) : (
+          <Link to="/login" className="login-btn">
+            LOGIN / REGISTER
+          </Link>
+        )}
 
         <button
           className="cart-btn"
           onClick={() => setCheckoutOpen(true)}
         >
-          CART / ${total.toFixed(2)}
+          🛒
+          {itemCount > 0 && (
+            <span className="cart-badge">{itemCount}</span>
+          )}
         </button>
       </div>
     </header>

@@ -5,10 +5,6 @@ import { Link, useLocation } from "react-router-dom";
 function Header({ cart, setCheckoutOpen }) {
   const location = useLocation();
   const token = localStorage.getItem("token");
-  const total = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
   const itemCount = cart.reduce(
     (sum, item) => sum + item.quantity,
     0

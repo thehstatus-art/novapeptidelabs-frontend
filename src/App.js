@@ -8,6 +8,9 @@ import Register from "./pages/Register";
 import Disclaimer from "./pages/Disclaimer";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import Orders from "./pages/Orders";
+import Admin from "./pages/Admin";
+import AdminOrders from "./pages/AdminOrders";
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -39,16 +42,36 @@ function App() {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  useEffect(() => {
+    if (cart.length > 0) {
+      localStorage.setItem("lastCart", Date.now());
+    }
+  }, [cart]);
+
+  useEffect(() => {
+    const lastVisit = localStorage.getItem("lastCart");
+
+    if (lastVisit && Date.now() - lastVisit > 600000) {
+      alert("Your research compounds are still waiting in your cart.");
+    }
+  }, []);
+
   const addToCart = (product) => {
     setCart((prev) => {
       const exists = prev.find((item) => item._id === product._id);
+
       if (exists) {
+        const updatedQty = exists.quantity + 1;
+        const discount =
+          updatedQty >= 2 ? product.price * 0.9 : product.price;
+
         return prev.map((item) =>
           item._id === product._id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: updatedQty, price: discount }
             : item
         );
       }
+
       return [...prev, { ...product, quantity: 1 }];
     });
   };
@@ -76,6 +99,11 @@ function App() {
   };
 
   const handleCheckout = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login first.");
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch(`${API}/api/stripe/create-checkout-session`, {
@@ -113,6 +141,9 @@ function App() {
         <Route path="/disclaimer" element={<Disclaimer />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
       </Routes>
 
       {/* CHECKOUT OVERLAY */}

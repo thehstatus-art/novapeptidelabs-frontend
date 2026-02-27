@@ -10,21 +10,18 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await axios.post(
-        "https://nova-backend-lu2l.onrender.com/api/auth/login",
-        { email, password }
-      );
+    const res = await fetch(`${API}/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-      // ✅ SAVE TOKEN
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+    const data = await res.json();
 
-      alert("Login successful!");
-      navigate("/"); // redirect home
-
-    } catch (err) {
-      alert("Invalid credentials");
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      window.location.href = "/";
     }
   };
 

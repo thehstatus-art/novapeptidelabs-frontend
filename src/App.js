@@ -1,5 +1,5 @@
-  import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -92,94 +92,92 @@ function App() {
   };
 
   return (
-    <Router>
-      <div>
+    <div>
+      {/* ROUTES */}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              products={products}
+              addToCart={addToCart}
+              setCheckoutOpen={setCheckoutOpen}
+              cart={cart}
+            />
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/disclaimer" element={<Disclaimer />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+      </Routes>
 
-        {/* ROUTES */}
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home
-                products={products}
-                addToCart={addToCart}
-              />
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/disclaimer" element={<Disclaimer />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-        </Routes>
+      {/* CHECKOUT OVERLAY */}
+      {checkoutOpen && (
+        <div className="checkout-overlay">
+          <div className="checkout-container">
 
-        {/* CHECKOUT OVERLAY */}
-        {checkoutOpen && (
-          <div className="checkout-overlay">
-            <div className="checkout-container">
+            <div className="checkout-left">
+              <h2>Shopping Cart</h2>
 
-              <div className="checkout-left">
-                <h2>Shopping Cart</h2>
+              {cart.map((item) => (
+                <div key={item._id} className="checkout-item">
+                  <img src={`${API}${item.image}`} alt={item.name} />
 
-                {cart.map((item) => (
-                  <div key={item._id} className="checkout-item">
-                    <img src={`${API}${item.image}`} alt={item.name} />
-
-                    <div className="item-info">
-                      <h4>{item.name}</h4>
-                      <p>${item.price.toFixed(2)}</p>
-                    </div>
-
-                    <div className="qty-controls">
-                      <button onClick={() => decreaseQty(item._id)}>-</button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => increaseQty(item._id)}>+</button>
-                    </div>
-
-                    <div className="subtotal">
-                      ${(item.price * item.quantity).toFixed(2)}
-                    </div>
+                  <div className="item-info">
+                    <h4>{item.name}</h4>
+                    <p>${item.price.toFixed(2)}</p>
                   </div>
-                ))}
-              </div>
 
-              <div className="checkout-right">
-                <button
-                  className="back-btn"
-                  onClick={() => setCheckoutOpen(false)}
-                >
-                  ← Back
-                </button>
+                  <div className="qty-controls">
+                    <button onClick={() => decreaseQty(item._id)}>-</button>
+                    <span>{item.quantity}</span>
+                    <button onClick={() => increaseQty(item._id)}>+</button>
+                  </div>
 
-                <h3>Cart Totals</h3>
-
-                <div className="totals-row">
-                  <span>Total</span>
-                  <span>${cartTotal.toFixed(2)}</span>
+                  <div className="subtotal">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </div>
                 </div>
+              ))}
+            </div>
 
-                <button
-                  className="checkout-btn"
-                  onClick={handleCheckout}
-                  disabled={loading}
-                >
-                  {loading
-                    ? "Processing..."
-                    : "Pay with Debit / Credit Card"}
-                </button>
+            <div className="checkout-right">
+              <button
+                className="back-btn"
+                onClick={() => setCheckoutOpen(false)}
+              >
+                ← Back
+              </button>
 
-                <div
-                  id="paypal-button-container"
-                  style={{ marginTop: "20px" }}
-                />
+              <h3>Cart Totals</h3>
+
+              <div className="totals-row">
+                <span>Total</span>
+                <span>${cartTotal.toFixed(2)}</span>
               </div>
 
-            </div>
-          </div>
-        )}
+              <button
+                className="checkout-btn"
+                onClick={handleCheckout}
+                disabled={loading}
+              >
+                {loading
+                  ? "Processing..."
+                  : "Pay with Debit / Credit Card"}
+              </button>
 
-      </div>
-    </Router>
+              <div
+                id="paypal-button-container"
+                style={{ marginTop: "20px" }}
+              />
+            </div>
+
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 

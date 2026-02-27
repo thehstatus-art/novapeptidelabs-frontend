@@ -1,7 +1,4 @@
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
-import React, { useState, useEffect } from "react";
+  import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -9,102 +6,145 @@ import Disclaimer from "./pages/Disclaimer";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 
+const API = process.env.REACT_APP_API_URL;
+
 function App() {
+  const [cart, setCart] = useState(() => {
+    const saved = localStorage.getItem("cart");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const cartTotal = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  const increaseQty = (id) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item._id === id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      )
+    );
+  };
+
+  const decreaseQty = (id) => {
+    setCart((prev) =>
+      prev
+        .map((item) =>
+          item._id === id
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
+
+  const handleCheckout = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API}/api/stripe/create-checkout-session`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cartItems: cart }),
+      });
+
+      const data = await res.json();
+      window.location.href = data.url;
+    } catch (err) {
+      console.error(err);
+    }
+    setLoading(false);
+  };
+
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/disclaimer" element={<Disclaimer />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<Terms />} />
-      </Routes>
-    </Router>
-  );
-}
+      <div>
 
-export default App;
+        {/* ROUTES */}
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+        </Routes>
 
-      </Routes>
+        {/* CHECKOUT OVERLAY */}
+        {checkoutOpen && (
+          <div className="checkout-overlay">
+            <div className="checkout-container">
 
-      {/* CHECKOUT OVERLAY */}
-      {checkoutOpen && (
-        <div className="checkout-overlay">
-          <div className="checkout-container">
+              <div className="checkout-left">
+                <h2>Shopping Cart</h2>
 
-            <div className="checkout-left">
-              <h2>Shopping Cart</h2>
+                {cart.map((item) => (
+                  <div key={item._id} className="checkout-item">
+                    <img src={`${API}${item.image}`} alt={item.name} />
 
-              {cart.map((item) => (
-                <div key={item._id} className="checkout-item">
-                  <img src={`${API}${item.image}`} alt={item.name} />
+                    <div className="item-info">
+                      <h4>{item.name}</h4>
+                      <p>${item.price.toFixed(2)}</p>
+                    </div>
 
-                  <div className="item-info">
-                    <h4>{item.name}</h4>
-                    <p>${item.price.toFixed(2)}</p>
+                    <div className="qty-controls">
+                      <button onClick={() => decreaseQty(item._id)}>-</button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => increaseQty(item._id)}>+</button>
+                    </div>
+
+                    <div className="subtotal">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </div>
                   </div>
+                ))}
+              </div>
 
-                  <div className="qty-controls">
-                    <button onClick={() => decreaseQty(item._id)}>-</button>
-                    <span>{item.quantity}</span>
-                    <button onClick={() => increaseQty(item._id)}>+</button>
-                  </div>
+              <div className="checkout-right">
+                <button
+                  className="back-btn"
+                  onClick={() => setCheckoutOpen(false)}
+                >
+                  ← Back
+                </button>
 
-                  <div className="subtotal">
-                    ${(item.price * item.quantity).toFixed(2)}
-                  </div>
+                <h3>Cart Totals</h3>
+
+                <div className="totals-row">
+                  <span>Total</span>
+                  <span>${cartTotal.toFixed(2)}</span>
                 </div>
-              ))}
-            </div>
 
-            <div className="checkout-right">
-              <button
-                className="back-btn"
-                onClick={() => setCheckoutOpen(false)}
-              >
-                ← Back
-              </button>
+                <button
+                  className="checkout-btn"
+                  onClick={handleCheckout}
+                  disabled={loading}
+                >
+                  {loading
+                    ? "Processing..."
+                    : "Pay with Debit / Credit Card"}
+                </button>
 
-              <h3>Cart Totals</h3>
-
-              <div className="totals-row">
-                <span>Total</span>
-                <span>${cartTotal.toFixed(2)}</span>
+                <div
+                  id="paypal-button-container"
+                  style={{ marginTop: "20px" }}
+                />
               </div>
 
-              <button
-                className="checkout-btn"
-                onClick={handleCheckout}
-                disabled={loading}
-              >
-                {loading
-                  ? "Processing..."
-                  : "Pay with Debit / Credit Card"}
-              </button>
-
-              <div id="paypal-button-container"
-                   style={{ marginTop: "20px" }}>
-              </div>
             </div>
-
           </div>
-        </div>
-      )}
+        )}
 
-    </div>
-  );
-}
-
-function ProductCard({ product, addToCart }) {
-  return (
-    <div className="card">
-      <img src={`${API}${product.image}`} alt={product.name} />
-      <h3>{product.name}</h3>
-      <p className="price">${product.price.toFixed(2)}</p>
-      <button onClick={() => addToCart(product)}>
-        ADD TO CART
-      </button>
-    </div>
+      </div>
+    </Router>
   );
 }
 

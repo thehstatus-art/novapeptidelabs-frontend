@@ -1,3 +1,4 @@
+import Header from "./components/Header";
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
@@ -128,10 +129,11 @@ function App() {
                   <div className="item-info">
                     <h4>{item.name}</h4>
                     <p>${item.price.toFixed(2)}</p>
-                  </div>
+                  <div>
+                    <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
 
-                  <div className="qty-controls">
-                    <button onClick={() => decreaseQty(item._id)}>-</button>
+                    {/* ROUTES */}
+                    <Routes>
                     <span>{item.quantity}</span>
                     <button onClick={() => increaseQty(item._id)}>+</button>
                   </div>

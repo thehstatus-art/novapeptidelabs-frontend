@@ -1,6 +1,8 @@
-import { useState } from "react";
-import axios from "axios";
+
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+const API = process.env.REACT_APP_API_URL;
 
 function Login() {
   const [email, setEmail] = useState("");

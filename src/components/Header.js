@@ -1,12 +1,10 @@
-import React from "react";
 
-const token = localStorage.getItem("token");
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 function Header({ cart, setCheckoutOpen }) {
   const location = useLocation();
-
-
+  const token = localStorage.getItem("token");
   const total = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -15,10 +13,8 @@ function Header({ cart, setCheckoutOpen }) {
     (sum, item) => sum + item.quantity,
     0
   );
-
   const isActive = (path) =>
     location.pathname === path ? "active-link" : "";
-
   return (
     <header className="navbar">
       <div className="logo">

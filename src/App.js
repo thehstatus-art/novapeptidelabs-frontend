@@ -1,6 +1,7 @@
-  import Home from "./pages/Home";
   import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Disclaimer from "./pages/Disclaimer";
@@ -10,6 +11,7 @@ import Terms from "./pages/Terms";
 const API = process.env.REACT_APP_API_URL;
 
 function App() {
+  const [products, setProducts] = useState([]);
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("cart");
     return saved ? JSON.parse(saved) : [];
@@ -23,9 +25,32 @@ function App() {
     0
   );
 
+  // Load products
+  useEffect(() => {
+    fetch(`${API}/api/products`)
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((err) => console.error(err));
+  }, []);
+
+  // Persist cart
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
+
+  const addToCart = (product) => {
+    setCart((prev) => {
+      const exists = prev.find((item) => item._id === product._id);
+      if (exists) {
+        return prev.map((item) =>
+          item._id === product._id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prev, { ...product, quantity: 1 }];
+    });
+  };
 
   const increaseQty = (id) => {
     setCart((prev) =>
@@ -72,7 +97,15 @@ function App() {
 
         {/* ROUTES */}
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <Home
+                products={products}
+                addToCart={addToCart}
+              />
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/disclaimer" element={<Disclaimer />} />

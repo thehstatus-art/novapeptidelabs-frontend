@@ -1,3 +1,37 @@
+
+/* NAV FIX */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #6ec1ff;
+  font-weight: 500;
+  transition: 0.3s ease;
+  position: relative;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+.active-link {
+  color: white !important;
+}
+
+.active-link::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #6ec1ff;
+}
 /* GLOBAL */
 
 body {

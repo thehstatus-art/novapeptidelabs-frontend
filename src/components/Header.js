@@ -1,11 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Header({ cart, setCheckoutOpen }) {
+  const location = useLocation();
+
   const total = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+  const isActive = (path) =>
+    location.pathname === path ? "active-link" : "";
 
   return (
     <header className="navbar">
@@ -16,10 +21,21 @@ function Header({ cart, setCheckoutOpen }) {
       </div>
 
       <nav className="nav-links">
-        <Link to="/">SHOP</Link>
-        <Link to="/privacy">PRIVACY POLICY</Link>
-        <Link to="/terms">TERMS & CONDITIONS</Link>
-        <Link to="/disclaimer">RESEARCH USE DISCLAIMER</Link>
+        <Link to="/" className={isActive("/")}>
+          SHOP
+        </Link>
+
+        <Link to="/privacy" className={isActive("/privacy")}>
+          PRIVACY POLICY
+        </Link>
+
+        <Link to="/terms" className={isActive("/terms")}>
+          TERMS & CONDITIONS
+        </Link>
+
+        <Link to="/disclaimer" className={isActive("/disclaimer")}>
+          RESEARCH USE DISCLAIMER
+        </Link>
       </nav>
 
       <div className="nav-right">

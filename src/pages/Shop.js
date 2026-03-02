@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const API =
-  process.env.REACT_APP_API_URL ||
-  "https://nova-backend-lu2l.onrender.com";
+const API = "https://nova-backend-lu2l.onrender.com";
 
 function Shop({ products = [], addToCart }) {
   return (

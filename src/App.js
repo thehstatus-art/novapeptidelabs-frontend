@@ -14,9 +14,7 @@ import Admin from "./pages/Admin";
 import AdminOrders from "./pages/AdminOrders";
 import Shop from "./pages/Shop";
 
-const API =
-  process.env.REACT_APP_API_URL ||
-  "https://nova-backend-lu2l.onrender.com";
+const API = "https://nova-backend-lu2l.onrender.com";
 
 function App() {
   const [products, setProducts] = useState([]);

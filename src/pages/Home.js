@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
 function Home({ products, addToCart }) {
@@ -84,31 +85,26 @@ function Home({ products, addToCart }) {
       </div>
       <div className="product-grid">
         {products.map((product) => (
-          <div key={product._id} className="card">
-            <img
-              src={`${API}${product.image}`}
-              alt={product.name}
-            />
-
-            <h3>{product.name}</h3>
-            <div className="stars">
-              ★★★★★
-            </div>
-            <div className="reviews">
-              4.9 ★ (128 Reviews)
-            </div>
-            <p className="price">${product.price.toFixed(2)}</p>
-            {product.bundlePrice && (
-              <p className="bundle">
-                Buy 2 & Save 10%
-              </p>
-            )}
-            <p className="stock-warning">
-              Only {Math.floor(Math.random() * 7) + 3} left in stock
+          <div className="card" key={product._id}>
+            <Link to={`/product/${product._id}`} style={{ textDecoration: "none", color: "inherit" }}>
+              <img src={`${API}${product.image}`} alt={product.name} />
+              <div className="card-body">
+                <h3>{product.name}</h3>
+                <p className="category">{product.category}</p>
+                <p className="purity">Purity: {product.purity}</p>
+                <p className="price">${product.price}</p>
+              </div>
+            </Link>
+            <p className={`stock ${product.stock < 10 ? "low" : ""}`}>
+              {product.stock > 0
+                ? `In Stock (${product.stock})`
+                : "Out of Stock"}
             </p>
-
-            <button onClick={() => setSelected(product)}>
-              VIEW DETAILS
+            <button
+              disabled={product.stock === 0}
+              onClick={() => addToCart(product)}
+            >
+              {product.stock > 0 ? "ADD TO CART" : "SOLD OUT"}
             </button>
           </div>
         ))}

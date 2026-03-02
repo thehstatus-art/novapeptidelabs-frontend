@@ -20,9 +20,7 @@ function Header({ cart, setCheckoutOpen }) {
       </div>
 
       <nav className="nav-links">
-        <Link to="/" className={isActive("/")}>
-          SHOP
-        </Link>
+        <Link to="/shop" className={isActive("/shop")}>Shop</Link>
 
         <Link to="/privacy" className={isActive("/privacy")}>
           PRIVACY POLICY

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Header from "./components/Header";
+import ProductDetail from "./pages/ProductDetail";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -11,8 +12,11 @@ import Terms from "./pages/Terms";
 import Orders from "./pages/Orders";
 import Admin from "./pages/Admin";
 import AdminOrders from "./pages/AdminOrders";
+import Shop from "./pages/Shop";
 
-const API = process.env.REACT_APP_API_URL;
+const API =
+  process.env.REACT_APP_API_URL ||
+  "https://nova-backend-lu2l.onrender.com";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -29,15 +33,19 @@ function App() {
     0
   );
 
-  // Load products
+  /* =============================
+     LOAD PRODUCTS
+  ============================== */
   useEffect(() => {
     fetch(`${API}/api/products`)
       .then((res) => res.json())
       .then((data) => setProducts(data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("Product load error:", err));
   }, []);
 
-  // Persist cart
+  /* =============================
+     CART PERSISTENCE
+  ============================== */
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
@@ -50,11 +58,14 @@ function App() {
 
   useEffect(() => {
     const lastVisit = localStorage.getItem("lastCart");
-
     if (lastVisit && Date.now() - lastVisit > 600000) {
       alert("Your research compounds are still waiting in your cart.");
     }
   }, []);
+
+  /* =============================
+     CART FUNCTIONS
+  ============================== */
 
   const addToCart = (product) => {
     setCart((prev) => {
@@ -98,44 +109,63 @@ function App() {
     );
   };
 
+  /* =============================
+     CHECKOUT
+  ============================== */
+
   const handleCheckout = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       alert("Please login first.");
       return;
     }
+
     setLoading(true);
+
     try {
-      const res = await fetch(`${API}/api/stripe/create-checkout-session`, {
+      const res = await fetch(`${API}/api/orders/checkout`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cartItems: cart }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          items: cart.map((item) => ({
+            productId: item._id,
+            quantity: item.quantity,
+          })),
+        }),
       });
 
       const data = await res.json();
-      window.location.href = data.url;
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Checkout failed.");
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Checkout error:", err);
     }
+
     setLoading(false);
   };
 
+  /* =============================
+     RENDER
+  ============================== */
+
   return (
     <div>
-      {/* HEADER */}
       <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
 
-      {/* ROUTES */}
       <Routes>
         <Route
-          path="/"
-          element={
-            <Home
-              products={products}
-              addToCart={addToCart}
-            />
-          }
+          path="/product/:id"
+          element={<ProductDetail products={products} addToCart={addToCart} />}
         />
+        <Route path="/" element={<Home products={products} addToCart={addToCart} />} />
+        <Route path="/shop" element={<Shop products={products} addToCart={addToCart} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
@@ -146,7 +176,6 @@ function App() {
         <Route path="/admin/orders" element={<AdminOrders />} />
       </Routes>
 
-      {/* CHECKOUT OVERLAY */}
       {checkoutOpen && (
         <div className="checkout-overlay">
           <div className="checkout-container">
@@ -156,7 +185,15 @@ function App() {
 
               {cart.map((item) => (
                 <div key={item._id} className="checkout-item">
-                  <img src={`${API}${item.image}`} alt={item.name} />
+
+                  <img
+                    src={
+                      item.image?.startsWith("/uploads")
+                        ? `${API}${item.image}`
+                        : `${API}/uploads/${item.image}`
+                    }
+                    alt={item.name}
+                  />
 
                   <div className="item-info">
                     <h4>{item.name}</h4>
@@ -172,8 +209,10 @@ function App() {
                   <div className="subtotal">
                     ${(item.price * item.quantity).toFixed(2)}
                   </div>
+
                 </div>
               ))}
+
             </div>
 
             <div className="checkout-right">
@@ -196,15 +235,9 @@ function App() {
                 onClick={handleCheckout}
                 disabled={loading}
               >
-                {loading
-                  ? "Processing..."
-                  : "Pay with Debit / Credit Card"}
+                {loading ? "Processing..." : "Pay with Debit / Credit Card"}
               </button>
 
-              <div
-                id="paypal-button-container"
-                style={{ marginTop: "20px" }}
-              />
             </div>
 
           </div>

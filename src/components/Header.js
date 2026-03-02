@@ -1,16 +1,17 @@
-
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 function Header({ cart, setCheckoutOpen }) {
   const location = useLocation();
-  const token = localStorage.getItem("token");
+
   const itemCount = cart.reduce(
     (sum, item) => sum + item.quantity,
     0
   );
+
   const isActive = (path) =>
     location.pathname === path ? "active-link" : "";
+
   return (
     <header className="navbar">
       <div className="logo">
@@ -20,7 +21,9 @@ function Header({ cart, setCheckoutOpen }) {
       </div>
 
       <nav className="nav-links">
-        <Link to="/shop" className={isActive("/shop")}>Shop</Link>
+        <Link to="/shop" className={isActive("/shop")}>
+          Shop
+        </Link>
 
         <Link to="/privacy" className={isActive("/privacy")}>
           PRIVACY POLICY
@@ -36,15 +39,6 @@ function Header({ cart, setCheckoutOpen }) {
       </nav>
 
       <div className="nav-right">
-
-        {token ? (
-          <span className="user-greeting">My Account</span>
-        ) : (
-          <Link to="/login" className="login-btn">
-            LOGIN / REGISTER
-          </Link>
-        )}
-
         <button
           className="cart-btn"
           onClick={() => setCheckoutOpen(true)}

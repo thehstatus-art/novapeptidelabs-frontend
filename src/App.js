@@ -4,8 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import ProductDetail from "./pages/ProductDetail";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+
+
 import Disclaimer from "./pages/Disclaimer";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
@@ -171,8 +171,8 @@ function App() {
           path="/shop"
           element={<Shop products={products} addToCart={addToCart} />}
         />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        
+        
         <Route path="/disclaimer" element={<Disclaimer />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />

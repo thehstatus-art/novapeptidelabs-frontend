@@ -15,6 +15,7 @@ import AdminOrders from "./pages/AdminOrders";
 import Shop from "./pages/Shop";
 
 const API = "https://nova-backend-lu2l.onrender.com";
+const FALLBACK_IMAGE = "/no-image.png";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -91,7 +92,7 @@ function App() {
   };
 
   /* =============================
-     CHECKOUT (NO LOGIN REQUIRED)
+     CHECKOUT
   ============================== */
 
   const handleCheckout = async () => {
@@ -105,9 +106,7 @@ function App() {
     try {
       const res = await fetch(`${API}/api/orders/checkout`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           items: cart.map((item) => ({
             productId: item._id,
@@ -131,6 +130,27 @@ function App() {
   };
 
   /* =============================
+     SAFE IMAGE VALIDATION
+  ============================== */
+
+  const getSafeImageUrl = (imageValue) => {
+    const value = imageValue?.trim();
+
+    const hasValidImage =
+      value &&
+      value !== "undefined" &&
+      value !== "null" &&
+      !value.includes("300x300") &&
+      !value.includes("placeholder");
+
+    if (!hasValidImage) return FALLBACK_IMAGE;
+
+    return value.startsWith("/uploads")
+      ? `${API}${value}`
+      : `${API}/uploads/${value}`;
+  };
+
+  /* =============================
      RENDER
   ============================== */
 
@@ -143,8 +163,14 @@ function App() {
           path="/product/:id"
           element={<ProductDetail products={products} addToCart={addToCart} />}
         />
-        <Route path="/" element={<Home products={products} addToCart={addToCart} />} />
-        <Route path="/shop" element={<Shop products={products} addToCart={addToCart} />} />
+        <Route
+          path="/"
+          element={<Home products={products} addToCart={addToCart} />}
+        />
+        <Route
+          path="/shop"
+          element={<Shop products={products} addToCart={addToCart} />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
@@ -164,12 +190,12 @@ function App() {
               {cart.map((item) => (
                 <div key={item._id} className="checkout-item">
                   <img
-                    src={
-                      item.image?.startsWith("/uploads")
-                        ? `${API}${item.image}`
-                        : `${API}/uploads/${item.image}`
-                    }
+                    src={getSafeImageUrl(item.image)}
                     alt={item.name}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = FALLBACK_IMAGE;
+                    }}
                   />
 
                   <div className="item-info">

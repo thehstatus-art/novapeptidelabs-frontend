@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const API = "https://nova-backend-lu2l.onrender.com";
+const FALLBACK_IMAGE = "/no-image.png";
 
 function Shop({ products = [], addToCart }) {
   return (
@@ -13,7 +14,12 @@ function Shop({ products = [], addToCart }) {
           <p>Loading products...</p>
         ) : (
           products.map((product) => {
-            const imageValue = product.image?.trim();
+            let imageValue = product.image?.trim();
+
+            // 🔥 Clean corrupted image values
+            if (imageValue?.startsWith("undefined")) {
+              imageValue = imageValue.replace("undefined", "");
+            }
 
             const hasValidImage =
               imageValue &&
@@ -21,11 +27,13 @@ function Shop({ products = [], addToCart }) {
               imageValue !== "null" &&
               imageValue !== "";
 
-            const imageUrl = hasValidImage
-              ? imageValue.startsWith("/uploads")
+            let imageUrl = FALLBACK_IMAGE;
+
+            if (hasValidImage) {
+              imageUrl = imageValue.startsWith("/uploads")
                 ? `${API}${imageValue}`
-                : `${API}/uploads/${imageValue}`
-              : "/no-image.png";
+                : `${API}/uploads/${imageValue}`;
+            }
 
             return (
               <div key={product._id} className="card">
@@ -41,7 +49,7 @@ function Shop({ products = [], addToCart }) {
                     onError={(e) => {
                       if (e.target.dataset.errorHandled) return;
                       e.target.dataset.errorHandled = "true";
-                      e.target.src = "/no-image.png";
+                      e.target.src = FALLBACK_IMAGE;
                     }}
                   />
 

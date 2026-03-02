@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const API = "https://nova-backend-lu2l.onrender.com";
-const FALLBACK_IMAGE = "/no-image.png";
 
 function Shop({ products = [], addToCart }) {
   return (
@@ -14,23 +13,19 @@ function Shop({ products = [], addToCart }) {
           <p>Loading products...</p>
         ) : (
           products.map((product) => {
-            // 🔥 Bulletproof image validation
             const imageValue = product.image?.trim();
 
             const hasValidImage =
               imageValue &&
               imageValue !== "undefined" &&
               imageValue !== "null" &&
-              !imageValue.includes("300x300") &&
-              !imageValue.includes("placeholder");
+              imageValue !== "";
 
-            let imageUrl = FALLBACK_IMAGE;
-
-            if (hasValidImage) {
-              imageUrl = imageValue.startsWith("/uploads")
+            const imageUrl = hasValidImage
+              ? imageValue.startsWith("/uploads")
                 ? `${API}${imageValue}`
-                : `${API}/uploads/${imageValue}`;
-            }
+                : `${API}/uploads/${imageValue}`
+              : "/no-image.png";
 
             return (
               <div key={product._id} className="card">
@@ -39,17 +34,16 @@ function Shop({ products = [], addToCart }) {
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <img
-  src={product.imageUrl}
-  alt={product.name}
-  style={{ width: "100%" }}
-  loading="lazy"
-  onError={(e) => {
-    if (e.target.dataset.fallbackApplied) return;
-
-    e.target.dataset.fallbackApplied = "true";
-    e.target.src = FALLBACK_IMAGE;
-  }}
-/>
+                    src={imageUrl}
+                    alt={product.name}
+                    style={{ width: "100%" }}
+                    loading="lazy"
+                    onError={(e) => {
+                      if (e.target.dataset.errorHandled) return;
+                      e.target.dataset.errorHandled = "true";
+                      e.target.src = "/no-image.png";
+                    }}
+                  />
 
                   <h3>{product.name}</h3>
                   <p>${product.price}</p>

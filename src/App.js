@@ -50,19 +50,6 @@ function App() {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  useEffect(() => {
-    if (cart.length > 0) {
-      localStorage.setItem("lastCart", Date.now());
-    }
-  }, [cart]);
-
-  useEffect(() => {
-    const lastVisit = localStorage.getItem("lastCart");
-    if (lastVisit && Date.now() - lastVisit > 600000) {
-      alert("Your research compounds are still waiting in your cart.");
-    }
-  }, []);
-
   /* =============================
      CART FUNCTIONS
   ============================== */
@@ -72,13 +59,9 @@ function App() {
       const exists = prev.find((item) => item._id === product._id);
 
       if (exists) {
-        const updatedQty = exists.quantity + 1;
-        const discount =
-          updatedQty >= 2 ? product.price * 0.9 : product.price;
-
         return prev.map((item) =>
           item._id === product._id
-            ? { ...item, quantity: updatedQty, price: discount }
+            ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
@@ -110,13 +93,12 @@ function App() {
   };
 
   /* =============================
-     CHECKOUT
+     CHECKOUT (NO LOGIN REQUIRED)
   ============================== */
 
   const handleCheckout = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("Please login first.");
+    if (cart.length === 0) {
+      alert("Cart is empty.");
       return;
     }
 
@@ -126,15 +108,14 @@ function App() {
       const res = await fetch(`${API}/api/orders/checkout`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           items: cart.map((item) => ({
             productId: item._id,
-            quantity: item.quantity,
-          })),
-        }),
+            quantity: item.quantity
+          }))
+        })
       });
 
       const data = await res.json();
@@ -179,13 +160,11 @@ function App() {
       {checkoutOpen && (
         <div className="checkout-overlay">
           <div className="checkout-container">
-
             <div className="checkout-left">
               <h2>Shopping Cart</h2>
 
               {cart.map((item) => (
                 <div key={item._id} className="checkout-item">
-
                   <img
                     src={
                       item.image?.startsWith("/uploads")
@@ -209,10 +188,8 @@ function App() {
                   <div className="subtotal">
                     ${(item.price * item.quantity).toFixed(2)}
                   </div>
-
                 </div>
               ))}
-
             </div>
 
             <div className="checkout-right">
@@ -237,9 +214,7 @@ function App() {
               >
                 {loading ? "Processing..." : "Pay with Debit / Credit Card"}
               </button>
-
             </div>
-
           </div>
         </div>
       )}

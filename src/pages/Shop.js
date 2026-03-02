@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const API = "https://nova-backend-lu2l.onrender.com";
+const FALLBACK_IMAGE = "/no-image.png";
 
 function Shop({ products = [], addToCart }) {
   return (
@@ -13,10 +14,12 @@ function Shop({ products = [], addToCart }) {
           <p>Loading products...</p>
         ) : (
           products.map((product) => {
-            const imageUrl =
-              product.image?.startsWith("/uploads")
+            // ✅ Only build API image if it exists
+            const imageUrl = product.image
+              ? product.image.startsWith("/uploads")
                 ? `${API}${product.image}`
-                : `${API}/uploads/${product.image}`;
+                : `${API}/uploads/${product.image}`
+              : FALLBACK_IMAGE;
 
             return (
               <div key={product._id} className="card">
@@ -29,8 +32,8 @@ function Shop({ products = [], addToCart }) {
                     alt={product.name}
                     style={{ width: "100%" }}
                     onError={(e) => {
-                      e.target.src =
-                        "https://via.placeholder.com/300x300?text=No+Image";
+                      e.target.onerror = null;
+                      e.target.src = FALLBACK_IMAGE; // ✅ replace instead of hide
                     }}
                   />
 

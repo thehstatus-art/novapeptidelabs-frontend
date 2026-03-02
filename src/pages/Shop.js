@@ -14,12 +14,23 @@ function Shop({ products = [], addToCart }) {
           <p>Loading products...</p>
         ) : (
           products.map((product) => {
-            // ✅ Only build API image if it exists
-            const imageUrl = product.image
-              ? product.image.startsWith("/uploads")
-                ? `${API}${product.image}`
-                : `${API}/uploads/${product.image}`
-              : FALLBACK_IMAGE;
+            // 🔥 Bulletproof image validation
+            const imageValue = product.image?.trim();
+
+            const hasValidImage =
+              imageValue &&
+              imageValue !== "undefined" &&
+              imageValue !== "null" &&
+              !imageValue.includes("300x300") &&
+              !imageValue.includes("placeholder");
+
+            let imageUrl = FALLBACK_IMAGE;
+
+            if (hasValidImage) {
+              imageUrl = imageValue.startsWith("/uploads")
+                ? `${API}${imageValue}`
+                : `${API}/uploads/${imageValue}`;
+            }
 
             return (
               <div key={product._id} className="card">
@@ -33,7 +44,7 @@ function Shop({ products = [], addToCart }) {
                     style={{ width: "100%" }}
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = FALLBACK_IMAGE; // ✅ replace instead of hide
+                      e.target.src = FALLBACK_IMAGE;
                     }}
                   />
 

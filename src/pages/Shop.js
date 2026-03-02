@@ -39,14 +39,17 @@ function Shop({ products = [], addToCart }) {
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <img
-                    src={imageUrl}
-                    alt={product.name}
-                    style={{ width: "100%" }}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = FALLBACK_IMAGE;
-                    }}
-                  />
+  src={product.imageUrl}
+  alt={product.name}
+  style={{ width: "100%" }}
+  loading="lazy"
+  onError={(e) => {
+    if (e.target.dataset.fallbackApplied) return;
+
+    e.target.dataset.fallbackApplied = "true";
+    e.target.src = FALLBACK_IMAGE;
+  }}
+/>
 
                   <h3>{product.name}</h3>
                   <p>${product.price}</p>

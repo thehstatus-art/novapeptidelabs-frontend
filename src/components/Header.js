@@ -1,8 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
+const ENABLE_AUTH = false; // 🔐 Change to true if you want login back
+
 function Header({ cart, setCheckoutOpen }) {
   const location = useLocation();
+  const token = localStorage.getItem("token");
 
   const itemCount = cart.reduce(
     (sum, item) => sum + item.quantity,
@@ -39,6 +42,16 @@ function Header({ cart, setCheckoutOpen }) {
       </nav>
 
       <div className="nav-right">
+        {ENABLE_AUTH && (
+          token ? (
+            <span className="user-greeting">My Account</span>
+          ) : (
+            <Link to="/login" className="login-btn">
+              LOGIN / REGISTER
+            </Link>
+          )
+        )}
+
         <button
           className="cart-btn"
           onClick={() => setCheckoutOpen(true)}

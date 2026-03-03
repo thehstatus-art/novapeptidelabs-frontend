@@ -563,3 +563,23 @@ body {
   font-size: 14px;
   padding: 20px 0;
 }
+
+.stripe-premium-btn {
+  width: 100%;
+  background: #635bff;
+  color: white;
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: 0.3s ease;
+}
+
+.stripe-premium-btn:hover {
+  background: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(99, 91, 255, 0.4);
+}

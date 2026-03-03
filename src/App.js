@@ -175,6 +175,13 @@ function App() {
                 <span>Total</span>
                 <span>${cartTotal.toFixed(2)}</span>
               </div>
+              {/* Stripe Premium Button */}
+<button
+  className="stripe-premium-btn"
+  onClick={handleCheckout}
+>
+  💳 Pay with Debit / Credit Card
+</button>
 
               <div className="paypal-section">
                 <PayPalButtons

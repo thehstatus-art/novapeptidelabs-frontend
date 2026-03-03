@@ -38,60 +38,81 @@ function Home({ products, addToCart }) {
 
   return (
     <div className="home-container">
+
       {notification && (
         <div className="live-notification">{notification}</div>
       )}
 
+      {/* ================= HERO ================= */}
+
       <div className="hero">
-        <h1>Advanced Research Peptides</h1>
+        <div className="hero-glow"></div>
 
-        <p className="hero-sub">
-          Pharmaceutical-Grade Compounds for Laboratory Research Only.
-        </p>
+        <div className="hero-content fade-in">
+          <h1>Advanced Research Peptides</h1>
 
-        <div className="countdown">
-          Limited Batch Ends In: {formatTime(timer)}
+          <p className="hero-sub">
+            Pharmaceutical-grade compounds engineered for serious laboratory research.
+            Third-party tested. Ultra-high purity. Zero compromise.
+          </p>
+
+          <div className="countdown">
+            Limited Batch Ends In: {formatTime(timer)}
+          </div>
+
+          <div className="hero-cta">
+            <button
+              className="primary-btn"
+              onClick={() => window.location.href = "/shop"}
+            >
+              View Products
+            </button>
+
+            <button
+              className="secondary-btn"
+              onClick={() => window.location.href = "/disclaimer"}
+            >
+              Research Disclaimer
+            </button>
+          </div>
         </div>
+      </div>
 
-        <div className="hero-cta">
-          <button
-            className="primary-btn"
-            onClick={() => window.scrollTo({ top: 700, behavior: "smooth" })}
-          >
-            Shop Now
-          </button>
+      {/* ================= AUTHORITY STRIP ================= */}
 
-          <button
-            className="secondary-btn"
-            onClick={() => (window.location.href = "/disclaimer")}
-          >
-            Research Disclaimer
-          </button>
+      <div className="authority-strip fade-in">
+        <div>✔ Third-Party Lab Tested</div>
+        <div>✔ 99%+ Purity Guarantee</div>
+        <div>✔ Secure Encrypted Checkout</div>
+        <div>✔ Fast U.S. Shipping</div>
+      </div>
+
+      {/* ================= STATS ================= */}
+
+      <div className="stats-section fade-in">
+        <div className="stat">
+          <h2>10,000+</h2>
+          <p>Orders Fulfilled</p>
+        </div>
+        <div className="stat">
+          <h2>99%+</h2>
+          <p>Purity Standards</p>
+        </div>
+        <div className="stat">
+          <h2>48h</h2>
+          <p>Avg. Shipping Time</p>
         </div>
       </div>
 
-      <div className="trust-section">
-        <div>✔ Lab Tested</div>
-        <div>✔ Secure Checkout</div>
-        <div>✔ Fast US Shipping</div>
-        <div>✔ Research Use Only</div>
-      </div>
+      {/* ================= PRODUCTS ================= */}
 
-      <div className="newsletter">
-        <h2>Stay Updated</h2>
-        <p>Be the first to know about new compounds and restocks.</p>
-        <input type="email" placeholder="Enter your email" />
-        <button>Subscribe</button>
-      </div>
-
-      <div className="product-grid">
+      <div className="product-grid fade-in">
         {products.map((product) => (
           <div className="card" key={product._id}>
             <Link
               to={`/product/${product._id}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              {/* ✅ DIRECT CLOUDINARY URL */}
               <img
                 src={product.image}
                 alt={product.name}
@@ -120,6 +141,40 @@ function Home({ products, addToCart }) {
         ))}
       </div>
 
+      {/* ================= LAB PROCESS ================= */}
+
+      <div className="lab-section fade-in">
+        <h2>Our Quality Process</h2>
+
+        <div className="lab-steps">
+          <div className="lab-step">
+            <h3>01</h3>
+            <p>Synthesis & Purification</p>
+          </div>
+
+          <div className="lab-step">
+            <h3>02</h3>
+            <p>Independent HPLC Testing</p>
+          </div>
+
+          <div className="lab-step">
+            <h3>03</h3>
+            <p>Secure Packaging & Shipment</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ================= NEWSLETTER ================= */}
+
+      <div className="newsletter fade-in">
+        <h2>Stay Updated</h2>
+        <p>Be the first to know about new compounds and restocks.</p>
+        <input type="email" placeholder="Enter your email" />
+        <button>Subscribe</button>
+      </div>
+
+      {/* ================= MODAL ================= */}
+
       {selected && (
         <div
           className="modal-overlay"
@@ -129,7 +184,6 @@ function Home({ products, addToCart }) {
             className="modal"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* ✅ DIRECT CLOUDINARY URL */}
             <img
               src={selected.image}
               alt={selected.name}

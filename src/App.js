@@ -101,9 +101,12 @@ function App() {
 
       if (data.url) {
         window.location.href = data.url;
+      } else {
+        alert("Checkout failed.");
       }
     } catch (err) {
       console.error("Stripe checkout error:", err);
+      alert("Checkout failed.");
     }
   };
 

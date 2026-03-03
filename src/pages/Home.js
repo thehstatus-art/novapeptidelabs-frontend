@@ -1,31 +1,44 @@
-import { Link } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
 
 /* ================= Animated Stat Counter ================= */
 
 function Stat({ number, suffix, label }) {
   const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    let start = 0;
-    const duration = 1500;
-    const increment = number / (duration / 16);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated.current) {
+          hasAnimated.current = true;
 
-    const counter = setInterval(() => {
-      start += increment;
-      if (start >= number) {
-        setCount(number);
-        clearInterval(counter);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
+          let start = 0;
+          const duration = 1500;
+          const increment = number / (duration / 16);
 
-    return () => clearInterval(counter);
+          const counter = setInterval(() => {
+            start += increment;
+            if (start >= number) {
+              setCount(number);
+              clearInterval(counter);
+            } else {
+              setCount(Math.floor(start));
+            }
+          }, 16);
+        }
+      },
+      { threshold: 0.4 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+
+    return () => observer.disconnect();
   }, [number]);
 
   return (
-    <div className="stat">
+    <div className="stat" ref={ref}>
       <h2>{count}{suffix}</h2>
       <p>{label}</p>
     </div>
@@ -33,15 +46,18 @@ function Stat({ number, suffix, label }) {
 }
 
 function Home({ products, addToCart }) {
-  const [selected, setSelected] = useState(null);
+  const navigate = useNavigate();
+
   const [notification, setNotification] = useState(null);
   const [timer, setTimer] = useState(900);
 
-  /* Countdown */
+  /* ================= Countdown ================= */
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimer(prev => (prev > 0 ? prev - 1 : 0));
+      setTimer((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -51,7 +67,8 @@ function Home({ products, addToCart }) {
     return `${m}:${s < 10 ? "0" : ""}${s}`;
   };
 
-  /* Fake Live Purchases */
+  /* ================= Fake Live Purchases ================= */
+
   useEffect(() => {
     const names = ["Michael", "Sarah", "David", "James", "Daniel"];
     const cities = ["New York", "Texas", "California", "Florida"];
@@ -59,26 +76,34 @@ function Home({ products, addToCart }) {
     const interval = setInterval(() => {
       const name = names[Math.floor(Math.random() * names.length)];
       const city = cities[Math.floor(Math.random() * cities.length)];
+
       setNotification(`${name} from ${city} purchased a research compound`);
+
       setTimeout(() => setNotification(null), 4000);
     }, 12000);
 
     return () => clearInterval(interval);
   }, []);
 
-  /* Scroll Reveal */
+  /* ================= Scroll Reveal ================= */
+
   useEffect(() => {
     const elements = document.querySelectorAll(".fade-in");
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
-      });
-    }, { threshold: 0.15 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
 
-    elements.forEach(el => observer.observe(el));
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -91,9 +116,6 @@ function Home({ products, addToCart }) {
       {/* ================= HERO ================= */}
 
       <div className="hero">
-        <div className="particles"></div>
-        <div className="hero-glow"></div>
-
         <div className="hero-content fade-in">
           <h1>Advanced Research Peptides</h1>
 
@@ -109,14 +131,14 @@ function Home({ products, addToCart }) {
           <div className="hero-cta">
             <button
               className="primary-btn"
-              onClick={() => window.location.href = "/shop"}
+              onClick={() => navigate("/shop")}
             >
               View Products
             </button>
 
             <button
               className="secondary-btn"
-              onClick={() => window.location.href = "/disclaimer"}
+              onClick={() => navigate("/disclaimer")}
             >
               Research Disclaimer
             </button>
@@ -141,13 +163,12 @@ function Home({ products, addToCart }) {
         <Stat number={48} suffix="h" label="Avg. Shipping Time" />
       </div>
 
-      <div className="dna-divider"></div>
-
       {/* ================= PRODUCTS ================= */}
 
       <div className="product-grid fade-in">
-        {products.map(product => (
+        {products.map((product) => (
           <div className="card" key={product._id}>
+
             <Link
               to={`/product/${product._id}`}
               style={{ textDecoration: "none", color: "inherit" }}
@@ -161,18 +182,18 @@ function Home({ products, addToCart }) {
               </div>
             </Link>
 
-            <p className={`stock ${product.stock < 10 ? "low" : ""}`}>
-              {product.stock > 0
-                ? `In Stock (${product.stock})`
-                : "Out of Stock"}
-            </p>
+            {/* 🔥 HOVER DESCRIPTION OVERLAY */}
+            <div className="card-overlay">
+              <p>{product.description}</p>
 
-            <button
-              disabled={product.stock === 0}
-              onClick={() => addToCart(product)}
-            >
-              {product.stock > 0 ? "ADD TO CART" : "SOLD OUT"}
-            </button>
+              <button
+                disabled={product.stock === 0}
+                onClick={() => addToCart(product)}
+              >
+                {product.stock > 0 ? "ADD TO CART" : "SOLD OUT"}
+              </button>
+            </div>
+
           </div>
         ))}
       </div>

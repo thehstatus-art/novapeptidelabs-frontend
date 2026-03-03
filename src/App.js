@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { AnimatePresence, motion } from "framer-motion";
+import Lenis from "@studio-freight/lenis";
+import Particles from "react-tsparticles";
 
 import Header from "./components/Header";
 import ProductDetail from "./pages/ProductDetail";
@@ -19,14 +21,14 @@ import Cancel from "./pages/Cancel";
 const API = "https://nova-backend-lu2l.onrender.com";
 const FALLBACK_IMAGE = "/no-image.png";
 
-/* ================= Page Transition Wrapper ================= */
+/* ================= PAGE TRANSITION ================= */
 
 const PageWrapper = ({ children }) => (
   <motion.div
-    initial={{ opacity: 0, y: 30 }}
+    initial={{ opacity: 0, y: 40 }}
     animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -30 }}
-    transition={{ duration: 0.5 }}
+    exit={{ opacity: 0, y: -40 }}
+    transition={{ duration: 0.6, ease: "easeInOut" }}
   >
     {children}
   </motion.div>
@@ -34,6 +36,7 @@ const PageWrapper = ({ children }) => (
 
 function App() {
   const location = useLocation();
+  const spotlightRef = useRef(null);
 
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState(() => {
@@ -48,12 +51,110 @@ function App() {
     0
   );
 
-  /* ================= LOADING SCREEN ================= */
+  /* ================= CINEMATIC LOADER ================= */
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
+    const timer = setTimeout(() => setLoading(false), 900);
     return () => clearTimeout(timer);
   }, []);
+
+  /* ================= SMOOTH SCROLL ================= */
+
+  useEffect(() => {
+    const lenis = new Lenis({ duration: 1.1, smooth: true });
+    let rafId;
+
+    function raf(time) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
+
+  /* ================= SPOTLIGHT ================= */
+
+  useEffect(() => {
+    const spotlight = document.createElement("div");
+    spotlight.className = "spotlight";
+    document.body.appendChild(spotlight);
+    spotlightRef.current = spotlight;
+
+    const move = (e) => {
+      spotlight.style.transform = `translate(${e.clientX - 300}px, ${e.clientY - 300}px)`;
+    };
+
+    window.addEventListener("mousemove", move);
+
+    return () => {
+      window.removeEventListener("mousemove", move);
+      if (spotlightRef.current) {
+        document.body.removeChild(spotlightRef.current);
+      }
+    };
+  }, []);
+
+  /* ================= MAGNETIC BUTTONS ================= */
+
+  useEffect(() => {
+    const magnets = document.querySelectorAll(".magnetic");
+
+    magnets.forEach((btn) => {
+      const handleMove = (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+      };
+
+      const reset = () => {
+        btn.style.transform = "translate(0,0)";
+      };
+
+      btn.addEventListener("mousemove", handleMove);
+      btn.addEventListener("mouseleave", reset);
+    });
+
+    return () => {
+      magnets.forEach((btn) => btn.replaceWith(btn.cloneNode(true)));
+    };
+  }, []);
+
+  /* ================= GLOBAL PRODUCT TILT ================= */
+
+  useEffect(() => {
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach((card) => {
+      const handleMove = (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const rotateX = -(y - rect.height / 2) / 25;
+        const rotateY = (x - rect.width / 2) / 25;
+
+        card.style.transform =
+          `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      };
+
+      const reset = () => {
+        card.style.transform = "rotateX(0) rotateY(0) scale(1)";
+      };
+
+      card.addEventListener("mousemove", handleMove);
+      card.addEventListener("mouseleave", reset);
+    });
+
+    return () => {
+      cards.forEach((card) => card.replaceWith(card.cloneNode(true)));
+    };
+  }, [products]);
 
   /* ================= LOAD PRODUCTS ================= */
 
@@ -63,6 +164,17 @@ function App() {
       .then((data) => setProducts(data))
       .catch((err) => console.error("Product load error:", err));
   }, []);
+
+  /* ================= SMART CTA URGENCY ================= */
+
+  useEffect(() => {
+    const lowStock = products.some((p) => p.stock && p.stock < 10);
+
+    if (lowStock) {
+      const buttons = document.querySelectorAll(".stripe-premium-btn");
+      buttons.forEach((btn) => btn.classList.add("pulse-cta"));
+    }
+  }, [products]);
 
   /* ================= SAVE CART ================= */
 
@@ -108,13 +220,10 @@ function App() {
     );
   };
 
-  /* ================= STRIPE CHECKOUT ================= */
+  /* ================= CHECKOUT ================= */
 
   const handleCheckout = async () => {
-    if (cart.length === 0) {
-      alert("Cart is empty.");
-      return;
-    }
+    if (cart.length === 0) return alert("Cart is empty.");
 
     try {
       const res = await fetch(`${API}/api/orders/checkout`, {
@@ -123,25 +232,19 @@ function App() {
         body: JSON.stringify({
           items: cart.map((item) => ({
             productId: item._id,
-            quantity: item.quantity
-          }))
-        })
+            quantity: item.quantity,
+          })),
+        }),
       });
 
       const data = await res.json();
-
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert("Checkout failed.");
-      }
+      if (data.url) window.location.href = data.url;
+      else alert("Checkout failed.");
     } catch (err) {
-      console.error("Stripe checkout error:", err);
+      console.error(err);
       alert("Checkout failed.");
     }
   };
-
-  /* ================= PAYPAL SUCCESS ================= */
 
   const handlePayPalSuccess = async (orderID) => {
     await fetch(`${API}/api/orders/paypal`, {
@@ -149,15 +252,13 @@ function App() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         paypalOrderId: orderID,
-        items: cart
-      })
+        items: cart,
+      }),
     });
 
     setCart([]);
     setCheckoutOpen(false);
   };
-
-  /* ================= LOADER ================= */
 
   if (loading) {
     return (
@@ -169,36 +270,35 @@ function App() {
 
   return (
     <>
-      <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
+      <div className="depth-layer"></div>
 
-      {/* ================= ROUTE TRANSITIONS ================= */}
+      <Particles
+        options={{
+          fpsLimit: 60,
+          particles: {
+            number: { value: 25 },
+            color: { value: "#6ec1ff" },
+            opacity: { value: 0.12 },
+            size: { value: 2 },
+            move: { enable: true, speed: 0.4 },
+            links: {
+              enable: true,
+              distance: 120,
+              opacity: 0.08,
+              color: "#6ec1ff",
+            },
+          },
+        }}
+        style={{ position: "fixed", top: 0, left: 0, zIndex: -4 }}
+      />
+
+      <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
 
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-          <Route
-            path="/"
-            element={
-              <PageWrapper>
-                <Home products={products} addToCart={addToCart} />
-              </PageWrapper>
-            }
-          />
-          <Route
-            path="/shop"
-            element={
-              <PageWrapper>
-                <Shop products={products} addToCart={addToCart} />
-              </PageWrapper>
-            }
-          />
-          <Route
-            path="/product/:id"
-            element={
-              <PageWrapper>
-                <ProductDetail products={products} addToCart={addToCart} />
-              </PageWrapper>
-            }
-          />
+          <Route path="/" element={<PageWrapper><Home products={products} addToCart={addToCart} /></PageWrapper>} />
+          <Route path="/shop" element={<PageWrapper><Shop products={products} addToCart={addToCart} /></PageWrapper>} />
+          <Route path="/product/:id" element={<PageWrapper><ProductDetail products={products} addToCart={addToCart} /></PageWrapper>} />
           <Route path="/success" element={<PageWrapper><Success /></PageWrapper>} />
           <Route path="/cancel" element={<PageWrapper><Cancel /></PageWrapper>} />
           <Route path="/disclaimer" element={<PageWrapper><Disclaimer /></PageWrapper>} />
@@ -210,40 +310,34 @@ function App() {
         </Routes>
       </AnimatePresence>
 
-      {/* ================= CHECKOUT DRAWER ================= */}
-
       {checkoutOpen && (
         <div className="checkout-overlay">
           <div className="checkout-panel">
 
             <div className="checkout-left">
               <h2>Your Cart</h2>
-              {cart.length === 0 ? (
-                <p>Your cart is empty.</p>
-              ) : (
-                cart.map((item) => (
-                  <div key={item._id} className="checkout-item">
-                    <img
-                      src={
-                        item.image && item.image.startsWith("http")
-                          ? item.image
-                          : FALLBACK_IMAGE
-                      }
-                      alt={item.name}
-                    />
-                    <div>
-                      <h4>{item.name}</h4>
-                      <p>${item.price.toFixed(2)}</p>
-                      <div className="qty-controls">
-                        <button onClick={() => decreaseQty(item._id)}>-</button>
-                        <span>{item.quantity}</span>
-                        <button onClick={() => increaseQty(item._id)}>+</button>
-                      </div>
+              {cart.map((item) => (
+                <div key={item._id} className="checkout-item">
+                  <img
+                    src={
+                      item.image && item.image.startsWith("http")
+                        ? item.image
+                        : FALLBACK_IMAGE
+                    }
+                    alt={item.name}
+                  />
+                  <div>
+                    <h4>{item.name}</h4>
+                    <p>${item.price.toFixed(2)}</p>
+                    <div className="qty-controls">
+                      <button onClick={() => decreaseQty(item._id)}>-</button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => increaseQty(item._id)}>+</button>
                     </div>
-                    <div>${(item.price * item.quantity).toFixed(2)}</div>
                   </div>
-                ))
-              )}
+                  <div>${(item.price * item.quantity).toFixed(2)}</div>
+                </div>
+              ))}
             </div>
 
             <div className="checkout-right">
@@ -256,22 +350,13 @@ function App() {
                 <span>${cartTotal.toFixed(2)}</span>
               </div>
 
-              <button
-                className="stripe-premium-btn"
-                onClick={handleCheckout}
-              >
+              <button className="stripe-premium-btn magnetic" onClick={handleCheckout}>
                 💳 Pay with Debit / Credit Card
               </button>
 
               <div className="paypal-section">
                 <PayPalButtons
-                  style={{
-                    layout: "vertical",
-                    color: "gold",
-                    shape: "rect",
-                    label: "paypal",
-                    height: 50
-                  }}
+                  style={{ layout: "vertical", color: "gold", shape: "rect", height: 50 }}
                   createOrder={(data, actions) =>
                     actions.order.create({
                       purchase_units: [{ amount: { value: cartTotal.toFixed(2) } }]

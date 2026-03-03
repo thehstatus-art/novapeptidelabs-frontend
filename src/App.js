@@ -16,6 +16,7 @@ import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
 
 const API = "https://nova-backend-lu2l.onrender.com";
+const FALLBACK_IMAGE = "/no-image.png";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -157,14 +158,16 @@ function App() {
               ) : (
                 cart.map((item) => (
                   <div key={item._id} className="checkout-item">
+                    {/* ✅ FIXED IMAGE LOGIC */}
                     <img
                       src={
-                        item.image?.startsWith("/uploads")
-                          ? `${API}${item.image}`
-                          : `${API}/uploads/${item.image}`
+                        item.image && item.image.startsWith("http")
+                          ? item.image
+                          : FALLBACK_IMAGE
                       }
                       alt={item.name}
                     />
+
                     <div>
                       <h4>{item.name}</h4>
                       <p>${item.price.toFixed(2)}</p>
@@ -174,6 +177,7 @@ function App() {
                         <button onClick={() => increaseQty(item._id)}>+</button>
                       </div>
                     </div>
+
                     <div>${(item.price * item.quantity).toFixed(2)}</div>
                   </div>
                 ))

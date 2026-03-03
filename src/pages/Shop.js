@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const API = "https://nova-backend-lu2l.onrender.com";
 const FALLBACK_IMAGE = "/no-image.png";
 
 function Shop({ products = [], addToCart }) {
@@ -14,26 +13,10 @@ function Shop({ products = [], addToCart }) {
           <p>Loading products...</p>
         ) : (
           products.map((product) => {
-            let imageValue = product.image?.trim();
-
-            // 🔥 Clean corrupted image values
-            if (imageValue?.startsWith("undefined")) {
-              imageValue = imageValue.replace("undefined", "");
-            }
-
-            const hasValidImage =
-              imageValue &&
-              imageValue !== "undefined" &&
-              imageValue !== "null" &&
-              imageValue !== "";
-
-            let imageUrl = FALLBACK_IMAGE;
-
-            if (hasValidImage) {
-              imageUrl = imageValue.startsWith("/uploads")
-                ? `${API}${imageValue}`
-                : `${API}/uploads/${imageValue}`;
-            }
+            const imageUrl =
+              product.image && product.image.startsWith("http")
+                ? product.image
+                : FALLBACK_IMAGE;
 
             return (
               <div key={product._id} className="card">
@@ -47,8 +30,6 @@ function Shop({ products = [], addToCart }) {
                     style={{ width: "100%" }}
                     loading="lazy"
                     onError={(e) => {
-                      if (e.target.dataset.errorHandled) return;
-                      e.target.dataset.errorHandled = "true";
                       e.target.src = FALLBACK_IMAGE;
                     }}
                   />

@@ -119,7 +119,14 @@ function Home({ products, addToCart }) {
       {selected && (
         <div className="modal-overlay" onClick={() => setSelected(null)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <img src={`${API}${selected.image}`} alt={selected.name} />
+            <img
+  src={
+    product.image?.startsWith("/uploads")
+      ? `${API}${product.image}`
+      : `${API}/uploads/${product.image}`
+  }
+  alt={product.name}
+/>
             <h2>{selected.name}</h2>
             <p>${selected.price.toFixed(2)}</p>
             <button onClick={() => {

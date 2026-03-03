@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { PayPalButtons } from "@paypal/react-paypal-js";
+import { AnimatePresence, motion } from "framer-motion";
 
 import Header from "./components/Header";
 import ProductDetail from "./pages/ProductDetail";
@@ -18,20 +19,44 @@ import Cancel from "./pages/Cancel";
 const API = "https://nova-backend-lu2l.onrender.com";
 const FALLBACK_IMAGE = "/no-image.png";
 
+/* ================= Page Transition Wrapper ================= */
+
+const PageWrapper = ({ children }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -30 }}
+    transition={{ duration: 0.5 }}
+  >
+    {children}
+  </motion.div>
+);
+
 function App() {
+  const location = useLocation();
+
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("cart");
     return saved ? JSON.parse(saved) : [];
   });
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const cartTotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
-  /* LOAD PRODUCTS */
+  /* ================= LOADING SCREEN ================= */
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  /* ================= LOAD PRODUCTS ================= */
+
   useEffect(() => {
     fetch(`${API}/api/products`)
       .then((res) => res.json())
@@ -39,12 +64,14 @@ function App() {
       .catch((err) => console.error("Product load error:", err));
   }, []);
 
-  /* SAVE CART */
+  /* ================= SAVE CART ================= */
+
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  /* CART FUNCTIONS */
+  /* ================= CART FUNCTIONS ================= */
+
   const addToCart = (product) => {
     setCart((prev) => {
       const exists = prev.find((item) => item._id === product._id);
@@ -81,7 +108,8 @@ function App() {
     );
   };
 
-  /* STRIPE CHECKOUT */
+  /* ================= STRIPE CHECKOUT ================= */
+
   const handleCheckout = async () => {
     if (cart.length === 0) {
       alert("Cart is empty.");
@@ -113,7 +141,8 @@ function App() {
     }
   };
 
-  /* PAYPAL SUCCESS */
+  /* ================= PAYPAL SUCCESS ================= */
+
   const handlePayPalSuccess = async (orderID) => {
     await fetch(`${API}/api/orders/paypal`, {
       method: "POST",
@@ -124,28 +153,64 @@ function App() {
       })
     });
 
-    alert("Payment successful!");
     setCart([]);
     setCheckoutOpen(false);
   };
 
+  /* ================= LOADER ================= */
+
+  if (loading) {
+    return (
+      <div className="loader-screen">
+        <div className="loader-logo">NovaPeptide Labs</div>
+      </div>
+    );
+  }
+
   return (
-    <div>
+    <>
       <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
 
-      <Routes>
-        <Route path="/" element={<Home products={products} addToCart={addToCart} />} />
-        <Route path="/shop" element={<Shop products={products} addToCart={addToCart} />} />
-        <Route path="/product/:id" element={<ProductDetail products={products} addToCart={addToCart} />} />
-        <Route path="/success" element={<Success />} />
-        <Route path="/cancel" element={<Cancel />} />
-        <Route path="/disclaimer" element={<Disclaimer />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/admin/orders" element={<AdminOrders />} />
-      </Routes>
+      {/* ================= ROUTE TRANSITIONS ================= */}
+
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route
+            path="/"
+            element={
+              <PageWrapper>
+                <Home products={products} addToCart={addToCart} />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/shop"
+            element={
+              <PageWrapper>
+                <Shop products={products} addToCart={addToCart} />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/product/:id"
+            element={
+              <PageWrapper>
+                <ProductDetail products={products} addToCart={addToCart} />
+              </PageWrapper>
+            }
+          />
+          <Route path="/success" element={<PageWrapper><Success /></PageWrapper>} />
+          <Route path="/cancel" element={<PageWrapper><Cancel /></PageWrapper>} />
+          <Route path="/disclaimer" element={<PageWrapper><Disclaimer /></PageWrapper>} />
+          <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
+          <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
+          <Route path="/orders" element={<PageWrapper><Orders /></PageWrapper>} />
+          <Route path="/admin" element={<PageWrapper><Admin /></PageWrapper>} />
+          <Route path="/admin/orders" element={<PageWrapper><AdminOrders /></PageWrapper>} />
+        </Routes>
+      </AnimatePresence>
+
+      {/* ================= CHECKOUT DRAWER ================= */}
 
       {checkoutOpen && (
         <div className="checkout-overlay">
@@ -158,7 +223,6 @@ function App() {
               ) : (
                 cart.map((item) => (
                   <div key={item._id} className="checkout-item">
-                    {/* ✅ FIXED IMAGE LOGIC */}
                     <img
                       src={
                         item.image && item.image.startsWith("http")
@@ -167,7 +231,6 @@ function App() {
                       }
                       alt={item.name}
                     />
-
                     <div>
                       <h4>{item.name}</h4>
                       <p>${item.price.toFixed(2)}</p>
@@ -177,7 +240,6 @@ function App() {
                         <button onClick={() => increaseQty(item._id)}>+</button>
                       </div>
                     </div>
-
                     <div>${(item.price * item.quantity).toFixed(2)}</div>
                   </div>
                 ))
@@ -230,7 +292,7 @@ function App() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 

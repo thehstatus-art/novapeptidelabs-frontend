@@ -1,8 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const ENABLE_AUTH = false; // 🔐 Change to true if you want login back
-const API = "https://nova-backend-lu2l.onrender.com";
+const ENABLE_AUTH = false;
 
 function Header({ cart, setCheckoutOpen }) {
   const location = useLocation();
@@ -19,13 +18,14 @@ function Header({ cart, setCheckoutOpen }) {
   );
 
   const isActive = (path) =>
-    location.pathname === path ? "active-link" : "";
+    location.pathname === path ? "nav-btn active-link" : "nav-btn";
 
+  // ✅ Cloudinary-safe image handler
   const getImageUrl = (image) => {
     if (!image) return "/no-image.png";
-    return image.startsWith("/uploads")
-      ? `${API}${image}`
-      : `${API}/uploads/${image}`;
+    return image.startsWith("http")
+      ? image
+      : "/no-image.png";
   };
 
   return (
@@ -36,9 +36,10 @@ function Header({ cart, setCheckoutOpen }) {
         </Link>
       </div>
 
+      {/* ✅ FIXED NAV BUTTONS */}
       <nav className="nav-links">
         <Link to="/shop" className={isActive("/shop")}>
-          Shop
+          SHOP
         </Link>
 
         <Link to="/privacy" className={isActive("/privacy")}>
@@ -59,7 +60,7 @@ function Header({ cart, setCheckoutOpen }) {
           token ? (
             <span className="user-greeting">My Account</span>
           ) : (
-            <Link to="/login" className="login-btn">
+            <Link to="/login" className="nav-btn">
               LOGIN / REGISTER
             </Link>
           )

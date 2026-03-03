@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { PayPalButtons, PayPalMarks } from "@paypal/react-paypal-js";
+import { PayPalButtons } from "@paypal/react-paypal-js";
 
 import Header from "./components/Header";
 import ProductDetail from "./pages/ProductDetail";
@@ -21,17 +21,14 @@ function App() {
     const saved = localStorage.getItem("cart");
     return saved ? JSON.parse(saved) : [];
   });
-
   const [checkoutOpen, setCheckoutOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const cartTotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
-  /* ================= LOAD PRODUCTS ================= */
-
+  /* LOAD PRODUCTS */
   useEffect(() => {
     fetch(`${API}/api/products`)
       .then((res) => res.json())
@@ -39,14 +36,12 @@ function App() {
       .catch((err) => console.error("Product load error:", err));
   }, []);
 
-  /* ================= CART STORAGE ================= */
-
+  /* SAVE CART */
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  /* ================= CART FUNCTIONS ================= */
-
+  /* CART FUNCTIONS */
   const addToCart = (product) => {
     setCart((prev) => {
       const exists = prev.find((item) => item._id === product._id);
@@ -83,43 +78,21 @@ function App() {
     );
   };
 
-  /* ================= STRIPE CHECKOUT ================= */
+  /* PAYPAL SUCCESS HANDLER */
+  const handlePayPalSuccess = async (orderID) => {
+    await fetch(`${API}/api/orders/paypal`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        paypalOrderId: orderID,
+        items: cart
+      })
+    });
 
-  const handleCheckout = async () => {
-    if (cart.length === 0) {
-      alert("Cart is empty.");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const res = await fetch(`${API}/api/orders/checkout`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: cart.map((item) => ({
-            productId: item._id,
-            quantity: item.quantity
-          }))
-        })
-      });
-
-      const data = await res.json();
-
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert("Checkout failed.");
-      }
-    } catch (err) {
-      console.error("Checkout error:", err);
-    }
-
-    setLoading(false);
+    alert("Payment successful!");
+    setCart([]); // clear cart
+    setCheckoutOpen(false);
   };
-
-  /* ================= RENDER ================= */
 
   return (
     <div>
@@ -198,21 +171,11 @@ function App() {
 
               <h3>Order Summary</h3>
 
-              <div className="summary-row">
+              <div className="summary-row total">
                 <span>Total</span>
                 <span>${cartTotal.toFixed(2)}</span>
               </div>
 
-              {/* Stripe */}
-              <button
-                className="checkout-stripe-btn"
-                onClick={handleCheckout}
-                disabled={loading}
-              >
-                {loading ? "Processing..." : "Pay with Card"}
-              </button>
-
-              {/* PayPal */}
               <div className="paypal-section">
                 <PayPalButtons
                   style={{
@@ -220,7 +183,7 @@ function App() {
                     color: "gold",
                     shape: "rect",
                     label: "paypal",
-                    height: 45
+                    height: 50
                   }}
                   createOrder={(data, actions) => {
                     return actions.order.create({
@@ -235,24 +198,9 @@ function App() {
                   }}
                   onApprove={async (data, actions) => {
                     await actions.order.capture();
-
-                    await fetch(`${API}/api/orders/paypal`, {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({
-                        paypalOrderId: data.orderID,
-                        items: cart
-                      })
-                    });
-
-                    alert("Payment successful!");
-                    setCheckoutOpen(false);
+                    await handlePayPalSuccess(data.orderID);
                   }}
                 />
-
-                <div className="paypal-paylater">
-                  <PayPalMarks fundingSource="paylater" />
-                </div>
               </div>
 
               <div className="secure-badge">

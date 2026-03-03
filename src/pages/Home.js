@@ -1,6 +1,37 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
+/* ================= Animated Stat Counter ================= */
+
+function Stat({ number, suffix, label }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const duration = 1500;
+    const increment = number / (duration / 16);
+
+    const counter = setInterval(() => {
+      start += increment;
+      if (start >= number) {
+        setCount(number);
+        clearInterval(counter);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+
+    return () => clearInterval(counter);
+  }, [number]);
+
+  return (
+    <div className="stat">
+      <h2>{count}{suffix}</h2>
+      <p>{label}</p>
+    </div>
+  );
+}
+
 function Home({ products, addToCart }) {
   const [selected, setSelected] = useState(null);
   const [notification, setNotification] = useState(null);
@@ -9,7 +40,7 @@ function Home({ products, addToCart }) {
   /* Countdown */
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimer((prev) => (prev > 0 ? prev - 1 : 0));
+      setTimer(prev => (prev > 0 ? prev - 1 : 0));
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -28,12 +59,26 @@ function Home({ products, addToCart }) {
     const interval = setInterval(() => {
       const name = names[Math.floor(Math.random() * names.length)];
       const city = cities[Math.floor(Math.random() * cities.length)];
-
       setNotification(`${name} from ${city} purchased a research compound`);
       setTimeout(() => setNotification(null), 4000);
     }, 12000);
 
     return () => clearInterval(interval);
+  }, []);
+
+  /* Scroll Reveal */
+  useEffect(() => {
+    const elements = document.querySelectorAll(".fade-in");
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.15 });
+
+    elements.forEach(el => observer.observe(el));
   }, []);
 
   return (
@@ -46,6 +91,7 @@ function Home({ products, addToCart }) {
       {/* ================= HERO ================= */}
 
       <div className="hero">
+        <div className="particles"></div>
         <div className="hero-glow"></div>
 
         <div className="hero-content fade-in">
@@ -90,33 +136,23 @@ function Home({ products, addToCart }) {
       {/* ================= STATS ================= */}
 
       <div className="stats-section fade-in">
-        <div className="stat">
-          <h2>10,000+</h2>
-          <p>Orders Fulfilled</p>
-        </div>
-        <div className="stat">
-          <h2>99%+</h2>
-          <p>Purity Standards</p>
-        </div>
-        <div className="stat">
-          <h2>48h</h2>
-          <p>Avg. Shipping Time</p>
-        </div>
+        <Stat number={10000} suffix="+" label="Orders Fulfilled" />
+        <Stat number={99} suffix="%" label="Purity Standards" />
+        <Stat number={48} suffix="h" label="Avg. Shipping Time" />
       </div>
+
+      <div className="dna-divider"></div>
 
       {/* ================= PRODUCTS ================= */}
 
       <div className="product-grid fade-in">
-        {products.map((product) => (
+        {products.map(product => (
           <div className="card" key={product._id}>
             <Link
               to={`/product/${product._id}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <img
-                src={product.image}
-                alt={product.name}
-              />
+              <img src={product.image} alt={product.name} />
 
               <div className="card-body">
                 <h3>{product.name}</h3>
@@ -164,6 +200,18 @@ function Home({ products, addToCart }) {
         </div>
       </div>
 
+      {/* ================= TESTIMONIAL ================= */}
+
+      <div className="testimonial-section fade-in">
+        <div className="testimonial-card">
+          <p>
+            "The purity and consistency of NovaPeptide products exceeded expectations.
+            Highly reliable research-grade compounds."
+          </p>
+          <span>— Research Lab Director</span>
+        </div>
+      </div>
+
       {/* ================= NEWSLETTER ================= */}
 
       <div className="newsletter fade-in">
@@ -173,40 +221,11 @@ function Home({ products, addToCart }) {
         <button>Subscribe</button>
       </div>
 
-      {/* ================= MODAL ================= */}
+      {/* ================= FOOTER ================= */}
 
-      {selected && (
-        <div
-          className="modal-overlay"
-          onClick={() => setSelected(null)}
-        >
-          <div
-            className="modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img
-              src={selected.image}
-              alt={selected.name}
-            />
-
-            <h2>{selected.name}</h2>
-            <p>${selected.price.toFixed(2)}</p>
-
-            <button
-              onClick={() => {
-                addToCart(selected);
-                setSelected(null);
-              }}
-            >
-              ADD TO CART
-            </button>
-
-            <p className="secure-badge">
-              🔒 Secure Checkout • Encrypted Payments
-            </p>
-          </div>
-        </div>
-      )}
+      <footer className="premium-footer">
+        © 2026 NovaPeptide Labs • Third-Party Tested • Secure Checkout • Research Use Only
+      </footer>
     </div>
   );
 }

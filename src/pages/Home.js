@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 function Home({ products, addToCart }) {
   const [selected, setSelected] = useState(null);
   const [notification, setNotification] = useState(null);
-  const [timer, setTimer] = useState(900); // 15 minutes
+  const [timer, setTimer] = useState(900);
   const API = "https://nova-backend-lu2l.onrender.com";
 
   useEffect(() => {
@@ -29,7 +29,6 @@ function Home({ products, addToCart }) {
       const city = cities[Math.floor(Math.random() * cities.length)];
 
       setNotification(`${name} from ${city} purchased a research compound`);
-
       setTimeout(() => setNotification(null), 4000);
     }, 12000);
 
@@ -39,10 +38,9 @@ function Home({ products, addToCart }) {
   return (
     <div className="home-container">
       {notification && (
-        <div className="live-notification">
-          {notification}
-        </div>
+        <div className="live-notification">{notification}</div>
       )}
+
       <div className="hero">
         <h1>Advanced Research Peptides</h1>
 
@@ -64,37 +62,43 @@ function Home({ products, addToCart }) {
 
           <button
             className="secondary-btn"
-            onClick={() => window.location.href = "/disclaimer"}
+            onClick={() => (window.location.href = "/disclaimer")}
           >
             Research Disclaimer
           </button>
         </div>
       </div>
+
       <div className="trust-section">
         <div>✔ Lab Tested</div>
         <div>✔ Secure Checkout</div>
         <div>✔ Fast US Shipping</div>
         <div>✔ Research Use Only</div>
       </div>
+
       <div className="newsletter">
         <h2>Stay Updated</h2>
         <p>Be the first to know about new compounds and restocks.</p>
-
         <input type="email" placeholder="Enter your email" />
         <button>Subscribe</button>
       </div>
+
       <div className="product-grid">
         {products.map((product) => (
           <div className="card" key={product._id}>
-            <Link to={`/product/${product._id}`} style={{ textDecoration: "none", color: "inherit" }}>
+            <Link
+              to={`/product/${product._id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <img
-  src={
-    product.image?.startsWith("/uploads")
-      ? `${API}${product.image}`
-      : `${API}/uploads/${product.image}`
-  }
-  alt={product.name}
-/>
+                src={
+                  product.image?.startsWith("/uploads")
+                    ? `${API}${product.image}`
+                    : `${API}/uploads/${product.image}`
+                }
+                alt={product.name}
+              />
+
               <div className="card-body">
                 <h3>{product.name}</h3>
                 <p className="category">{product.category}</p>
@@ -102,11 +106,13 @@ function Home({ products, addToCart }) {
                 <p className="price">${product.price}</p>
               </div>
             </Link>
+
             <p className={`stock ${product.stock < 10 ? "low" : ""}`}>
               {product.stock > 0
                 ? `In Stock (${product.stock})`
                 : "Out of Stock"}
             </p>
+
             <button
               disabled={product.stock === 0}
               onClick={() => addToCart(product)}
@@ -116,25 +122,37 @@ function Home({ products, addToCart }) {
           </div>
         ))}
       </div>
+
       {selected && (
-        <div className="modal-overlay" onClick={() => setSelected(null)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="modal-overlay"
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="modal"
+            onClick={(e) => e.stopPropagation()}
+          >
             <img
-  src={
-    product.image?.startsWith("/uploads")
-      ? `${API}${product.image}`
-      : `${API}/uploads/${product.image}`
-  }
-  alt={product.name}
-/>
+              src={
+                selected.image?.startsWith("/uploads")
+                  ? `${API}${selected.image}`
+                  : `${API}/uploads/${selected.image}`
+              }
+              alt={selected.name}
+            />
+
             <h2>{selected.name}</h2>
             <p>${selected.price.toFixed(2)}</p>
-            <button onClick={() => {
-              addToCart(selected);
-              setSelected(null);
-            }}>
+
+            <button
+              onClick={() => {
+                addToCart(selected);
+                setSelected(null);
+              }}
+            >
               ADD TO CART
             </button>
+
             <p className="secure-badge">
               🔒 Secure Checkout • Encrypted Payments
             </p>

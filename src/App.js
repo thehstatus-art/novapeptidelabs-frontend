@@ -12,6 +12,8 @@ import Orders from "./pages/Orders";
 import Admin from "./pages/Admin";
 import AdminOrders from "./pages/AdminOrders";
 import Shop from "./pages/Shop";
+import Success from "./pages/Success";
+import Cancel from "./pages/Cancel";
 
 const API = "https://nova-backend-lu2l.onrender.com";
 
@@ -131,9 +133,11 @@ function App() {
       <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
 
       <Routes>
-        <Route path="/product/:id" element={<ProductDetail products={products} addToCart={addToCart} />} />
         <Route path="/" element={<Home products={products} addToCart={addToCart} />} />
         <Route path="/shop" element={<Shop products={products} addToCart={addToCart} />} />
+        <Route path="/product/:id" element={<ProductDetail products={products} addToCart={addToCart} />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/cancel" element={<Cancel />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
@@ -186,7 +190,6 @@ function App() {
                 <span>${cartTotal.toFixed(2)}</span>
               </div>
 
-              {/* STRIPE BUTTON */}
               <button
                 className="stripe-premium-btn"
                 onClick={handleCheckout}
@@ -194,7 +197,6 @@ function App() {
                 💳 Pay with Debit / Credit Card
               </button>
 
-              {/* PAYPAL */}
               <div className="paypal-section">
                 <PayPalButtons
                   style={{

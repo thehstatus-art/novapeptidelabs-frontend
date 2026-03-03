@@ -5,8 +5,8 @@ function Home({ products, addToCart }) {
   const [selected, setSelected] = useState(null);
   const [notification, setNotification] = useState(null);
   const [timer, setTimer] = useState(900);
-  const API = "https://nova-backend-lu2l.onrender.com";
 
+  /* Countdown */
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prev) => (prev > 0 ? prev - 1 : 0));
@@ -20,6 +20,7 @@ function Home({ products, addToCart }) {
     return `${m}:${s < 10 ? "0" : ""}${s}`;
   };
 
+  /* Fake Live Purchases */
   useEffect(() => {
     const names = ["Michael", "Sarah", "David", "James", "Daniel"];
     const cities = ["New York", "Texas", "California", "Florida"];
@@ -90,19 +91,15 @@ function Home({ products, addToCart }) {
               to={`/product/${product._id}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
+              {/* ✅ DIRECT CLOUDINARY URL */}
               <img
-                src={
-                  product.image?.startsWith("/uploads")
-                    ? `${API}${product.image}`
-                    : `${API}/uploads/${product.image}`
-                }
+                src={product.image}
                 alt={product.name}
               />
 
               <div className="card-body">
                 <h3>{product.name}</h3>
                 <p className="category">{product.category}</p>
-                <p className="purity">Purity: {product.purity}</p>
                 <p className="price">${product.price}</p>
               </div>
             </Link>
@@ -132,12 +129,9 @@ function Home({ products, addToCart }) {
             className="modal"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* ✅ DIRECT CLOUDINARY URL */}
             <img
-              src={
-                selected.image?.startsWith("/uploads")
-                  ? `${API}${selected.image}`
-                  : `${API}/uploads/${selected.image}`
-              }
+              src={selected.image}
               alt={selected.name}
             />
 

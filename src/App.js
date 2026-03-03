@@ -78,7 +78,36 @@ function App() {
     );
   };
 
-  /* PAYPAL SUCCESS HANDLER */
+  /* STRIPE CHECKOUT */
+  const handleCheckout = async () => {
+    if (cart.length === 0) {
+      alert("Cart is empty.");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API}/api/orders/checkout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: cart.map((item) => ({
+            productId: item._id,
+            quantity: item.quantity
+          }))
+        })
+      });
+
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (err) {
+      console.error("Stripe checkout error:", err);
+    }
+  };
+
+  /* PAYPAL SUCCESS */
   const handlePayPalSuccess = async (orderID) => {
     await fetch(`${API}/api/orders/paypal`, {
       method: "POST",
@@ -90,7 +119,7 @@ function App() {
     });
 
     alert("Payment successful!");
-    setCart([]); // clear cart
+    setCart([]);
     setCheckoutOpen(false);
   };
 
@@ -99,18 +128,9 @@ function App() {
       <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
 
       <Routes>
-        <Route
-          path="/product/:id"
-          element={<ProductDetail products={products} addToCart={addToCart} />}
-        />
-        <Route
-          path="/"
-          element={<Home products={products} addToCart={addToCart} />}
-        />
-        <Route
-          path="/shop"
-          element={<Shop products={products} addToCart={addToCart} />}
-        />
+        <Route path="/product/:id" element={<ProductDetail products={products} addToCart={addToCart} />} />
+        <Route path="/" element={<Home products={products} addToCart={addToCart} />} />
+        <Route path="/shop" element={<Shop products={products} addToCart={addToCart} />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
@@ -123,10 +143,8 @@ function App() {
         <div className="checkout-overlay">
           <div className="checkout-panel">
 
-            {/* LEFT SIDE */}
             <div className="checkout-left">
               <h2>Your Cart</h2>
-
               {cart.length === 0 ? (
                 <p>Your cart is empty.</p>
               ) : (
@@ -140,34 +158,23 @@ function App() {
                       }
                       alt={item.name}
                     />
-
-                    <div className="checkout-item-info">
+                    <div>
                       <h4>{item.name}</h4>
                       <p>${item.price.toFixed(2)}</p>
-
                       <div className="qty-controls">
                         <button onClick={() => decreaseQty(item._id)}>-</button>
                         <span>{item.quantity}</span>
                         <button onClick={() => increaseQty(item._id)}>+</button>
                       </div>
                     </div>
-
-                    <div className="checkout-subtotal">
-                      ${(item.price * item.quantity).toFixed(2)}
-                    </div>
+                    <div>${(item.price * item.quantity).toFixed(2)}</div>
                   </div>
                 ))
               )}
             </div>
 
-            {/* RIGHT SIDE */}
             <div className="checkout-right">
-              <button
-                className="close-checkout"
-                onClick={() => setCheckoutOpen(false)}
-              >
-                ✕
-              </button>
+              <button className="close-checkout" onClick={() => setCheckoutOpen(false)}>✕</button>
 
               <h3>Order Summary</h3>
 
@@ -175,14 +182,16 @@ function App() {
                 <span>Total</span>
                 <span>${cartTotal.toFixed(2)}</span>
               </div>
-              {/* Stripe Premium Button */}
-<button
-  className="stripe-premium-btn"
-  onClick={handleCheckout}
->
-  💳 Pay with Debit / Credit Card
-</button>
 
+              {/* STRIPE BUTTON */}
+              <button
+                className="stripe-premium-btn"
+                onClick={handleCheckout}
+              >
+                💳 Pay with Debit / Credit Card
+              </button>
+
+              {/* PAYPAL */}
               <div className="paypal-section">
                 <PayPalButtons
                   style={{
@@ -192,17 +201,11 @@ function App() {
                     label: "paypal",
                     height: 50
                   }}
-                  createOrder={(data, actions) => {
-                    return actions.order.create({
-                      purchase_units: [
-                        {
-                          amount: {
-                            value: cartTotal.toFixed(2)
-                          }
-                        }
-                      ]
-                    });
-                  }}
+                  createOrder={(data, actions) =>
+                    actions.order.create({
+                      purchase_units: [{ amount: { value: cartTotal.toFixed(2) } }]
+                    })
+                  }
                   onApprove={async (data, actions) => {
                     await actions.order.capture();
                     await handlePayPalSuccess(data.orderID);

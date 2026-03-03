@@ -5,7 +5,7 @@ function Home({ products, addToCart }) {
   const [selected, setSelected] = useState(null);
   const [notification, setNotification] = useState(null);
   const [timer, setTimer] = useState(900); // 15 minutes
-  const API = process.env.REACT_APP_API_URL;
+  const API = "https://nova-backend-lu2l.onrender.com";
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -87,7 +87,14 @@ function Home({ products, addToCart }) {
         {products.map((product) => (
           <div className="card" key={product._id}>
             <Link to={`/product/${product._id}`} style={{ textDecoration: "none", color: "inherit" }}>
-              <img src={`${API}${product.image}`} alt={product.name} />
+              <img
+  src={
+    product.image?.startsWith("/uploads")
+      ? `${API}${product.image}`
+      : `${API}/uploads/${product.image}`
+  }
+  alt={product.name}
+/>
               <div className="card-body">
                 <h3>{product.name}</h3>
                 <p className="category">{product.category}</p>

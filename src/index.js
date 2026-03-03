@@ -14,7 +14,7 @@ root.render(
   <React.StrictMode>
     <PayPalScriptProvider
   options={{
-    "client-id": "YOUR_PAYPAL_CLIENT_ID_HERE",
+    "client-id": "AXTCIGAexGgZoNGFRr5ZDjKYI4JXgCLOAymMcR81OBbs20OKUXL7ag5JhZ-Vq1timbE4z2rUHV92QI-M",
     currency: "USD",
     components: "buttons,marks"
   }}

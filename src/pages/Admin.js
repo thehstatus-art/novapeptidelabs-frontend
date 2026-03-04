@@ -190,10 +190,27 @@ useEffect(() => {
       <h1>Nova Admin Control Center</h1>
 
       <div style={tabBar}>
-        <button onClick={() => setActiveTab("dashboard")}>Dashboard</button>
-        <button onClick={() => setActiveTab("products")}>Products</button>
-        <button onClick={() => setActiveTab("orders")}>Orders</button>
-      </div>
+  <button
+    style={tabBtn(activeTab === "dashboard")}
+    onClick={() => setActiveTab("dashboard")}
+  >
+    Dashboard
+  </button>
+
+  <button
+    style={tabBtn(activeTab === "products")}
+    onClick={() => setActiveTab("products")}
+  >
+    Products
+  </button>
+
+  <button
+    style={tabBtn(activeTab === "orders")}
+    onClick={() => setActiveTab("orders")}
+  >
+    Orders
+  </button>
+</div>
 
       {/* ===== DASHBOARD ===== */}
       {activeTab === "dashboard" && stats && (
@@ -265,9 +282,12 @@ useEffect(() => {
                 {product.isActive ? "Deactivate" : "Activate"}
               </button>
 
-              <button onClick={() => deleteProduct(product._id)}>
-                Delete
-              </button>
+              <button
+  style={dangerBtn}
+  onClick={() => deleteProduct(product._id)}
+>
+  Delete
+</button>
             </div>
           ))}
         </>
@@ -358,6 +378,21 @@ const tabBar = {
   marginBottom: "40px"
 };
 
+const tabBtn = (active) => ({
+  padding: "10px 20px",
+  background: active
+    ? "linear-gradient(135deg,#0f2b46,#123a63)"
+    : "transparent",
+  border: "1px solid rgba(110,193,255,0.3)",
+  borderRadius: "8px",
+  color: "#6ec1ff",
+  cursor: "pointer",
+  boxShadow: active
+    ? "0 0 15px rgba(110,193,255,0.4)"
+    : "none",
+  transition: "all 0.25s ease"
+});
+
 const statsGrid = {
   display: "flex",
   gap: "20px",
@@ -367,11 +402,12 @@ const statsGrid = {
 
 const card = {
   background: "rgba(8,21,35,0.95)",
-  padding: "20px",
+  padding: "25px",
   borderRadius: "16px",
   marginBottom: "20px",
-  border: "1px solid rgba(110,193,255,0.3)",
-  boxShadow: "0 0 20px rgba(110,193,255,0.2)"
+  border: "1px solid rgba(110,193,255,0.2)",
+  boxShadow: "0 0 25px rgba(110,193,255,0.15)",
+  backdropFilter: "blur(10px)"
 };
 
 const primaryBtn = {
@@ -381,6 +417,38 @@ const primaryBtn = {
   borderRadius: "8px",
   marginBottom: "20px",
   cursor: "pointer"
+};
+const actionBtn = {
+  padding: "10px 18px",
+  background: "linear-gradient(135deg,#0f2b46,#123a63)",
+  border: "1px solid rgba(110,193,255,0.5)",
+  borderRadius: "10px",
+  color: "#6ec1ff",
+  cursor: "pointer",
+  marginRight: "10px",
+  transition: "all 0.25s ease",
+  boxShadow: "0 0 12px rgba(110,193,255,0.3)"
+};
+
+const dangerBtn = {
+  padding: "10px 18px",
+  background: "linear-gradient(135deg,#2a0f18,#3f1522)",
+  border: "1px solid rgba(255,80,80,0.5)",
+  borderRadius: "10px",
+  color: "#ff6b6b",
+  cursor: "pointer",
+  transition: "all 0.25s ease",
+  boxShadow: "0 0 12px rgba(255,80,80,0.3)"
+};
+
+const inputStyle = {
+  background: "#0d1f35",
+  border: "1px solid rgba(110,193,255,0.3)",
+  padding: "8px",
+  borderRadius: "8px",
+  color: "white",
+  marginBottom: "10px",
+  width: "100%"
 };
 
 const modalOverlay = {

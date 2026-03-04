@@ -271,16 +271,17 @@ useEffect(() => {
               </p>
 
               <input
-                type="number"
-                defaultValue={product.stock}
-                onBlur={(e) =>
-                  updateProduct(product._id, { stock: Number(e.target.value) })
-                }
+  style={inputStyle}
+  type="number"
+  defaultValue={product.price}
               />
 
-              <button onClick={() => toggleProduct(product._id)}>
-                {product.isActive ? "Deactivate" : "Activate"}
-              </button>
+              <button
+  style={actionBtn}
+  onClick={() => toggleProduct(product._id)}
+>
+  {product.isActive ? "Deactivate" : "Activate"}
+</button>
 
               <button
   style={dangerBtn}

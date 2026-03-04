@@ -1,51 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 
-/* ================= Animated Stat Counter ================= */
-
-function Stat({ number, suffix, label }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const hasAnimated = useRef(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !hasAnimated.current) {
-          hasAnimated.current = true;
-
-          let start = 0;
-          const duration = 1500;
-          const increment = number / (duration / 16);
-
-          const counter = setInterval(() => {
-            start += increment;
-            if (start >= number) {
-              setCount(number);
-              clearInterval(counter);
-            } else {
-              setCount(Math.floor(start));
-            }
-          }, 16);
-        }
-      },
-      { threshold: 0.4 }
-    );
-
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [number]);
-
-  return (
-    <div className="stat" ref={ref}>
-      <h2>{count}{suffix}</h2>
-      <p>{label}</p>
-    </div>
-  );
-}
 
 function Home({ products, addToCart }) {
-  const navigate = useNavigate();
+  
   const [notification, setNotification] = useState(null);
 
   /* ================= Fake Live Purchases ================= */

@@ -305,7 +305,26 @@ useEffect(() => {
             <div key={order._id} style={card}>
               <p><strong>ID:</strong> {order._id}</p>
               <p><strong>Total:</strong> ${order.totalAmount}</p>
+<p><strong>Tracking:</strong> {order.trackingNumber || "Not generated"}</p>
 
+{order.shippingLabelUrl && (
+  <a
+    href={order.shippingLabelUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      display: "inline-block",
+      marginTop: "8px",
+      color: "#6ec1ff",
+      textDecoration: "none",
+      border: "1px solid rgba(110,193,255,0.4)",
+      padding: "6px 12px",
+      borderRadius: "6px"
+    }}
+  >
+    📦 Download Shipping Label
+  </a>
+)}
               <select
                 value={order.status}
                 onChange={(e) =>

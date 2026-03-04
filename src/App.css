@@ -248,17 +248,41 @@ body::after {
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
+
+  /* HERO */
   .hero {
-    padding: 140px 20px 100px;
+    padding: 120px 20px 80px;
   }
 
   .hero h1 {
-    font-size: 42px;
+    font-size: 32px;
+    line-height: 1.2;
   }
 
   .hero-sub {
-    font-size: 16px;
+    font-size: 15px;
   }
+
+  /* NAVBAR HORIZONTAL SCROLL */
+  .nav-links {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 10px;
+    padding-bottom: 6px;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .nav-links::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .nav-links a {
+    flex: 0 0 auto; /* Prevent shrinking */
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
 }
 /* ================= PRODUCT GRID ================= */
 

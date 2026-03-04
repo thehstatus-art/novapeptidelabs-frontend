@@ -152,9 +152,18 @@ function Home({ products, addToCart }) {
       {/* ================= FOOTER ================= */}
 
       <footer className="premium-footer">
-        © 2026 NovaPeptide Labs • Third-Party Tested • Secure Checkout • Research Use Only
-      </footer>
+  <div className="footer-line"></div>
 
+  <div className="footer-content">
+    <p className="footer-brand">
+      © 2026 <span>NovaPeptide Labs</span>
+    </p>
+
+    <p className="footer-tagline">
+      Third-Party Tested • Secure Encrypted Checkout • Research Use Only
+    </p>
+  </div>
+</footer>
     </div>
   );
 }

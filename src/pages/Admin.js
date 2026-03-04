@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const API = import.meta.env.VITE_API_URL;
-console.log("API:", import.meta.env.VITE_API_URL);
+const API = process.env.REACT_APP_API_URL;
 function Admin() {
   const [products, setProducts] = useState([]);
 

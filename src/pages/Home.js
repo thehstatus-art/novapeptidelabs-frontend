@@ -152,17 +152,40 @@ function Home({ products, addToCart }) {
       {/* ================= FOOTER ================= */}
 
       <footer className="premium-footer">
+
   <div className="footer-line"></div>
 
-  <div className="footer-content">
-    <p className="footer-brand">
-      © 2026 <span>NovaPeptide Labs</span>
-    </p>
+  <div className="footer-grid">
 
-    <p className="footer-tagline">
-      Third-Party Tested • Secure Encrypted Checkout • Research Use Only
-    </p>
+    <div className="footer-column">
+      <h4>NovaPeptide Labs</h4>
+      <p className="footer-description">
+        Advanced research compounds manufactured under strict laboratory standards.
+        Designed for professional research environments.
+      </p>
+    </div>
+
+    <div className="footer-column">
+      <h5>Quick Links</h5>
+      <Link to="/shop">Shop</Link>
+      <Link to="/privacy">Privacy Policy</Link>
+      <Link to="/terms">Terms & Conditions</Link>
+      <Link to="/disclaimer">Research Disclaimer</Link>
+    </div>
+
+    <div className="footer-column">
+      <h5>Support</h5>
+      <p>Email: support@novapeptidelabs.com</p>
+      <p>Response Time: 24–48 Hours</p>
+      <p>Secure Encrypted Checkout</p>
+    </div>
+
   </div>
+
+  <div className="footer-bottom">
+    © 2026 <span>NovaPeptide Labs</span> • Third-Party Tested • Research Use Only
+  </div>
+
 </footer>
     </div>
   );

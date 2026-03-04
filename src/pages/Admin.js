@@ -33,31 +33,43 @@ function Admin() {
   /* ================= FETCH DATA ================= */
 
   const fetchProducts = useCallback(async () => {
-  const res = await fetch(`${API}/api/products`);
-  const data = await res.json();
-  setProducts(data);
+  try {
+    const res = await fetch(`${API}/api/products`);
+    const data = await res.json();
+    setProducts(data);
+  } catch (err) {
+    console.error("Products fetch failed", err);
+  }
 }, []);
 
 const fetchOrders = useCallback(async () => {
-  const res = await fetch(`${API}/api/admin/orders`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-  const data = await res.json();
-  setOrders(data);
+  try {
+    const res = await fetch(`${API}/api/admin/orders`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    setOrders(data);
+  } catch (err) {
+    console.error("Orders fetch failed", err);
+  }
 }, [token]);
 
 const fetchStats = useCallback(async () => {
-  const res = await fetch(`${API}/api/admin/stats`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-  const data = await res.json();
-  setStats(data);
+  try {
+    const res = await fetch(`${API}/api/admin/stats`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    setStats(data);
+  } catch (err) {
+    console.error("Stats fetch failed", err);
+  }
 }, [token]);
-  useEffect(() => {
-    fetchProducts();
-    fetchStats();
-    fetchOrders();
-  }, []);
+useEffect(() => {
+  fetchProducts();
+  fetchStats();
+  fetchOrders();
+}, [fetchProducts, fetchStats, fetchOrders]);
 
   /* ================= REVENUE CHART ================= */
 

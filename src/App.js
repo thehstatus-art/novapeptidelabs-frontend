@@ -51,7 +51,7 @@ function App() {
     0
   );
 
-  /* ================= CINEMATIC LOADER ================= */
+  /* ================= LOADER ================= */
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 900);
@@ -99,36 +99,48 @@ function App() {
     };
   }, []);
 
+  /* ================= LOAD PRODUCTS ================= */
+
+  useEffect(() => {
+    fetch(`${API}/api/products`)
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((err) => console.error("Product load error:", err));
+  }, []);
+
   /* ================= MAGNETIC BUTTONS ================= */
 
   useEffect(() => {
-    const magnets = document.querySelectorAll(".magnetic");
+    const timer = setTimeout(() => {
+      const magnets = document.querySelectorAll(".magnetic");
 
-    magnets.forEach((btn) => {
-      const handleMove = (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-      };
+      magnets.forEach((btn) => {
+        const handleMove = (e) => {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+        };
 
-      const reset = () => {
-        btn.style.transform = "translate(0,0)";
-      };
+        const reset = () => {
+          btn.style.transform = "translate(0,0)";
+        };
 
-      btn.addEventListener("mousemove", handleMove);
-      btn.addEventListener("mouseleave", reset);
-    });
+        btn.addEventListener("mousemove", handleMove);
+        btn.addEventListener("mouseleave", reset);
+      });
+    }, 300);
 
-    return () => {
-      magnets.forEach((btn) => btn.replaceWith(btn.cloneNode(true)));
-    };
-  }, []);
+    return () => clearTimeout(timer);
+  }, [location, checkoutOpen]);
 
-  /* ================= GLOBAL PRODUCT TILT ================= */
+  /* ================= PRODUCT TILT (SAFE) ================= */
 
-  useEffect(() => {
-    const cards = document.querySelectorAll(".card");
+useEffect(() => {
+  const timer = setTimeout(() => {
+
+    // ONLY target product grid cards
+    const cards = document.querySelectorAll(".product-grid .card");
 
     cards.forEach((card) => {
       const handleMove = (e) => {
@@ -151,28 +163,22 @@ function App() {
       card.addEventListener("mouseleave", reset);
     });
 
-    return () => {
-      cards.forEach((card) => card.replaceWith(card.cloneNode(true)));
-    };
-  }, [products]);
+  }, 400);
 
-  /* ================= LOAD PRODUCTS ================= */
+  return () => clearTimeout(timer);
 
-  useEffect(() => {
-    fetch(`${API}/api/products`)
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
-      .catch((err) => console.error("Product load error:", err));
-  }, []);
+}, [products, location]);
 
-  /* ================= SMART CTA URGENCY ================= */
+  /* ================= SMART CTA PULSE ================= */
 
   useEffect(() => {
-    const lowStock = products.some((p) => p.stock && p.stock < 10);
+    const lowStock = products.some(p => p.stock && p.stock < 10);
 
     if (lowStock) {
-      const buttons = document.querySelectorAll(".stripe-premium-btn");
-      buttons.forEach((btn) => btn.classList.add("pulse-cta"));
+      setTimeout(() => {
+        const btn = document.querySelector(".stripe-premium-btn");
+        if (btn) btn.classList.add("pulse-cta");
+      }, 500);
     }
   }, [products]);
 
@@ -182,25 +188,27 @@ function App() {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  /* ================= CART FUNCTIONS ================= */
+  /* ================= CART LOGIC ================= */
 
   const addToCart = (product) => {
-    setCart((prev) => {
-      const exists = prev.find((item) => item._id === product._id);
-      if (exists) {
-        return prev.map((item) =>
-          item._id === product._id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prev, { ...product, quantity: 1 }];
-    });
-  };
+  setCart(prev => {
+    const exists = prev.find(item => item._id === product._id);
+
+    if (exists) {
+      return prev.map(item =>
+        item._id === product._id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+    }
+
+    return [...prev, { ...product, quantity: 1 }];
+  });
+};
 
   const increaseQty = (id) => {
-    setCart((prev) =>
-      prev.map((item) =>
+    setCart(prev =>
+      prev.map(item =>
         item._id === id
           ? { ...item, quantity: item.quantity + 1 }
           : item
@@ -209,18 +217,16 @@ function App() {
   };
 
   const decreaseQty = (id) => {
-    setCart((prev) =>
+    setCart(prev =>
       prev
-        .map((item) =>
+        .map(item =>
           item._id === id
             ? { ...item, quantity: item.quantity - 1 }
             : item
         )
-        .filter((item) => item.quantity > 0)
+        .filter(item => item.quantity > 0)
     );
   };
-
-  /* ================= CHECKOUT ================= */
 
   const handleCheckout = async () => {
     if (cart.length === 0) return alert("Cart is empty.");
@@ -230,11 +236,11 @@ function App() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: cart.map((item) => ({
+          items: cart.map(item => ({
             productId: item._id,
-            quantity: item.quantity,
-          })),
-        }),
+            quantity: item.quantity
+          }))
+        })
       });
 
       const data = await res.json();
@@ -252,8 +258,8 @@ function App() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         paypalOrderId: orderID,
-        items: cart,
-      }),
+        items: cart
+      })
     });
 
     setCart([]);
@@ -269,116 +275,151 @@ function App() {
   }
 
   return (
-    <>
-      <div className="depth-layer"></div>
+  <>
+    <div className="depth-layer"></div>
 
-      <Particles
-        options={{
-          fpsLimit: 60,
-          particles: {
-            number: { value: 25 },
-            color: { value: "#6ec1ff" },
-            opacity: { value: 0.12 },
-            size: { value: 2 },
-            move: { enable: true, speed: 0.4 },
-            links: {
-              enable: true,
-              distance: 120,
-              opacity: 0.08,
-              color: "#6ec1ff",
-            },
-          },
-        }}
-        style={{ position: "fixed", top: 0, left: 0, zIndex: -4 }}
-      />
+    <Particles
+      options={{
+        fpsLimit: 60,
+        particles: {
+          number: { value: 25 },
+          color: { value: "#6ec1ff" },
+          opacity: { value: 0.12 },
+          size: { value: 2 },
+          move: { enable: true, speed: 0.4 },
+          links: {
+            enable: true,
+            distance: 120,
+            opacity: 0.08,
+            color: "#6ec1ff"
+          }
+        }
+      }}
+      style={{ position: "fixed", top: 0, left: 0, zIndex: -4 }}
+    />
 
-      <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
+    <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
 
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<PageWrapper><Home products={products} addToCart={addToCart} /></PageWrapper>} />
-          <Route path="/shop" element={<PageWrapper><Shop products={products} addToCart={addToCart} /></PageWrapper>} />
-          <Route path="/product/:id" element={<PageWrapper><ProductDetail products={products} addToCart={addToCart} /></PageWrapper>} />
-          <Route path="/success" element={<PageWrapper><Success /></PageWrapper>} />
-          <Route path="/cancel" element={<PageWrapper><Cancel /></PageWrapper>} />
-          <Route path="/disclaimer" element={<PageWrapper><Disclaimer /></PageWrapper>} />
-          <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
-          <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
-          <Route path="/orders" element={<PageWrapper><Orders /></PageWrapper>} />
-          <Route path="/admin" element={<PageWrapper><Admin /></PageWrapper>} />
-          <Route path="/admin/orders" element={<PageWrapper><AdminOrders /></PageWrapper>} />
-        </Routes>
-      </AnimatePresence>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageWrapper><Home products={products} addToCart={addToCart} /></PageWrapper>} />
+        <Route path="/shop" element={<PageWrapper><Shop products={products} addToCart={addToCart} /></PageWrapper>} />
+        <Route path="/product/:id" element={<PageWrapper><ProductDetail products={products} addToCart={addToCart} /></PageWrapper>} />
+        <Route path="/success" element={<PageWrapper><Success /></PageWrapper>} />
+        <Route path="/cancel" element={<PageWrapper><Cancel /></PageWrapper>} />
+        <Route path="/disclaimer" element={<PageWrapper><Disclaimer /></PageWrapper>} />
+        <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
+        <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
+        <Route path="/orders" element={<PageWrapper><Orders /></PageWrapper>} />
+        <Route path="/admin" element={<PageWrapper><Admin /></PageWrapper>} />
+        <Route path="/admin/orders" element={<PageWrapper><AdminOrders /></PageWrapper>} />
+      </Routes>
+    </AnimatePresence>
 
-      {checkoutOpen && (
-        <div className="checkout-overlay">
-          <div className="checkout-panel">
+    {/* ================= CHECKOUT OVERLAY ================= */}
 
-            <div className="checkout-left">
-              <h2>Your Cart</h2>
-              {cart.map((item) => (
-                <div key={item._id} className="checkout-item">
-                  <img
-                    src={
-                      item.image && item.image.startsWith("http")
-                        ? item.image
-                        : FALLBACK_IMAGE
-                    }
-                    alt={item.name}
-                  />
-                  <div>
-                    <h4>{item.name}</h4>
-                    <p>${item.price.toFixed(2)}</p>
-                    <div className="qty-controls">
-                      <button onClick={() => decreaseQty(item._id)}>-</button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => increaseQty(item._id)}>+</button>
-                    </div>
-                  </div>
-                  <div>${(item.price * item.quantity).toFixed(2)}</div>
-                </div>
-              ))}
-            </div>
+    {checkoutOpen && (
+  <div className="checkout-overlay">
+    <div className="checkout-panel">
 
-            <div className="checkout-right">
-              <button className="close-checkout" onClick={() => setCheckoutOpen(false)}>✕</button>
+      {/* LEFT SIDE */}
+      <div className="checkout-left">
 
-              <h3>Order Summary</h3>
+        <button
+          className="checkout-back-btn"
+          onClick={() => setCheckoutOpen(false)}
+        >
+          ← Continue Shopping
+        </button>
 
-              <div className="summary-row total">
-                <span>Total</span>
-                <span>${cartTotal.toFixed(2)}</span>
-              </div>
+        <h2 className="checkout-title">Your Cart</h2>
 
-              <button className="stripe-premium-btn magnetic" onClick={handleCheckout}>
-                💳 Pay with Debit / Credit Card
-              </button>
+        {cart.map(item => (
+          <div key={item._id} className="checkout-item">
+            <img
+              src={
+                item.image && item.image.startsWith("http")
+                  ? item.image
+                  : FALLBACK_IMAGE
+              }
+              alt={item.name}
+            />
 
-              <div className="paypal-section">
-                <PayPalButtons
-                  style={{ layout: "vertical", color: "gold", shape: "rect", height: 50 }}
-                  createOrder={(data, actions) =>
-                    actions.order.create({
-                      purchase_units: [{ amount: { value: cartTotal.toFixed(2) } }]
-                    })
-                  }
-                  onApprove={async (data, actions) => {
-                    await actions.order.capture();
-                    await handlePayPalSuccess(data.orderID);
-                  }}
-                />
-              </div>
+            <div className="checkout-item-info">
+  <h4>{item.name}</h4>
 
-              <div className="secure-badge">
-                🔒 Secure encrypted checkout
-              </div>
-            </div>
+  {item.description && (
+    <p className="checkout-description">
+      {item.description}
+    </p>
+  )}
 
+  <p className="checkout-unit-price">
+    ${item.price.toFixed(2)}
+  </p>
+
+  <div className="qty-controls">
+    <button onClick={() => decreaseQty(item._id)}>-</button>
+    <span>{item.quantity}</span>
+    <button onClick={() => increaseQty(item._id)}>+</button>
+  </div>
+</div>
           </div>
+        ))}
+
+      </div>
+
+      {/* RIGHT SIDE */}
+      <div className="checkout-right">
+
+        <h3>Order Summary</h3>
+
+        <div className="summary-row total">
+          <span>Total</span>
+          <span>${cartTotal.toFixed(2)}</span>
         </div>
-      )}
-    </>
-  );
+
+        <button
+          className="stripe-premium-btn magnetic"
+          onClick={handleCheckout}
+        >
+          💳 Pay with Debit / Credit Card
+        </button>
+
+        <div className="paypal-section">
+          <PayPalButtons
+            style={{
+              layout: "vertical",
+              color: "gold",
+              shape: "rect",
+              height: 50
+            }}
+            createOrder={(data, actions) =>
+              actions.order.create({
+                purchase_units: [
+                  { amount: { value: cartTotal.toFixed(2) } }
+                ]
+              })
+            }
+            onApprove={async (data, actions) => {
+              await actions.order.capture();
+              await handlePayPalSuccess(data.orderID);
+            }}
+          />
+        </div>
+
+        <div className="secure-badge">
+          🔒 Secure encrypted checkout
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+)}
+
+  </>
+);
 }
 
 export default App;

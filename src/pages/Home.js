@@ -33,7 +33,6 @@ function Stat({ number, suffix, label }) {
     );
 
     if (ref.current) observer.observe(ref.current);
-
     return () => observer.disconnect();
   }, [number]);
 
@@ -47,64 +46,57 @@ function Stat({ number, suffix, label }) {
 
 function Home({ products, addToCart }) {
   const navigate = useNavigate();
-
   const [notification, setNotification] = useState(null);
-  const [timer, setTimer] = useState(900);
-
-  /* ================= Countdown ================= */
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimer((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const formatTime = (seconds) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m}:${s < 10 ? "0" : ""}${s}`;
-  };
 
   /* ================= Fake Live Purchases ================= */
 
   useEffect(() => {
-    const names = ["Michael", "Sarah", "David", "James", "Daniel"];
-    const cities = ["New York", "Texas", "California", "Florida"];
+  const names = [
+    "Michael",
+    "Daniel",
+    "Chris",
+    "Anthony",
+    "Ryan",
+    "Brandon",
+    "Ethan",
+    "Jason"
+  ];
 
-    const interval = setInterval(() => {
-      const name = names[Math.floor(Math.random() * names.length)];
-      const city = cities[Math.floor(Math.random() * cities.length)];
+  const cities = [
+    "New York",
+    "Los Angeles",
+    "Miami",
+    "Chicago",
+    "Houston",
+    "Dallas",
+    "Phoenix",
+    "Atlanta",
+    "Las Vegas",
+    "San Diego"
+  ];
 
-      setNotification(`${name} from ${city} purchased a research compound`);
+  const interval = setInterval(() => {
+    const name = names[Math.floor(Math.random() * names.length)];
+    const city = cities[Math.floor(Math.random() * cities.length)];
 
-      setTimeout(() => setNotification(null), 4000);
-    }, 12000);
+    const messages = [
+      `${name} from ${city} just placed an order`,
+      `${name} in ${city} secured a compound`,
+      `${name} from ${city} completed a checkout`,
+      `${name} in ${city} ordered a research peptide`
+    ];
 
-    return () => clearInterval(interval);
-  }, []);
+    const randomMessage =
+      messages[Math.floor(Math.random() * messages.length)];
 
-  /* ================= Scroll Reveal ================= */
+    setNotification(randomMessage);
 
-  useEffect(() => {
-    const elements = document.querySelectorAll(".fade-in");
+    setTimeout(() => setNotification(null), 4000);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
+  }, 12000);
 
-    elements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
+  return () => clearInterval(interval);
+}, []);
 
   return (
     <div className="home-container">
@@ -117,6 +109,7 @@ function Home({ products, addToCart }) {
 
       <div className="hero">
         <div className="hero-content fade-in">
+
           <h1>Advanced Research Peptides</h1>
 
           <p className="hero-sub">
@@ -124,43 +117,45 @@ function Home({ products, addToCart }) {
             Third-party tested. Ultra-high purity. Zero compromise.
           </p>
 
-          <div className="countdown">
-            Limited Batch Ends In: {formatTime(timer)}
+          {/* ===== ELITE TRUST PANEL ===== */}
+
+          <div className="trust-panel">
+
+            <div className="trust-item elite">
+              <span className="trust-icon">🧪</span>
+              <div className="trust-content">
+                <h4>Third-Party Lab Verified</h4>
+                <p>Each batch independently tested for analytical accuracy</p>
+              </div>
+            </div>
+
+            <div className="trust-item elite">
+              <span className="trust-icon">📊</span>
+              <div className="trust-content">
+                <h4>99%+ Purity Standards</h4>
+                <p>HPLC certified compounds meeting strict research criteria</p>
+              </div>
+            </div>
+
+            <div className="trust-item elite">
+              <span className="trust-icon">🔒</span>
+              <div className="trust-content">
+                <h4>Secure Encrypted Checkout</h4>
+                <p>Enterprise-grade SSL protection</p>
+              </div>
+            </div>
+
+            <div className="trust-item elite">
+              <span className="trust-icon">🚚</span>
+              <div className="trust-content">
+                <h4>Rapid U.S. Fulfillment</h4>
+                <p>Orders processed within 24–48 hours</p>
+              </div>
+            </div>
+
           </div>
 
-          <div className="hero-cta">
-            <button
-              className="primary-btn"
-              onClick={() => navigate("/shop")}
-            >
-              View Products
-            </button>
-
-            <button
-              className="secondary-btn"
-              onClick={() => navigate("/disclaimer")}
-            >
-              Research Disclaimer
-            </button>
-          </div>
         </div>
-      </div>
-
-      {/* ================= AUTHORITY STRIP ================= */}
-
-      <div className="authority-strip fade-in">
-        <div>✔ Third-Party Lab Tested</div>
-        <div>✔ 99%+ Purity Guarantee</div>
-        <div>✔ Secure Encrypted Checkout</div>
-        <div>✔ Fast U.S. Shipping</div>
-      </div>
-
-      {/* ================= STATS ================= */}
-
-      <div className="stats-section fade-in">
-        <Stat number={10000} suffix="+" label="Orders Fulfilled" />
-        <Stat number={99} suffix="%" label="Purity Standards" />
-        <Stat number={48} suffix="h" label="Avg. Shipping Time" />
       </div>
 
       {/* ================= PRODUCTS ================= */}
@@ -182,10 +177,8 @@ function Home({ products, addToCart }) {
               </div>
             </Link>
 
-            {/* 🔥 HOVER DESCRIPTION OVERLAY */}
             <div className="card-overlay">
               <p>{product.description}</p>
-
               <button
                 disabled={product.stock === 0}
                 onClick={() => addToCart(product)}
@@ -198,55 +191,12 @@ function Home({ products, addToCart }) {
         ))}
       </div>
 
-      {/* ================= LAB PROCESS ================= */}
-
-      <div className="lab-section fade-in">
-        <h2>Our Quality Process</h2>
-
-        <div className="lab-steps">
-          <div className="lab-step">
-            <h3>01</h3>
-            <p>Synthesis & Purification</p>
-          </div>
-
-          <div className="lab-step">
-            <h3>02</h3>
-            <p>Independent HPLC Testing</p>
-          </div>
-
-          <div className="lab-step">
-            <h3>03</h3>
-            <p>Secure Packaging & Shipment</p>
-          </div>
-        </div>
-      </div>
-
-      {/* ================= TESTIMONIAL ================= */}
-
-      <div className="testimonial-section fade-in">
-        <div className="testimonial-card">
-          <p>
-            "The purity and consistency of NovaPeptide products exceeded expectations.
-            Highly reliable research-grade compounds."
-          </p>
-          <span>— Research Lab Director</span>
-        </div>
-      </div>
-
-      {/* ================= NEWSLETTER ================= */}
-
-      <div className="newsletter fade-in">
-        <h2>Stay Updated</h2>
-        <p>Be the first to know about new compounds and restocks.</p>
-        <input type="email" placeholder="Enter your email" />
-        <button>Subscribe</button>
-      </div>
-
       {/* ================= FOOTER ================= */}
 
       <footer className="premium-footer">
         © 2026 NovaPeptide Labs • Third-Party Tested • Secure Checkout • Research Use Only
       </footer>
+
     </div>
   );
 }

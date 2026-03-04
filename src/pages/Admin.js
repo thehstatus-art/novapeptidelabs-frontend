@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   LineChart,
   Line,
@@ -32,28 +32,27 @@ function Admin() {
 
   /* ================= FETCH DATA ================= */
 
-  const fetchProducts = async () => {
-    const res = await fetch(`${API}/api/products`);
-    const data = await res.json();
-    setProducts(data);
-  };
+  const fetchProducts = useCallback(async () => {
+  const res = await fetch(`${API}/api/products`);
+  const data = await res.json();
+  setProducts(data);
+}, []);
 
-  const fetchOrders = async () => {
-    const res = await fetch(`${API}/api/admin/orders`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    const data = await res.json();
-    setOrders(data);
-  };
+const fetchOrders = useCallback(async () => {
+  const res = await fetch(`${API}/api/admin/orders`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  const data = await res.json();
+  setOrders(data);
+}, [token]);
 
-  const fetchStats = async () => {
-    const res = await fetch(`${API}/api/admin/stats`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    const data = await res.json();
-    setStats(data);
-  };
-
+const fetchStats = useCallback(async () => {
+  const res = await fetch(`${API}/api/admin/stats`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  const data = await res.json();
+  setStats(data);
+}, [token]);
   useEffect(() => {
     fetchProducts();
     fetchStats();

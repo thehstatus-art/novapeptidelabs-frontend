@@ -327,7 +327,30 @@ useEffect(() => {
 
       {/* LEFT SIDE */}
       <div className="checkout-left">
+<label className="research-confirm">
+  <input
+    type="checkbox"
+    id="researchCheck"
+  />
+  I confirm these products are for laboratory research use only and
+  not for human consumption.
+</label>
 
+<button
+  className="stripe-premium-btn magnetic"
+  onClick={() => {
+    const checked = document.getElementById("researchCheck").checked;
+
+    if (!checked) {
+      alert("Please confirm research use before checkout.");
+      return;
+    }
+
+    handleCheckout();
+  }}
+>
+  💳 Pay with Debit / Credit Card
+</button>
         <button
           className="checkout-back-btn"
           onClick={() => setCheckoutOpen(false)}

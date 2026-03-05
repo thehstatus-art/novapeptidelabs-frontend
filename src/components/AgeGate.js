@@ -34,8 +34,10 @@ function AgeGate() {
         </p>
 
         <p style={text}>
-          By entering you confirm that you are at least <strong>18 years old</strong>
-          and understand these materials are <strong>NOT for human consumption</strong>.
+          <p>
+ By entering you confirm that you are at least <strong>18 years old</strong> and
+  understand these materials are <strong>NOT for human consumption</strong>.
+</p>
         </p>
 
         <div style={buttons}>

@@ -4,7 +4,7 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "@studio-freight/lenis";
 import Particles from "react-tsparticles";
-
+import AgeGate from "./components/AgeGate";
 import Header from "./components/Header";
 import ProductDetail from "./pages/ProductDetail";
 import Home from "./pages/Home";
@@ -268,6 +268,8 @@ useEffect(() => {
 
   if (loading) {
     return (
+      
+      
       <div className="loader-screen">
         <div className="loader-logo">NovaPeptide Labs</div>
       </div>
@@ -276,6 +278,7 @@ useEffect(() => {
 
   return (
   <>
+  <AgeGate />
     <div className="depth-layer"></div>
 
     <Particles

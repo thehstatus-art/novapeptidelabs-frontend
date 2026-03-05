@@ -17,7 +17,7 @@ import AdminOrders from "./pages/AdminOrders";
 import Shop from "./pages/Shop";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
-
+import ReconstitutionTool from "./pages/ReconstitutionTool";
 const API = "https://nova-backend-lu2l.onrender.com";
 const FALLBACK_IMAGE = "/no-image.png";
 
@@ -316,6 +316,7 @@ useEffect(() => {
         <Route path="/orders" element={<PageWrapper><Orders /></PageWrapper>} />
         <Route path="/admin" element={<PageWrapper><Admin /></PageWrapper>} />
         <Route path="/admin/orders" element={<PageWrapper><AdminOrders /></PageWrapper>} />
+        <Route path="/reconstitution-tool" element={<ReconstitutionTool />} />
       </Routes>
     </AnimatePresence>
 

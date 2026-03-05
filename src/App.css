@@ -1249,3 +1249,23 @@ body::after {
   margin-top:4px;
   transform:scale(1.2);
 }
+.research-section{
+margin-top:40px;
+padding:25px;
+background:rgba(8,21,35,0.9);
+border:1px solid rgba(110,193,255,0.25);
+border-radius:12px;
+}
+
+.research-links{
+margin-top:15px;
+}
+
+.research-links a{
+color:#6ec1ff;
+text-decoration:none;
+}
+
+.research-links a:hover{
+text-decoration:underline;
+}

@@ -36,13 +36,20 @@ function Header({ cart, setCheckoutOpen }) {
       </div>
 
       <nav className="nav-links">
-        <Link to="/shop" className={isActive("/shop")}>SHOP</Link>
-        <Link to="/privacy" className={isActive("/privacy")}>PRIVACY POLICY</Link>
-        <Link to="/terms" className={isActive("/terms")}>TERMS & CONDITIONS</Link>
-        <Link to="/disclaimer" className={isActive("/disclaimer")}>
-          RESEARCH USE DISCLAIMER
-        </Link>
-      </nav>
+  <Link to="/shop" className={isActive("/shop")}>SHOP</Link>
+
+  <Link to="/reconstitution-tool" className={isActive("/reconstitution-tool")}>
+    RESEARCH TOOL
+  </Link>
+
+  <Link to="/privacy" className={isActive("/privacy")}>PRIVACY POLICY</Link>
+
+  <Link to="/terms" className={isActive("/terms")}>TERMS & CONDITIONS</Link>
+
+  <Link to="/disclaimer" className={isActive("/disclaimer")}>
+    RESEARCH USE DISCLAIMER
+  </Link>
+</nav>
 
       <div className="nav-right">
         {ENABLE_AUTH && (

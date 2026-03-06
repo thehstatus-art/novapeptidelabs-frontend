@@ -71,17 +71,15 @@ function Header({ cart, setCheckoutOpen }) {
 
   {cartTotal > 0 && (
     <span className="cart-total">
-      ${cartTotal.toFixed(0)} • {itemCount}
+      ${cartTotal.toFixed(0)}
     </span>
   )}
-
 
   {itemCount > 0 && (
     <span className="cart-badge">
       {itemCount}
     </span>
   )}
-
 </button>
 
           {miniCartOpen && (

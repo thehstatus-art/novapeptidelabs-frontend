@@ -20,6 +20,9 @@ import Cancel from "./pages/Cancel";
 import ReconstitutionTool from "./pages/ReconstitutionTool";
 import Research from "./pages/Research";
 import EmailCapture from "./components/EmailCapture";
+import CompoundDatabase from "./pages/CompoundDatabase";
+import VerifyBatch from "./pages/VerifyBatch";
+import ResearchLibrary from "./pages/ResearchLibrary";
 const API = "https://nova-backend-lu2l.onrender.com";
 const FALLBACK_IMAGE = "/no-image.png";
 
@@ -324,6 +327,15 @@ useEffect(() => {
         <Route path="/admin/orders" element={<PageWrapper><AdminOrders /></PageWrapper>} />
         <Route path="/research" element={<Research />} />
         <Route path="/reconstitution-tool" element={<ReconstitutionTool />} />
+        <Route path="/verify" element={<VerifyBatch />} />
+        <Route
+  path="/research"
+  element={<ResearchLibrary products={products} />}
+/>
+        <Route
+  path="/compounds"
+  element={<CompoundDatabase products={products} />}
+/>
       </Routes>
     </AnimatePresence>
 

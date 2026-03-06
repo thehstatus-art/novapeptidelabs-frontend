@@ -50,6 +50,11 @@ function Header({ cart, setCheckoutOpen }) {
     RESEARCH USE DISCLAIMER
     <Link to="/research" className={isActive("/research")}>RESEARCH</Link>
   </Link>
+  <Link to="/compounds" className={isActive("/compounds")}>
+  COMPOUND DATABASE
+  <Link to="/verify">VERIFY BATCH</Link>
+  <Link to="/research">RESEARCH</Link>
+</Link>
 </nav>
 
       <div className="nav-right">

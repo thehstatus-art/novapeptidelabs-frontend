@@ -53,7 +53,7 @@ function App() {
   });
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-const [miniCartOpen, setMiniCartOpen] = useState(false);
+
   const cartTotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0

@@ -659,3 +659,9 @@ box-shadow:0 0 20px rgba(110,193,255,0.4);
 .research-cta:hover{
 box-shadow:0 0 40px rgba(110,193,255,0.8);
 }
+.legal-bar{
+margin-top:20px;
+font-size:12px;
+opacity:0.5;
+text-align:center;
+}

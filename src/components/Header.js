@@ -38,23 +38,17 @@ function Header({ cart, setCheckoutOpen }) {
       <nav className="nav-links">
   <Link to="/shop" className={isActive("/shop")}>SHOP</Link>
 
-  <Link to="/reconstitution-tool" className={isActive("/reconstitution-tool")}>
+  <Link to="/reconstitution" className={isActive("/reconstitution")}>
     RESEARCH TOOL
   </Link>
 
-  <Link to="/privacy" className={isActive("/privacy")}>PRIVACY POLICY</Link>
-
-  <Link to="/terms" className={isActive("/terms")}>TERMS & CONDITIONS</Link>
-
-  <Link to="/disclaimer" className={isActive("/disclaimer")}>
-    RESEARCH USE DISCLAIMER
-    <Link to="/research" className={isActive("/research")}>RESEARCH</Link>
+  <Link to="/research" className={isActive("/research")}>
+    RESEARCH
   </Link>
-  <Link to="/compounds" className={isActive("/compounds")}>
-  COMPOUND DATABASE
-  <Link to="/verify">VERIFY BATCH</Link>
-  <Link to="/research">RESEARCH</Link>
-</Link>
+
+  <Link to="/compound-library" className={isActive("/compound-library")}>
+    COMPOUND DATABASE
+  </Link>
 </nav>
 
       <div className="nav-right">

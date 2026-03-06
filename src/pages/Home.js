@@ -201,34 +201,17 @@ function Home({ products, addToCart }) {
 
   </div>
 <div className="footer-column">
-  <h5>Quick Links</h5>
-
-  <Link to="/shop">Shop</Link>
-
-  <Link to="/research">
-    Research Library
-  </Link>
-
-  <Link to="/reconstitution-tool">
-    Lab Reference Tool
-  </Link>
-
-  <Link to="/privacy">
-    Privacy Policy
-  </Link>
-
-  <Link to="/terms">
-    Terms & Conditions
-  </Link>
-
-  <Link to="/disclaimer">
-    Research Disclaimer
-  </Link>
-
+  <h5>Legal</h5>
+  <Link to="/privacy">Privacy Policy</Link>
+  <Link to="/terms">Terms & Conditions</Link>
+  <Link to="/disclaimer">Research Use Disclaimer</Link>
 </div>
   <div className="footer-bottom">
     © 2026 <span>NovaPeptide Labs</span> • Third-Party Tested • Research Use Only
   </div>
+  <div className="legal-bar">
+  All compounds are sold strictly for laboratory research purposes only.
+</div>
 
 </footer>
     </div>

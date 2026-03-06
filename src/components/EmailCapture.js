@@ -72,35 +72,43 @@ export default function EmailCapture() {
         <p className="email-sub">
           Get research updates, compound releases, and laboratory insights.
         </p>
+
         <p className="email-social">
-  🧪 Join 4,281 researchers receiving Nova updates
-</p>
+          🧪 Join 4,281 researchers receiving Nova updates
+        </p>
 
         <div className="email-form">
 
-  <input
-    type="email"
-    placeholder="Enter your email"
-    value={email}
-    onChange={(e)=>setEmail(e.target.value)}
-  />
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-  <button
-    onClick={submit}
-    disabled={loading}
-  >
-    {loading ? "Joining..." : "Join Network"}
-  </button>
+          <button
+            onClick={submit}
+            disabled={loading}
+          >
+            {loading ? "Joining..." : "Join Network"}
+          </button>
 
-</div>
+        </div>
 
-<p className="email-trust">
-Trusted by researchers worldwide.
-</p>
+        {/* FIX: message is now used */}
+        {message && (
+          <p className="email-message">
+            {message}
+          </p>
+        )}
 
-<p className="email-note">
-No spam. Research updates only.
-</p>
+        <p className="email-trust">
+          Trusted by researchers worldwide.
+        </p>
+
+        <p className="email-note">
+          No spam. Research updates only.
+        </p>
 
       </div>
 

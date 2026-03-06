@@ -314,31 +314,85 @@ useEffect(() => {
     <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
 
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageWrapper><Home products={products} addToCart={addToCart} /></PageWrapper>} />
-        <Route path="/shop" element={<PageWrapper><Shop products={products} addToCart={addToCart} /></PageWrapper>} />
-        <Route path="/product/:id" element={<PageWrapper><ProductDetail products={products} addToCart={addToCart} /></PageWrapper>} />
-        <Route path="/success" element={<PageWrapper><Success /></PageWrapper>} />
-        <Route path="/cancel" element={<PageWrapper><Cancel /></PageWrapper>} />
-        <Route path="/disclaimer" element={<PageWrapper><Disclaimer /></PageWrapper>} />
-        <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
-        <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
-        <Route path="/orders" element={<PageWrapper><Orders /></PageWrapper>} />
-        <Route path="/admin" element={<PageWrapper><Admin /></PageWrapper>} />
-        <Route path="/admin/orders" element={<PageWrapper><AdminOrders /></PageWrapper>} />
-        <Route path="/research" element={<Research />} />
-        <Route path="/reconstitution-tool" element={<ReconstitutionTool />} />
-        <Route path="/verify" element={<VerifyBatch />} />
-        <Route
-  path="/research"
-  element={<ResearchLibrary products={products} />}
-/>
-        <Route
-  path="/compounds"
-  element={<CompoundDatabase products={products} />}
-/>
-      </Routes>
-    </AnimatePresence>
+  <Routes location={location} key={location.pathname}>
+
+    <Route
+      path="/"
+      element={<PageWrapper><Home products={products} addToCart={addToCart} /></PageWrapper>}
+    />
+
+    <Route
+      path="/shop"
+      element={<PageWrapper><Shop products={products} addToCart={addToCart} /></PageWrapper>}
+    />
+
+    <Route
+      path="/product/:id"
+      element={<PageWrapper><ProductDetail products={products} addToCart={addToCart} /></PageWrapper>}
+    />
+
+    <Route
+      path="/success"
+      element={<PageWrapper><Success /></PageWrapper>}
+    />
+
+    <Route
+      path="/cancel"
+      element={<PageWrapper><Cancel /></PageWrapper>}
+    />
+
+    <Route
+      path="/disclaimer"
+      element={<PageWrapper><Disclaimer /></PageWrapper>}
+    />
+
+    <Route
+      path="/privacy"
+      element={<PageWrapper><Privacy /></PageWrapper>}
+    />
+
+    <Route
+      path="/terms"
+      element={<PageWrapper><Terms /></PageWrapper>}
+    />
+
+    <Route
+      path="/orders"
+      element={<PageWrapper><Orders /></PageWrapper>}
+    />
+
+    <Route
+      path="/admin"
+      element={<PageWrapper><Admin /></PageWrapper>}
+    />
+
+    <Route
+      path="/admin/orders"
+      element={<PageWrapper><AdminOrders /></PageWrapper>}
+    />
+
+    <Route
+      path="/research"
+      element={<PageWrapper><ResearchLibrary products={products} /></PageWrapper>}
+    />
+
+    <Route
+      path="/reconstitution-tool"
+      element={<PageWrapper><ReconstitutionTool /></PageWrapper>}
+    />
+
+    <Route
+      path="/verify"
+      element={<PageWrapper><VerifyBatch /></PageWrapper>}
+    />
+
+    <Route
+      path="/compounds"
+      element={<PageWrapper><CompoundDatabase products={products} /></PageWrapper>}
+    />
+
+  </Routes>
+</AnimatePresence>
 
     {/* ================= CHECKOUT OVERLAY ================= */}
 

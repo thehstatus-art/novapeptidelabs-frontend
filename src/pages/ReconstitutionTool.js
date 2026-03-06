@@ -25,24 +25,27 @@ export default function ReconstitutionTool() {
   const presets = [5, 10, 15, 20];
 
   return (
-    <div className="tool-page">
+  <div className="tool-page">
 
-      <div className="tool-container">
+    <div className="tool-wrapper">
 
-        <h1 className="tool-title">
-          Laboratory Reconstitution Reference Tool
-        </h1>
+      <h1 className="tool-title">
+        Laboratory Reconstitution Reference Tool
+      </h1>
 
-        <p className="tool-sub">
-          Laboratory reference calculator for determining peptide
-          concentrations and dilution values.
-        </p>
+      <p className="tool-sub">
+        This reference calculator assists laboratory researchers in determining
+        peptide solution concentrations for laboratory preparation.
+      </p>
 
-        <div className="tool-card">
+      <div className="tool-card">
 
-          {/* Peptide Amount */}
+        <div className="tool-grid">
 
-          <div className="tool-input-group">
+          {/* Peptide */}
+
+          <div className="tool-field">
+
             <label>Peptide Amount (mg)</label>
 
             <input
@@ -57,7 +60,6 @@ export default function ReconstitutionTool() {
                 <button
                   key={p}
                   onClick={()=>setPeptide(p)}
-                  className="preset-btn"
                 >
                   {p} mg
                 </button>
@@ -68,7 +70,7 @@ export default function ReconstitutionTool() {
 
           {/* Diluent */}
 
-          <div className="tool-input-group">
+          <div className="tool-field">
 
             <label>Diluent Volume (mL)</label>
 
@@ -81,113 +83,40 @@ export default function ReconstitutionTool() {
 
           </div>
 
-          {/* Concentration Result */}
-
-          {concentration && (
-
-            <div className="tool-result-box">
-
-              <div className="tool-result-label">
-                Resulting Concentration
-              </div>
-
-              <div className="tool-result">
-                {concentration.toFixed(2)} mg/mL
-              </div>
-
-              <div className="tool-result-small">
-                {(concentration*1000).toFixed(0)} mcg/mL
-              </div>
-
-            </div>
-
-          )}
-
-          {/* Dose Calculator */}
-
-          {concentration && (
-
-            <div className="tool-dose">
-
-              <h3>Dose Calculator</h3>
-
-              <label>Desired Dose (mg)</label>
-
-              <input
-                type="number"
-                placeholder="Example: 0.5"
-                value={dose}
-                onChange={(e)=>setDose(e.target.value)}
-              />
-
-              {unitsNeeded && (
-
-                <div className="tool-dose-result">
-
-                  Required Syringe Units
-
-                  <strong>
-                    {unitsNeeded} units
-                  </strong>
-
-                  <span>
-                    (100 unit insulin syringe reference)
-                  </span>
-
-                </div>
-
-              )}
-
-            </div>
-
-          )}
-
-          {/* Dilution Table */}
-
-          {!isNaN(peptideNum) && (
-
-            <div className="tool-table">
-
-              <h3>Dilution Reference Table</h3>
-
-              <table>
-
-                <thead>
-                  <tr>
-                    <th>Volume</th>
-                    <th>Concentration</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {[1,2,3,4,5].map((v)=>(
-                    <tr key={v}>
-                      <td>{v} mL</td>
-                      <td>{(peptideNum/v).toFixed(2)} mg/mL</td>
-                    </tr>
-                  ))}
-                </tbody>
-
-              </table>
-
-            </div>
-
-          )}
-
         </div>
 
-        <div className="tool-disclaimer">
+        {/* Result */}
 
-          This calculator is provided for laboratory reference purposes
-          only. All materials sold by Nova Peptide Labs are intended
-          strictly for research use and are not approved for human
-          consumption.
+        {concentration && (
 
-        </div>
+          <div className="tool-result-panel">
+
+            <div className="tool-result-label">
+              Resulting Concentration
+            </div>
+
+            <div className="tool-result-value">
+              {concentration.toFixed(2)} mg/mL
+            </div>
+
+            <div className="tool-result-sub">
+              {(concentration*1000).toFixed(0)} mcg/mL
+            </div>
+
+          </div>
+
+        )}
 
       </div>
 
-    </div>
-  );
+      <div className="tool-disclaimer">
+        This calculator is provided for laboratory reference purposes only.
+        All materials sold by Nova Peptide Labs are intended strictly for
+        research use and are not approved for human consumption.
+      </div>
 
+    </div>
+
+  </div>
+);
 }

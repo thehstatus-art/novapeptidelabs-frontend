@@ -1,10 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function ResearchLibrary({ products = [] }) {
+export default function ResearchLibrary({ products }) {
+
+  const safeProducts = Array.isArray(products) ? products : [];
 
   return (
     <div className="research-page">
+
+      {/* HERO */}
 
       <div className="research-hero">
 
@@ -17,25 +21,36 @@ export default function ResearchLibrary({ products = [] }) {
 
       </div>
 
+      {/* PRODUCTS */}
+
       <div className="research-grid">
 
-        {products.map((product) => (
+        {safeProducts.length === 0 && (
+          <p className="research-empty">
+            No research compounds available.
+          </p>
+        )}
 
+        {safeProducts.map((product) => (
           <div className="research-card" key={product._id}>
+
+            {/* HEADER */}
 
             <div className="compound-header">
               <h2>{product.name}</h2>
-              <span className="compound-badge">Research Compound</span>
+              <span className="compound-badge">
+                Research Compound
+              </span>
             </div>
 
-            {/* Compound Overview */}
+            {/* SUMMARY */}
 
             <p className="compound-summary">
               {product.description ||
-              "Peptide compound currently studied in metabolic signaling, endocrine pathways, and regenerative research models."}
+                "Peptide compound currently studied in metabolic signaling, endocrine pathways, and regenerative research models."}
             </p>
 
-            {/* Scientific Data */}
+            {/* SCIENTIFIC DATA */}
 
             <div className="compound-data">
 
@@ -67,7 +82,7 @@ export default function ResearchLibrary({ products = [] }) {
 
             </div>
 
-            {/* Research Applications */}
+            {/* RESEARCH APPLICATIONS */}
 
             <div className="compound-applications">
 
@@ -82,7 +97,7 @@ export default function ResearchLibrary({ products = [] }) {
 
             </div>
 
-            {/* Quick Decision Panel */}
+            {/* QUICK DECISION PANEL */}
 
             <div className="compound-decision">
 
@@ -103,6 +118,8 @@ export default function ResearchLibrary({ products = [] }) {
 
             </div>
 
+            {/* CTA */}
+
             <Link
               to={`/product/${product._id}`}
               className="research-cta"
@@ -111,7 +128,6 @@ export default function ResearchLibrary({ products = [] }) {
             </Link>
 
           </div>
-
         ))}
 
       </div>

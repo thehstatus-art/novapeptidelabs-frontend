@@ -895,22 +895,20 @@ font-weight:700;
 }
 /* ================= CHECKOUT PANEL ================= */
 
-.checkout-panel {
-  width: 92%;
-  max-width: 1200px;
+.checkout-panel{
+width:92%;
+max-width:1200px;
 
-  background: #081523;
-  border-radius: 28px;
-  padding: 50px;
+background:#081523;
+border-radius:28px;
+padding:60px;
 
-  display: grid;
-  grid-template-columns: 1.4fr 0.9fr; /* LEFT products | RIGHT summary */
-  gap: 60px;
+display:grid;
+grid-template-columns:1.3fr 0.9fr;
+gap:70px;
 
-  border: 1px solid rgba(110,193,255,0.15);
-  box-shadow: 0 0 80px rgba(110,193,255,0.12);
-
-  overflow: hidden;
+border:1px solid rgba(110,193,255,0.15);
+box-shadow:0 0 80px rgba(110,193,255,0.12);
 }
 .checkout-item{
 display:flex;
@@ -970,4 +968,94 @@ box-shadow:0 0 10px rgba(0,0,0,.4);
 .cart-total{
 font-weight:700;
 margin-left:6px;
+}
+.checkout-item img{
+width:90px !important;
+height:90px !important;
+object-fit:cover;
+border-radius:14px;
+flex-shrink:0;
+}
+/* ================= CHECKOUT PANEL ================= */
+
+.checkout-panel{
+width:92%;
+max-width:1200px;
+
+background:#081523;
+border-radius:28px;
+padding:60px;
+
+display:grid;
+grid-template-columns:1.3fr 0.9fr;
+gap:70px;
+
+border:1px solid rgba(110,193,255,0.15);
+box-shadow:0 0 80px rgba(110,193,255,0.12);
+}
+.checkout-item{
+display:flex;
+align-items:center;
+gap:20px;
+margin-bottom:22px;
+}
+
+.checkout-item img{
+width:90px !important;
+height:90px !important;
+object-fit:cover;
+border-radius:14px;
+flex-shrink:0;
+}
+.checkout-left{
+overflow-y:auto;
+max-height:70vh;
+}
+.checkout-back-btn{
+background:transparent;
+border:none;
+
+font-size:15px;
+font-weight:700;
+
+color:#6ec1ff;
+cursor:pointer;
+
+transition:all .25s ease;
+}
+
+.checkout-back-btn:hover{
+color:white;
+text-shadow:0 0 12px rgba(110,193,255,0.6);
+}
+.stripe-premium-btn{
+width:100%;
+padding:18px 0;
+
+font-size:16px;
+font-weight:700;
+
+border-radius:16px;
+border:none;
+
+cursor:pointer;
+
+background:linear-gradient(135deg,#4ea8ff,#6ec1ff);
+color:white;
+
+box-shadow:0 0 25px rgba(110,193,255,0.45);
+
+transition:all .3s ease;
+}
+
+.stripe-premium-btn:hover{
+transform:translateY(-3px);
+box-shadow:0 0 45px rgba(110,193,255,0.8);
+}
+@media (max-width:900px){
+
+.checkout-panel{
+grid-template-columns:1fr;
+}
+
 }

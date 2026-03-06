@@ -18,12 +18,13 @@ import Shop from "./pages/Shop";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
 import ReconstitutionTool from "./pages/ReconstitutionTool";
-
+import Checkout from "./pages/Checkout";
 import EmailCapture from "./components/EmailCapture";
 import CompoundDatabase from "./pages/CompoundDatabase";
 import VerifyBatch from "./pages/VerifyBatch";
 import ResearchLibrary from "./pages/ResearchLibrary";
 import "./App.css";
+import { useNavigate } from "react-router-dom";
 const API = "https://nova-backend-lu2l.onrender.com";
 const FALLBACK_IMAGE = "/no-image.png";
 
@@ -42,6 +43,7 @@ const PageWrapper = ({ children }) => (
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
   const spotlightRef = useRef(null);
 
   const [products, setProducts] = useState([]);
@@ -390,7 +392,21 @@ useEffect(() => {
       path="/compounds"
       element={<PageWrapper><CompoundDatabase products={products} /></PageWrapper>}
     />
-
+<Route
+  path="/checkout"
+  element={
+    <PageWrapper>
+      <Checkout
+        cart={cart}
+        cartTotal={cartTotal}
+        increaseQty={increaseQty}
+        decreaseQty={decreaseQty}
+        handleCheckout={handleCheckout}
+        handlePayPalSuccess={handlePayPalSuccess}
+      />
+    </PageWrapper>
+  }
+/>
   </Routes>
 </AnimatePresence>
 
@@ -427,11 +443,12 @@ useEffect(() => {
   💳 Pay with Debit / Credit Card
 </button>
         <button
-          className="checkout-back-btn"
-          onClick={() => setCheckoutOpen(false)}
-        >
-          ← Continue Shopping
-        </button>
+  className="checkout-back-btn"
+  onClick={() => navigate("/shop")}
+>
+  ← Continue Shopping
+</button>
+
 
         <h2 className="checkout-title">Your Cart</h2>
 

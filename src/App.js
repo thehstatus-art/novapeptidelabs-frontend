@@ -279,7 +279,11 @@ useEffect(() => {
   }
 
   return (
+  
   <>
+  <EmailCapture />
+
+  <div className="depth-layer"></div>
   <AgeGate />
     <div className="depth-layer"></div>
 

@@ -48,6 +48,7 @@ function Header({ cart, setCheckoutOpen }) {
 
   <Link to="/disclaimer" className={isActive("/disclaimer")}>
     RESEARCH USE DISCLAIMER
+    <Link to="/research" className={isActive("/research")}>RESEARCH</Link>
   </Link>
 </nav>
 

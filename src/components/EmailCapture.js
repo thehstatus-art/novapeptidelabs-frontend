@@ -61,50 +61,46 @@ export default function EmailCapture() {
   if (!show) return null;
 
   return (
-    <div className="email-overlay">
+    <div className="email-section">
 
-      <div className="email-modal">
-
-        <button
-          className="email-close"
-          onClick={() => setShow(false)}
-        >
-          ✕
-        </button>
+      <div className="email-card">
 
         <h2 className="email-title">
           Join the Nova Research Network
         </h2>
 
         <p className="email-sub">
-          Get research updates, compound releases,
-          and laboratory insights.
+          Get research updates, compound releases, and laboratory insights.
         </p>
+        <p className="email-social">
+  🧪 Join 4,281 researchers receiving Nova updates
+</p>
 
-        <input
-          className="email-input"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="email-form">
 
-        <button
-          className="email-btn"
-          onClick={submit}
-          disabled={loading}
-        >
-          {loading ? "Joining..." : "Join Network"}
-        </button>
+  <input
+    type="email"
+    placeholder="Enter your email"
+    value={email}
+    onChange={(e)=>setEmail(e.target.value)}
+  />
 
-        {message && (
-          <div className="email-message">
-            {message}
-          </div>
-        )}
+  <button
+    onClick={submit}
+    disabled={loading}
+  >
+    {loading ? "Joining..." : "Join Network"}
+  </button>
 
-        <div className="email-note">
-          No spam. Research updates only.
-        </div>
+</div>
+
+<p className="email-trust">
+Trusted by researchers worldwide.
+</p>
+
+<p className="email-note">
+No spam. Research updates only.
+</p>
 
       </div>
 

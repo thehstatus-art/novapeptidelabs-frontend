@@ -24,7 +24,7 @@ import CompoundDatabase from "./pages/CompoundDatabase";
 import VerifyBatch from "./pages/VerifyBatch";
 import ResearchLibrary from "./pages/ResearchLibrary";
 import "./App.css";
-import { useNavigate } from "react-router-dom";
+
 const API = "https://nova-backend-lu2l.onrender.com";
 const FALLBACK_IMAGE = "/no-image.png";
 

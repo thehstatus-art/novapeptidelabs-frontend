@@ -4,7 +4,7 @@ export default function ReconstitutionTool() {
 
   const [peptide, setPeptide] = useState("");
   const [volume, setVolume] = useState("");
-  const [dose] = useState("");
+
 
   const peptideNum = parseFloat(peptide);
   const volumeNum = parseFloat(volume);

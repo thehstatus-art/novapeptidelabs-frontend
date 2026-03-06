@@ -1,59 +1,110 @@
 import React, { useState, useEffect } from "react";
 
+const API = process.env.REACT_APP_API_URL;
+
 export default function EmailCapture() {
 
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-
     const timer = setTimeout(() => {
       setShow(true);
     }, 8000);
 
     return () => clearTimeout(timer);
-
   }, []);
 
-  const submit = () => {
+  const submit = async () => {
 
-    if (!email) return;
+    if (!email) {
+      setMessage("Please enter an email.");
+      return;
+    }
 
-    fetch("/api/email/subscribe", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email })
-    });
+    try {
 
-    setShow(false);
+      setLoading(true);
+
+      const res = await fetch(`${API}/api/email/subscribe`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email })
+      });
+
+      if (!res.ok) throw new Error("Subscription failed");
+
+      setMessage("You're in! Welcome to Nova Research Network.");
+      setEmail("");
+
+      setTimeout(() => {
+        setShow(false);
+      }, 2000);
+
+    } catch (err) {
+
+      console.error(err);
+      setMessage("Something went wrong. Try again.");
+
+    } finally {
+
+      setLoading(false);
+
+    }
 
   };
 
   if (!show) return null;
 
   return (
-    <div className="email-popup">
+    <div className="email-overlay">
 
-      <div className="email-box">
+      <div className="email-modal">
 
-        <h2>Join Nova Research Network</h2>
+        <button
+          className="email-close"
+          onClick={() => setShow(false)}
+        >
+          ✕
+        </button>
 
-        <p>
-          Get laboratory research updates, protocols,
-          and new compound releases.
+        <h2 className="email-title">
+          Join the Nova Research Network
+        </h2>
+
+        <p className="email-sub">
+          Get research updates, compound releases,
+          and laboratory insights.
         </p>
 
         <input
-          placeholder="Enter email"
+          className="email-input"
+          placeholder="Enter your email"
           value={email}
-          onChange={(e)=>setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
-        <button onClick={submit}>
-          Join
+        <button
+          className="email-btn"
+          onClick={submit}
+          disabled={loading}
+        >
+          {loading ? "Joining..." : "Join Network"}
         </button>
+
+        {message && (
+          <div className="email-message">
+            {message}
+          </div>
+        )}
+
+        <div className="email-note">
+          No spam. Research updates only.
+        </div>
 
       </div>
 

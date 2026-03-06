@@ -1073,27 +1073,35 @@ text-shadow:0 0 25px rgba(110,193,255,0.6);
 }
 /* RESEARCH CONFIRM BOX */
 
+/* RESEARCH CONFIRM PANEL */
+
 .research-confirm{
 display:flex;
-gap:12px;
+gap:14px;
 align-items:flex-start;
 
-background:rgba(8,21,35,0.9);
+background:linear-gradient(
+160deg,
+rgba(8,21,35,0.95),
+rgba(5,15,25,0.95)
+);
+
 border:1px solid rgba(110,193,255,0.25);
 
-padding:16px 18px;
-border-radius:12px;
+padding:18px 20px;
+border-radius:14px;
 
 font-size:14px;
-margin-bottom:22px;
+line-height:1.5;
+
+margin-bottom:24px;
 }
 
 .research-confirm input{
 transform:scale(1.3);
 accent-color:#6ec1ff;
-margin-top:3px;
+margin-top:4px;
 }
-
 .research-confirm:hover{
 border-color:rgba(110,193,255,0.6);
 box-shadow:0 0 20px rgba(110,193,255,0.2);
@@ -1105,4 +1113,132 @@ border:1px solid rgba(110,193,255,0.25);
 box-shadow:
 0 0 40px rgba(110,193,255,0.08),
 inset 0 0 20px rgba(110,193,255,0.04);
+}
+/* CHECKOUT TOTAL ROW */
+
+.summary-row.total{
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+margin:25px 0;
+padding:18px 22px;
+
+border-radius:16px;
+
+background:linear-gradient(
+160deg,
+rgba(8,21,35,0.95),
+rgba(5,15,25,0.95)
+);
+
+border:1px solid rgba(110,193,255,0.25);
+}
+
+.summary-row.total span:first-child{
+font-size:16px;
+color:#9bb3c9;
+font-weight:600;
+}
+.checkout-item{
+display:flex;
+align-items:center;
+gap:20px;
+margin-bottom:22px;
+
+padding-bottom:20px;
+border-bottom:1px solid rgba(110,193,255,0.15);
+}
+/* ================= CHECKOUT HEADER ================= */
+
+.checkout-header{
+text-align:center;
+margin-bottom:60px;
+}
+
+.checkout-header h1{
+font-size:46px;
+margin-bottom:10px;
+
+background:linear-gradient(90deg,#ffffff,#6ec1ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+text-shadow:0 0 25px rgba(110,193,255,0.5);
+}
+
+.checkout-trust{
+font-size:14px;
+opacity:.8;
+letter-spacing:.5px;
+color:#9bb3c9;
+}
+.checkout-security{
+margin-top:15px;
+font-size:13px;
+opacity:.75;
+text-align:center;
+color:#9bb3c9;
+}
+
+.checkout-cards{
+margin-top:10px;
+font-size:13px;
+text-align:center;
+color:#6ec1ff;
+opacity:.85;
+letter-spacing:1px;
+}
+/* ================= CHECKOUT SECURITY ================= */
+
+.checkout-security{
+margin-top:20px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:6px;
+font-size:13px;
+color:#9bb3c9;
+}
+
+.secure-lock{
+font-size:20px;
+color:#6ec1ff;
+
+text-shadow:0 0 15px rgba(110,193,255,0.8);
+
+animation:securePulse 2.2s infinite;
+}
+
+@keyframes securePulse{
+0%{transform:scale(1);opacity:.8}
+50%{transform:scale(1.15);opacity:1}
+100%{transform:scale(1);opacity:.8}
+}
+
+/* ================= PAYMENT METHODS ================= */
+
+.checkout-cards{
+margin-top:12px;
+
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap;
+
+font-size:13px;
+font-weight:600;
+
+color:#6ec1ff;
+}
+
+.checkout-cards span{
+padding:6px 10px;
+
+background:rgba(110,193,255,0.08);
+border:1px solid rgba(110,193,255,0.2);
+
+border-radius:8px;
+
+box-shadow:0 0 10px rgba(110,193,255,0.15);
 }

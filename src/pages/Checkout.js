@@ -13,6 +13,16 @@ export default function Checkout({
   return (
     <div className="checkout-page">
 
+      {/* HEADER */}
+
+      <div className="checkout-header">
+        <h1>Secure Checkout</h1>
+
+        <div className="checkout-trust">
+          🔒 Encrypted Payment • 💳 Stripe Secure • 🧪 Research Use Verified
+        </div>
+      </div>
+
       <div className="checkout-grid">
 
         {/* LEFT — CART ITEMS */}
@@ -58,12 +68,16 @@ export default function Checkout({
             <span>${cartTotal.toFixed(2)}</span>
           </div>
 
+          {/* CREDIT CARD BUTTON */}
+
           <button
             className="stripe-premium-btn"
             onClick={handleCheckout}
           >
             💳 Pay with Debit / Credit Card
           </button>
+
+          {/* PAYPAL */}
 
           <div className="paypal-section">
 
@@ -88,6 +102,29 @@ export default function Checkout({
             />
 
           </div>
+
+          {/* SECURITY TRUST TEXT */}
+
+          <div className="checkout-security">
+
+  <div className="secure-lock">
+    🔒
+  </div>
+
+  <p>
+    256-bit SSL encrypted checkout
+  </p>
+
+</div>
+
+<div className="checkout-cards">
+
+  <span>💳 Visa</span>
+  <span>💳 Mastercard</span>
+  <span>💳 Amex</span>
+  <span>🅿 PayPal</span>
+
+</div>
 
         </div>
 

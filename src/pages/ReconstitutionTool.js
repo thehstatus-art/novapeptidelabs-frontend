@@ -8,7 +8,7 @@ export default function ReconstitutionTool() {
 
   const peptideNum = parseFloat(peptide);
   const volumeNum = parseFloat(volume);
-  const doseNum = parseFloat(dose);
+  
 
   let concentration = null;
   

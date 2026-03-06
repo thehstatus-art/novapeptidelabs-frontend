@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "@studio-freight/lenis";
@@ -53,7 +53,7 @@ function App() {
   });
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-
+const [miniCartOpen, setMiniCartOpen] = useState(false);
   const cartTotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0

@@ -23,6 +23,7 @@ import EmailCapture from "./components/EmailCapture";
 import CompoundDatabase from "./pages/CompoundDatabase";
 import VerifyBatch from "./pages/VerifyBatch";
 import ResearchLibrary from "./pages/ResearchLibrary";
+import "./App.css";
 const API = "https://nova-backend-lu2l.onrender.com";
 const FALLBACK_IMAGE = "/no-image.png";
 

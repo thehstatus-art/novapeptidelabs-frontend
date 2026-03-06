@@ -18,7 +18,7 @@ import Shop from "./pages/Shop";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
 import ReconstitutionTool from "./pages/ReconstitutionTool";
-import Research from "./pages/Research";
+
 import EmailCapture from "./components/EmailCapture";
 import CompoundDatabase from "./pages/CompoundDatabase";
 import VerifyBatch from "./pages/VerifyBatch";

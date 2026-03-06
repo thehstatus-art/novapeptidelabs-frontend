@@ -442,13 +442,12 @@ useEffect(() => {
 >
   💳 Pay with Debit / Credit Card
 </button>
-        <button
+       <button
   className="checkout-back-btn"
-  onClick={() => navigate("/shop")}
+  onClick={() => navigate("/")}
 >
   ← Continue Shopping
 </button>
-
 
         <h2 className="checkout-title">Your Cart</h2>
 

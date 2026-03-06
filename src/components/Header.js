@@ -64,14 +64,25 @@ function Header({ cart, setCheckoutOpen }) {
 
         <div className="cart-wrapper">
           <button
-            className="cart-btn"
-            onClick={() => setMiniCartOpen(!miniCartOpen)}
-          >
-            🛒
-            {itemCount > 0 && (
-              <span className="cart-badge">{itemCount}</span>
-            )}
-          </button>
+            
+  className="cart-btn"
+  onClick={() => setMiniCartOpen(!miniCartOpen)}
+>
+  🛒
+
+  {cartTotal > 0 && (
+    <span className="cart-total">
+      ${cartTotal.toFixed(0)}
+    </span>
+  )}
+
+  {itemCount > 0 && (
+    <span className="cart-badge">
+      {itemCount}
+    </span>
+  )}
+
+</button>
 
           {miniCartOpen && (
             <div className="mini-cart">

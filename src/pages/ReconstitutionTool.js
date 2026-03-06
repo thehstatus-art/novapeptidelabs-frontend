@@ -4,23 +4,20 @@ export default function ReconstitutionTool() {
 
   const [peptide, setPeptide] = useState("");
   const [volume, setVolume] = useState("");
-  const [dose, setDose] = useState("");
+  const [dose] = useState("");
 
   const peptideNum = parseFloat(peptide);
   const volumeNum = parseFloat(volume);
   const doseNum = parseFloat(dose);
 
   let concentration = null;
-  let unitsNeeded = null;
+  
 
   if (!isNaN(peptideNum) && !isNaN(volumeNum) && volumeNum > 0) {
     concentration = peptideNum / volumeNum;
   }
 
-  if (concentration && doseNum) {
-    const mgPerUnit = concentration / 100;
-    unitsNeeded = (doseNum / mgPerUnit).toFixed(1);
-  }
+  
 
   const presets = [5, 10, 15, 20];
 

@@ -665,3 +665,8 @@ font-size:12px;
 opacity:0.5;
 text-align:center;
 }
+.cart-total{
+margin-left:8px;
+font-weight:700;
+font-size:14px;
+}

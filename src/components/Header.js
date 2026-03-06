@@ -64,7 +64,6 @@ function Header({ cart, setCheckoutOpen }) {
 
         <div className="cart-wrapper">
           <button
-            
   className="cart-btn"
   onClick={() => setMiniCartOpen(!miniCartOpen)}
 >
@@ -72,9 +71,10 @@ function Header({ cart, setCheckoutOpen }) {
 
   {cartTotal > 0 && (
     <span className="cart-total">
-      ${cartTotal.toFixed(0)}
+      ${cartTotal.toFixed(0)} • {itemCount}
     </span>
   )}
+
 
   {itemCount > 0 && (
     <span className="cart-badge">

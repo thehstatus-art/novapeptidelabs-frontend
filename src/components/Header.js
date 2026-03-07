@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 const ENABLE_AUTH = false;
 
 function Header({ cart, setCheckoutOpen }) {
+
   const location = useLocation();
   const token = localStorage.getItem("token");
 
@@ -29,32 +30,48 @@ function Header({ cart, setCheckoutOpen }) {
 
   return (
     <header className="navbar">
+
+      {/* LOGO */}
+
       <div className="logo">
         <Link to="/" className="logo-text">
           NovaPeptide <span>LABS</span>
         </Link>
       </div>
 
+
+      {/* NAVIGATION */}
+
       <nav className="nav-links">
-  <Link to="/shop" className={isActive("/shop")}>SHOP</Link>
 
-  <Link to="/reconstitution" className={isActive("/reconstitution")}>
-    RESEARCH TOOL
-  </Link>
+        <Link to="/shop" className={isActive("/shop")}>
+          SHOP
+        </Link>
 
-  <Link to="/research" className={isActive("/research")}>
-    RESEARCH
-  </Link>
+        <Link to="/reconstitution-tool" className={isActive("/reconstitution-tool")}>
+          RESEARCH TOOL
+        </Link>
 
-  <Link to="/compound-library" className={isActive("/compound-library")}>
-    COMPOUND DATABASE
-  </Link>
-</nav>
+        <Link to="/research" className={isActive("/research")}>
+          RESEARCH
+        </Link>
+
+        <Link to="/compounds" className={isActive("/compounds")}>
+          COMPOUND DATABASE
+        </Link>
+
+      </nav>
+
+
+      {/* RIGHT SIDE */}
 
       <div className="nav-right">
+
         {ENABLE_AUTH && (
           token ? (
-            <span className="user-greeting">My Account</span>
+            <span className="user-greeting">
+              My Account
+            </span>
           ) : (
             <Link to="/login" className="nav-btn">
               LOGIN / REGISTER
@@ -62,83 +79,138 @@ function Header({ cart, setCheckoutOpen }) {
           )
         )}
 
+
+        {/* CART */}
+
         <div className="cart-wrapper">
+
           <button
-  className="cart-btn"
-  onClick={() => setMiniCartOpen(!miniCartOpen)}
->
-  🛒
+            className="cart-btn"
+            onClick={() => setMiniCartOpen(!miniCartOpen)}
+          >
+            🛒
 
-  {cartTotal > 0 && (
-    <span className="cart-total">
-      ${cartTotal.toFixed(0)}
-    </span>
-  )}
+            {cartTotal > 0 && (
+              <span className="cart-total">
+                ${cartTotal.toFixed(0)}
+              </span>
+            )}
 
-  {itemCount > 0 && (
-    <span className="cart-badge">
-      {itemCount}
-    </span>
-  )}
-</button>
+            {itemCount > 0 && (
+              <span className="cart-badge">
+                {itemCount}
+              </span>
+            )}
+
+          </button>
+
+
+          {/* MINI CART DRAWER */}
 
           {miniCartOpen && (
-            <div className="mini-cart">
+            <>
+              {/* BACKGROUND OVERLAY */}
 
-              {/* Back Button */}
-              <button
-                className="mini-cart-close"
+              <div
+                className="cart-overlay"
                 onClick={() => setMiniCartOpen(false)}
-              >
-                ← Continue Shopping
-              </button>
+              />
 
-              {cart.length === 0 ? (
-                <p className="empty-cart">No products in cart.</p>
-              ) : (
-                <>
-                  {cart.slice(0, 3).map((item) => (
-                    <div key={item._id} className="mini-cart-item">
-                      <img
-                        src={getImageUrl(item.image)}
-                        alt={item.name}
-                      />
-                      <div className="mini-cart-info">
-                        <h4>{item.name}</h4>
-                        <p className="mini-cart-line">
-  <span className="mini-qty">
-    {item.quantity}×
-  </span>
-  <span className="mini-price">
-    ${(item.price * item.quantity).toFixed(2)}
-  </span>
-</p>
+              {/* DRAWER */}
+
+              <div className="mini-cart">
+
+                <button
+                  className="mini-cart-close"
+                  onClick={() => setMiniCartOpen(false)}
+                >
+                  ← Continue Shopping
+                </button>
+
+
+                {cart.length === 0 ? (
+
+                  <p className="empty-cart">
+                    No products in cart.
+                  </p>
+
+                ) : (
+
+                  <>
+
+                    {cart.slice(0,3).map((item) => (
+
+                      <div
+                        key={item._id}
+                        className="mini-cart-item"
+                      >
+
+                        <img
+                          src={getImageUrl(item.image)}
+                          alt={item.name}
+                        />
+
+                        <div className="mini-cart-info">
+
+                          <h4>{item.name}</h4>
+
+                          <p className="mini-cart-line">
+
+                            <span className="mini-qty">
+                              {item.quantity}×
+                            </span>
+
+                            <span className="mini-price">
+                              ${(item.price * item.quantity).toFixed(2)}
+                            </span>
+
+                          </p>
+
+                        </div>
+
                       </div>
+
+                    ))}
+
+
+                    {/* TOTAL */}
+
+                    <div className="mini-cart-total">
+
+                      <span>Total</span>
+
+                      <span className="mini-total-amount">
+                        ${cartTotal.toFixed(2)}
+                      </span>
+
                     </div>
-                  ))}
 
-                  <div className="mini-cart-total">
-  <span>Total</span>
-  <span className="mini-total-amount">
-    ${cartTotal.toFixed(2)}
-  </span>
-</div>
 
-                  <button
-                    className="view-cart-btn"
-                    onClick={() => {
-                      setMiniCartOpen(false);
-                      setCheckoutOpen(true);
-                    }}
-                  >
-                    View Cart
-                  </button>
-                </>
-              )}
-            </div>
+                    {/* VIEW CART */}
+
+                    <button
+                      className="view-cart-btn"
+                      onClick={() => {
+                        setMiniCartOpen(false);
+                        setCheckoutOpen(true);
+                      }}
+                    >
+                      View Cart
+                    </button>
+
+                  </>
+
+                )}
+
+              </div>
+
+            </>
           )}
+
         </div>
+
       </div>
+
     </header>
   );
 }

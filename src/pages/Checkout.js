@@ -80,7 +80,9 @@ export default function Checkout({
           {/* PAYPAL */}
 
           <div className="paypal-section">
-
+<div className="checkout-security">
+🔐 256-bit SSL encryption • Payments processed securely
+</div>
             <PayPalButtons
               style={{
                 layout: "vertical",

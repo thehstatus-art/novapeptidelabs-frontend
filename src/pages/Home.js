@@ -13,9 +13,6 @@ function Home({ products, addToCart }) {
   return (
     <div className="home-container">
 
-      {notification && (
-        <div className="live-notification">{notification}</div>
-      )}
 
       {/* ================= HERO ================= */}
 

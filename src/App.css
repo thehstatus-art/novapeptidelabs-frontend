@@ -1649,7 +1649,3 @@ text-shadow:0 0 12px rgba(110,193,255,.8);
 transform:translateX(-3px);
 
 }
-.mini-cart-close::before{
-content:"←";
-font-weight:900;
-}

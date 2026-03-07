@@ -444,7 +444,10 @@ useEffect(() => {
 </button>
        <button
   className="checkout-back-btn"
-  onClick={() => navigate("/")}
+  onClick={() => {
+    setCheckoutOpen(false);
+    navigate("/");
+  }}
 >
   ← Continue Shopping
 </button>

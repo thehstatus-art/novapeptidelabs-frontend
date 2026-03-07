@@ -1562,3 +1562,55 @@ cursor:pointer;
 
 box-shadow:0 0 25px rgba(110,193,255,.5);
 }
+/* PRODUCT PRICE */
+
+.checkout-unit-price{
+
+font-size:28px;
+font-weight:900;
+
+margin-top:12px;
+
+background:linear-gradient(
+90deg,
+#6ec1ff,
+#4ea8ff
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+text-shadow:0 0 25px rgba(110,193,255,.7);
+
+letter-spacing:.5px;
+
+}
+/* PRODUCT PRICE */
+
+.checkout-unit-price{
+
+font-size:28px;
+font-weight:900;
+
+margin-top:12px;
+
+background:linear-gradient(
+90deg,
+#6ec1ff,
+#4ea8ff
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+text-shadow:0 0 25px rgba(110,193,255,.7);
+
+letter-spacing:.5px;
+
+}
+.checkout-item-info h4{
+font-size:24px;
+font-weight:800;
+margin-bottom:10px;
+letter-spacing:.4px;
+}

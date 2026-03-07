@@ -24,7 +24,7 @@ import CompoundDatabase from "./pages/CompoundDatabase";
 import VerifyBatch from "./pages/VerifyBatch";
 import ResearchLibrary from "./pages/ResearchLibrary";
 import "./App.css";
-
+import OrderPopup from "./components/OrderPopup";
 const API = "https://nova-backend-lu2l.onrender.com";
 const FALLBACK_IMAGE = "/no-image.png";
 
@@ -288,7 +288,7 @@ useEffect(() => {
   
   <>
   <EmailCapture />
-
+  <OrderPopup />
   <div className="depth-layer"></div>
   <AgeGate />
     <div className="depth-layer"></div>

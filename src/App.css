@@ -1891,3 +1891,66 @@ box-shadow:
 inset 0 0 35px rgba(110,193,255,.08);
 
 }
+.compound-image{
+
+width:100%;
+height:160px;
+
+object-fit:contain;
+
+margin-bottom:20px;
+
+border-radius:12px;
+
+background:rgba(110,193,255,.05);
+
+padding:12px;
+
+}
+.compound-card h3{
+
+font-size:22px;
+font-weight:800;
+
+margin-bottom:18px;
+
+color:#ffffff;
+
+}
+.compound-data{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:16px;
+
+margin-top:10px;
+
+}
+
+/* labels */
+
+.compound-data span{
+
+font-size:12px;
+
+letter-spacing:.5px;
+
+color:#7fa3c4;
+
+}
+
+/* values */
+
+.compound-data p{
+
+font-size:15px;
+
+font-weight:700;
+
+margin-top:4px;
+
+color:white;
+
+}

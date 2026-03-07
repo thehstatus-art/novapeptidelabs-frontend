@@ -4,57 +4,11 @@ import { Link } from "react-router-dom";
 
 function Home({ products, addToCart }) {
   
-  const [notification, setNotification] = useState(null);
+ 
 
   /* ================= Fake Live Purchases ================= */
 
-  useEffect(() => {
-  const names = [
-    "Michael",
-    "Daniel",
-    "Chris",
-    "Anthony",
-    "Ryan",
-    "Brandon",
-    "Ethan",
-    "Jason"
-  ];
-
-  const cities = [
-    "New York",
-    "Los Angeles",
-    "Miami",
-    "Chicago",
-    "Houston",
-    "Dallas",
-    "Phoenix",
-    "Atlanta",
-    "Las Vegas",
-    "San Diego"
-  ];
-
-  const interval = setInterval(() => {
-    const name = names[Math.floor(Math.random() * names.length)];
-    const city = cities[Math.floor(Math.random() * cities.length)];
-
-    const messages = [
-      `${name} from ${city} just placed an order`,
-      `${name} in ${city} secured a compound`,
-      `${name} from ${city} completed a checkout`,
-      `${name} in ${city} ordered a research peptide`
-    ];
-
-    const randomMessage =
-      messages[Math.floor(Math.random() * messages.length)];
-
-    setNotification(randomMessage);
-
-    setTimeout(() => setNotification(null), 4000);
-
-  }, 12000);
-
-  return () => clearInterval(interval);
-}, []);
+  
 
   return (
     <div className="home-container">

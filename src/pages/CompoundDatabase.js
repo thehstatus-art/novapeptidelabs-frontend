@@ -16,35 +16,45 @@ export default function CompoundDatabase({ products = [] }) {
       <div className="compound-grid">
 
         {products.map((product) => (
-          <Link
-            key={product._id}
-            to={`/product/${product._id}`}
-            className="compound-card"
-          >
+  <Link
+    key={product._id}
+    to={`/product/${product._id}`}
+    className="compound-card"
+  >
 
-            <h3>{product.name}</h3>
+    <img
+      src={
+        product.image && product.image.startsWith("http")
+          ? product.image
+          : "/no-image.png"
+      }
+      alt={product.name}
+      className="compound-image"
+    />
 
-            <div className="compound-data">
+    <h3>{product.name}</h3>
 
-              <div>
-                <span>Molecular Weight</span>
-                <p>{product.molecularWeight || "N/A"}</p>
-              </div>
+    <div className="compound-data">
 
-              <div>
-                <span>Formula</span>
-                <p>{product.formula || "N/A"}</p>
-              </div>
+      <div>
+        <span>Molecular Weight</span>
+        <p>{product.molecularWeight || "N/A"}</p>
+      </div>
 
-              <div>
-                <span>Storage</span>
-                <p>{product.storage || "N/A"}</p>
-              </div>
+      <div>
+        <span>Formula</span>
+        <p>{product.formula || "N/A"}</p>
+      </div>
 
-            </div>
+      <div>
+        <span>Storage</span>
+        <p>{product.storage || "N/A"}</p>
+      </div>
 
-          </Link>
-        ))}
+    </div>
+
+  </Link>
+))}
 
       </div>
 

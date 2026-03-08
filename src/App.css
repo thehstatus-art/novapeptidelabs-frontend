@@ -1954,3 +1954,19 @@ margin-top:4px;
 color:white;
 
 }
+.checkout-right{
+position: sticky;
+top:120px;
+
+align-self:flex-start;
+
+background:rgba(8,21,35,0.9);
+padding:28px;
+border-radius:18px;
+
+border:1px solid rgba(110,193,255,0.25);
+
+box-shadow:
+0 0 40px rgba(110,193,255,0.08),
+inset 0 0 20px rgba(110,193,255,0.04);
+}

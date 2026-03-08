@@ -480,12 +480,12 @@ useEffect(() => {
         <button
   className="stripe-premium-btn magnetic"
   onClick={() => {
-    const checked = document.getElementById("researchCheck").checked;
+    const confirmBox = document.getElementById("research-confirm");
 
-    if (!checked) {
-      alert("Please confirm research use before checkout.");
-      return;
-    }
+if (!confirmBox || !confirmBox.checked) {
+  alert("Please confirm research use before checkout.");
+  return;
+}
 
     handleCheckout();
   }}

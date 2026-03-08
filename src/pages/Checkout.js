@@ -69,7 +69,12 @@ export default function Checkout({
           </div>
 
           {/* CREDIT CARD BUTTON */}
+{/* RESEARCH CONFIRMATION */}
 
+<label className="research-confirm">
+  <input type="checkbox" id="research-confirm" />
+  I confirm these products are purchased for laboratory research purposes only and not for human consumption.
+</label>
           <button
             className="stripe-premium-btn"
             onClick={handleCheckout}

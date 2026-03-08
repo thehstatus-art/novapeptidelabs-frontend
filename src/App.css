@@ -924,8 +924,7 @@ border-radius:12px;
 flex-shrink:0;
 }
 .checkout-left{
-overflow-y:auto;
-max-height:70vh;
+overflow:visible;
 }
 @media (max-width: 900px){
 
@@ -934,7 +933,11 @@ grid-template-columns:1fr;
 }
 
 .checkout-right{
-width:100%;
+position:sticky;
+top:120px;
+
+align-self:flex-start;
+height:fit-content;
 }
 
 }

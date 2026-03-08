@@ -53,7 +53,7 @@ function App() {
   });
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-
+const [researchConfirmed, setResearchConfirmed] = useState(false);
   const cartTotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -469,65 +469,67 @@ useEffect(() => {
       </div>
 
       {/* RIGHT SIDE */}
-      <div className="checkout-right">
+<div className="checkout-right">
 
-        <h3>Order Summary</h3>
+  <h3>Order Summary</h3>
 
-        <div className="summary-row total">
-          <span>Total</span>
-          <span>${cartTotal.toFixed(2)}</span>
-        </div>
-        <button
-  className="stripe-premium-btn magnetic"
-  onClick={() => {
-    const confirmBox = document.getElementById("research-confirm");
+  <div className="summary-row total">
+    <span>Total</span>
+    <span>${cartTotal.toFixed(2)}</span>
+  </div>
 
-if (!confirmBox || !confirmBox.checked) {
-  alert("Please confirm research use before checkout.");
-  return;
-}
+  {/* Research Confirmation */}
+  <label className="research-confirm">
+    <input
+      type="checkbox"
+      checked={researchConfirmed}
+      onChange={(e) => setResearchConfirmed(e.target.checked)}
+    />
+    I confirm these products are for laboratory research use only and not for human consumption.
+  </label>
 
-    handleCheckout();
-  }}
->
-  💳 Pay with Debit / Credit Card
-</button>
+  {/* Stripe Checkout */}
+  <button
+    className="stripe-premium-btn magnetic"
+    onClick={() => {
+      if (!researchConfirmed) {
+        alert("Please confirm research use before checkout.");
+        return;
+      }
+      handleCheckout();
+    }}
+  >
+    💳 Pay with Debit / Credit Card
+  </button>
 
-        <button
-          className="stripe-premium-btn magnetic"
-          onClick={handleCheckout}
-        >
-          💳 Pay with Debit / Credit Card
-        </button>
+  {/* PayPal */}
+  <div className="paypal-section">
+    <PayPalButtons
+      style={{
+        layout: "vertical",
+        color: "gold",
+        shape: "rect",
+        height: 50
+      }}
+      createOrder={(data, actions) =>
+        actions.order.create({
+          purchase_units: [
+            { amount: { value: cartTotal.toFixed(2) } }
+          ]
+        })
+      }
+      onApprove={async (data, actions) => {
+        await actions.order.capture();
+        await handlePayPalSuccess(data.orderID);
+      }}
+    />
+  </div>
 
-        <div className="paypal-section">
-          <PayPalButtons
-            style={{
-              layout: "vertical",
-              color: "gold",
-              shape: "rect",
-              height: 50
-            }}
-            createOrder={(data, actions) =>
-              actions.order.create({
-                purchase_units: [
-                  { amount: { value: cartTotal.toFixed(2) } }
-                ]
-              })
-            }
-            onApprove={async (data, actions) => {
-              await actions.order.capture();
-              await handlePayPalSuccess(data.orderID);
-            }}
-          />
-        </div>
+  <div className="secure-badge">
+    🔒 Secure encrypted checkout
+  </div>
 
-        <div className="secure-badge">
-          🔒 Secure encrypted checkout
-        </div>
-
-      </div>
-
+</div>
     </div>
   </div>
 )}

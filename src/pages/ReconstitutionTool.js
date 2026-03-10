@@ -5,7 +5,7 @@ export default function ReconstitutionTool() {
   const [peptide, setPeptide] = useState("");
   const [volume, setVolume] = useState("");
   const [dose, setDose] = useState("");
-
+  const [search, setSearch] = useState("");
   const peptideNum = parseFloat(peptide);
   const volumeNum = parseFloat(volume);
   const doseNum = parseFloat(dose);
@@ -29,6 +29,7 @@ export default function ReconstitutionTool() {
 
   }
 const compoundPresets = [
+  
 
 { name: "Retatrutide", vial: 10, bac: 2, dose: 2 },
 { name: "Tesamorelin", vial: 10, bac: 2, dose: 1 },
@@ -40,6 +41,9 @@ const compoundPresets = [
 { name: "Glutathione", vial: 600, bac: 3, dose: 100 }
 
 ];
+const filteredCompounds = compoundPresets.filter(c =>
+  c.name.toLowerCase().includes(search.toLowerCase())
+);
   const presets = [5, 10, 15, 20];
 
   return (
@@ -62,7 +66,7 @@ const compoundPresets = [
 
   <div className="preset-compounds">
 
-    {compoundPresets.map((c)=>(
+    {filteredCompounds.map((c)=>(
      <button
 className="compound-card-btn"
 key={c.name}
@@ -179,7 +183,41 @@ onClick={()=>setVolume(v)}
 <div>100 units = 1 mL</div>
 
 </div>
+{concentration && (
 
+<div className="reconstitution-visual">
+
+<div className="visual-block">
+
+<div className="vial"></div>
+
+<span>{peptideNum} mg vial</span>
+
+</div>
+
+<div className="visual-plus">+</div>
+
+<div className="visual-block">
+
+<div className="bac"></div>
+
+<span>{volumeNum} mL BAC</span>
+
+</div>
+
+<div className="visual-arrow">→</div>
+
+<div className="visual-block">
+
+<div className="solution"></div>
+
+<span>{concentration.toFixed(2)} mg/mL</span>
+
+</div>
+
+</div>
+
+)}
 </div>
               <div className="tool-result-label">
                 Solution Concentration

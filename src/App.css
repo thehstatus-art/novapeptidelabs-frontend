@@ -271,26 +271,32 @@ padding:10px 18px;
 
 border-radius:14px;
 
-background:linear-gradient(
-160deg,
-rgba(8,21,35,.95),
-rgba(5,15,25,.95)
-);
+background:#081523;
 
 border:1px solid rgba(110,193,255,.25);
 
 font-size:13px;
-font-weight:700;
+font-weight:600;
 
 color:#cfe7ff;
 
 cursor:pointer;
 
-box-shadow:
-0 0 20px rgba(110,193,255,.12),
-inset 0 0 10px rgba(110,193,255,.05);
+box-shadow:0 8px 20px rgba(0,0,0,.35);
 
 transition:all .25s ease;
+
+}
+
+.preset-compounds button:hover{
+
+transform:translateY(-2px);
+
+border-color:rgba(110,193,255,.5);
+
+background:rgba(110,193,255,.05);
+
+box-shadow:0 12px 25px rgba(0,0,0,.4);
 
 }
 

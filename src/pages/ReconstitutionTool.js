@@ -106,16 +106,29 @@ const compoundPresets = [
 
             <div className="tool-field">
 
-              <label>Bacteriostatic Water (mL)</label>
+<label>Bacteriostatic Water (mL)</label>
 
-              <input
-                type="number"
-                placeholder="Example: 2"
-                value={volume}
-                onChange={(e)=>setVolume(e.target.value)}
-              />
+<input
+type="number"
+placeholder="Example: 2"
+value={volume}
+onChange={(e)=>setVolume(e.target.value)}
+/>
 
-            </div>
+<div className="preset-buttons">
+
+{[1,2,3,5].map((v)=>(
+<button
+key={v}
+onClick={()=>setVolume(v)}
+>
+{v} mL
+</button>
+))}
+
+</div>
+
+</div>
 
             {/* Dose */}
 

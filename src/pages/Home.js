@@ -101,7 +101,7 @@ function Home({ products, addToCart }) {
             </Link>
 
             <div className="card-overlay">
-              <p>{product.description}</p>
+              
               <button
                 disabled={product.stock === 0}
                 onClick={() => addToCart(product)}

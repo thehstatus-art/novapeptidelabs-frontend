@@ -320,7 +320,54 @@ are not approved for human consumption or medical use.
 </p>
 
 </div>
+<div className="research-guide">
 
+<h2>Peptide Reconstitution Guide</h2>
+
+<p>
+Peptide reconstitution refers to the laboratory process of dissolving
+lyophilized peptides using bacteriostatic water or other sterile
+diluents. Accurate reconstitution ensures correct solution
+concentration and consistent laboratory measurements.
+</p>
+
+<div className="guide-grid">
+
+<div className="guide-step">
+<h4>Step 1 — Add Diluent</h4>
+<p>
+Introduce bacteriostatic water slowly along the inside wall of the vial
+to prevent peptide degradation or foaming.
+</p>
+</div>
+
+<div className="guide-step">
+<h4>Step 2 — Allow Dissolution</h4>
+<p>
+Let the peptide dissolve naturally without shaking the vial.
+Most compounds dissolve within several minutes.
+</p>
+</div>
+
+<div className="guide-step">
+<h4>Step 3 — Calculate Concentration</h4>
+<p>
+Divide the total peptide amount (mg) by the diluent volume (mL)
+to determine final solution concentration.
+</p>
+</div>
+
+<div className="guide-step">
+<h4>Step 4 — Determine Dose</h4>
+<p>
+Use the calculator above to determine injection volume and insulin
+syringe units required for a specific laboratory dose.
+</p>
+</div>
+
+</div>
+
+</div>
 </div>
 
       </div>

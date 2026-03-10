@@ -2477,3 +2477,83 @@ color:#6ec1ff;
 font-size:16px;
 
 }
+/* ================= RESEARCH GUIDE ================= */
+
+.research-guide{
+
+margin-top:80px;
+
+padding:40px;
+
+border-radius:22px;
+
+background:linear-gradient(
+160deg,
+rgba(8,21,35,.95),
+rgba(5,15,25,.95)
+);
+
+border:1px solid rgba(110,193,255,.3);
+
+box-shadow:
+0 0 50px rgba(110,193,255,.12),
+inset 0 0 30px rgba(110,193,255,.05);
+
+}
+
+.research-guide h2{
+
+font-size:28px;
+
+margin-bottom:12px;
+
+background:linear-gradient(90deg,#ffffff,#6ec1ff);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+}
+
+.research-guide p{
+
+color:#9bb3c9;
+
+line-height:1.6;
+
+margin-bottom:30px;
+
+}
+
+/* steps */
+
+.guide-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+gap:25px;
+
+}
+
+.guide-step{
+
+padding:20px;
+
+border-radius:14px;
+
+background:rgba(110,193,255,.05);
+
+border:1px solid rgba(110,193,255,.2);
+
+}
+
+.guide-step h4{
+
+color:#6ec1ff;
+
+margin-bottom:6px;
+
+font-size:16px;
+
+}

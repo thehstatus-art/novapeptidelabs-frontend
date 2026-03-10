@@ -77,7 +77,15 @@ function Home({ products, addToCart }) {
               to={`/product/${product._id}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <img src={product.image} alt={product.name} />
+              <div className="product-image-wrapper">
+
+  <img src={product.image} alt={product.name} />
+
+  <span className="purity-stamp">
+    99%+ Purity
+  </span>
+
+</div>
 
               <div className="card-body">
 
@@ -90,8 +98,22 @@ function Home({ products, addToCart }) {
   </h3>
 
   <p className="product-summary">
-    {product.description}
+    {product.description
+      ? product.description.charAt(0).toUpperCase() + product.description.slice(1)
+      : ""}
   </p>
+
+  <div className="product-meta">
+
+    <span className="lab-badge">
+      Lab Tested
+    </span>
+
+    <span className="coa-badge">
+      COA Verified
+    </span>
+
+  </div>
 
   <p className="product-price">
     ${product.price.toFixed(2)}

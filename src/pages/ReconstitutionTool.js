@@ -216,19 +216,41 @@ onClick={()=>setVolume(v)}
 )}
 {syringeUnits && (
 
-<div className="syringe-visual">
+<div className="syringe-3d-container">
 
-<div className="syringe-bar">
+<div className="syringe-body">
+
+<div className="syringe-scale">
+
+<span>0</span>
+<span>25</span>
+<span>50</span>
+<span>75</span>
+<span>100</span>
+
+</div>
+
+<div className="syringe-tube">
 
 <div
-className="syringe-fill"
+className="syringe-fluid"
 style={{ width: `${Math.min(syringeUnits,100)}%` }}
 ></div>
 
 </div>
 
-<div className="syringe-label">
-{syringeUnits.toFixed(0)} units on insulin syringe
+<div className="syringe-needle"></div>
+
+</div>
+
+<div className="syringe-readout">
+
+<strong>{syringeUnits.toFixed(0)} units</strong>
+
+<span>
+{doseVolume.toFixed(2)} mL injection volume
+</span>
+
 </div>
 
 </div>

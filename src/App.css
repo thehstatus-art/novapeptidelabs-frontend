@@ -2557,3 +2557,80 @@ margin-bottom:6px;
 font-size:16px;
 
 }
+/* ================= COMPOUND PRESET CARDS ================= */
+
+.preset-compounds{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+
+gap:14px;
+
+margin-top:12px;
+
+}
+
+.compound-card-btn{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:flex-start;
+
+padding:14px 16px;
+
+border-radius:14px;
+
+background:linear-gradient(
+160deg,
+rgba(8,21,35,.95),
+rgba(5,15,25,.95)
+);
+
+border:1px solid rgba(110,193,255,.25);
+
+cursor:pointer;
+
+color:white;
+
+text-align:left;
+
+box-shadow:
+0 0 25px rgba(110,193,255,.12),
+inset 0 0 10px rgba(110,193,255,.05);
+
+transition:all .25s ease;
+
+}
+
+.compound-card-btn strong{
+
+font-size:15px;
+
+margin-bottom:4px;
+
+color:#6ec1ff;
+
+}
+
+.compound-dose{
+
+font-size:12px;
+
+color:#9bb3c9;
+
+}
+
+.compound-card-btn:hover{
+
+transform:translateY(-3px);
+
+border-color:#6ec1ff;
+
+box-shadow:
+0 0 45px rgba(110,193,255,.5),
+inset 0 0 15px rgba(110,193,255,.1);
+
+}

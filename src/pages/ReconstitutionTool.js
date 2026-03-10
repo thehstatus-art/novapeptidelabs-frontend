@@ -29,11 +29,16 @@ export default function ReconstitutionTool() {
 
   }
 const compoundPresets = [
-  { name: "Retatrutide", vial: 10, bac: 2 },
-  { name: "Tesamorelin", vial: 10, bac: 2 },
-  { name: "BPC-157", vial: 10, bac: 2 },
-  { name: "MOTS-c", vial: 10, bac: 2 },
-  { name: "DSIP", vial: 5, bac: 2 }
+
+{ name: "Retatrutide", vial: 10, bac: 2, dose: 2 },
+{ name: "Tesamorelin", vial: 10, bac: 2, dose: 1 },
+{ name: "BPC-157", vial: 10, bac: 2, dose: 0.25 },
+{ name: "MOTS-c", vial: 10, bac: 2, dose: 5 },
+{ name: "DSIP", vial: 5, bac: 2, dose: 0.1 },
+
+{ name: "5-Amino-1MQ", vial: 50, bac: 2, dose: 5 },
+{ name: "Glutathione", vial: 600, bac: 3, dose: 100 }
+
 ];
   const presets = [5, 10, 15, 20];
 
@@ -58,15 +63,23 @@ const compoundPresets = [
   <div className="preset-compounds">
 
     {compoundPresets.map((c)=>(
-      <button
-        key={c.name}
-        onClick={()=>{
-          setPeptide(c.vial);
-          setVolume(c.bac);
-        }}
-      >
-        {c.name}
-      </button>
+     <button
+className="compound-card-btn"
+key={c.name}
+onClick={()=>{
+setPeptide(c.vial)
+setVolume(c.bac)
+setDose(c.dose)
+}}
+>
+
+<strong>{c.name}</strong>
+
+<span className="compound-dose">
+Typical Dose: {c.dose} mg
+</span>
+
+</button>
     ))}
 
   </div>

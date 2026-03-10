@@ -371,55 +371,49 @@ are not approved for human consumption or medical use.
 </p>
 
 </div>
+
+</div>
+
+{/* ADD THE GUIDE HERE */}
+
 <div className="research-guide">
 
 <h2>Peptide Reconstitution Guide</h2>
 
 <p>
-Peptide reconstitution refers to the laboratory process of dissolving
-lyophilized peptides using bacteriostatic water or other sterile
-diluents. Accurate reconstitution ensures correct solution
-concentration and consistent laboratory measurements.
+Reconstitution refers to the process of dissolving a lyophilized peptide powder
+using a sterile diluent such as bacteriostatic water to create a usable
+laboratory solution. This tool assists researchers in determining proper
+concentration and injection volume calculations.
 </p>
 
 <div className="guide-grid">
 
 <div className="guide-step">
-<h4>Step 1 — Add Diluent</h4>
-<p>
-Introduce bacteriostatic water slowly along the inside wall of the vial
-to prevent peptide degradation or foaming.
-</p>
+<h4>Step 1</h4>
+<p>Determine the peptide quantity contained in the vial.</p>
 </div>
 
 <div className="guide-step">
-<h4>Step 2 — Allow Dissolution</h4>
-<p>
-Let the peptide dissolve naturally without shaking the vial.
-Most compounds dissolve within several minutes.
-</p>
+<h4>Step 2</h4>
+<p>Add bacteriostatic water to the vial slowly along the inside wall.</p>
 </div>
 
 <div className="guide-step">
-<h4>Step 3 — Calculate Concentration</h4>
-<p>
-Divide the total peptide amount (mg) by the diluent volume (mL)
-to determine final solution concentration.
-</p>
+<h4>Step 3</h4>
+<p>Allow the solution to dissolve completely without shaking.</p>
 </div>
 
 <div className="guide-step">
-<h4>Step 4 — Determine Dose</h4>
-<p>
-Use the calculator above to determine injection volume and insulin
-syringe units required for a specific laboratory dose.
-</p>
+<h4>Step 4</h4>
+<p>Use the calculator above to determine concentration and dose volume.</p>
 </div>
 
 </div>
 
 </div>
-</div>
+
+
 
       </div>
 

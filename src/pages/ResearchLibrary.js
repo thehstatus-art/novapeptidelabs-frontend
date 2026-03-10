@@ -190,6 +190,26 @@ models within controlled laboratory environments.`}
 
               </div>
 
+              {/* COMPOUND METRICS */}
+              <div className="compound-metrics">
+
+                <div className="metric-box">
+                  <span>Lab Grade</span>
+                  <p>Research</p>
+                </div>
+
+                <div className="metric-box">
+                  <span>Purity</span>
+                  <p>≥99%</p>
+                </div>
+
+                <div className="metric-box">
+                  <span>Storage</span>
+                  <p>-20°C</p>
+                </div>
+
+              </div>
+
               {/* RESEARCH SCORE */}
               <div className="research-score">
 
@@ -198,7 +218,7 @@ models within controlled laboratory environments.`}
                   <div className="score-bar">
                     <div
                       className="score-fill"
-                      style={{ width: `${70 + Math.random() * 20}%` }}
+                      style={{ width: `${80 + Math.random() * 15}%` }}
                     ></div>
                   </div>
                 </div>
@@ -206,7 +226,20 @@ models within controlled laboratory environments.`}
                 <div className="score-row">
                   <span>Stability</span>
                   <div className="score-bar">
-                    <div className="score-fill" style={{ width: "70%" }}></div>
+                    <div
+                      className="score-fill"
+                      style={{ width: `${60 + Math.random() * 20}%` }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div className="score-row">
+                  <span>Research Demand</span>
+                  <div className="score-bar">
+                    <div
+                      className="score-fill"
+                      style={{ width: `${70 + Math.random() * 20}%` }}
+                    ></div>
                   </div>
                 </div>
 

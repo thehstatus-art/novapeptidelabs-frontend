@@ -209,6 +209,28 @@ onClick={()=>setVolume(v)}
 
 </div>
 
+
+</div>
+
+
+)}
+{syringeUnits && (
+
+<div className="syringe-visual">
+
+<div className="syringe-bar">
+
+<div
+className="syringe-fill"
+style={{ width: `${Math.min(syringeUnits,100)}%` }}
+></div>
+
+</div>
+
+<div className="syringe-label">
+{syringeUnits.toFixed(0)} units on insulin syringe
+</div>
+
 </div>
 
 )}

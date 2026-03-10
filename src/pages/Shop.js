@@ -1,24 +1,82 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const FALLBACK_IMAGE = "/no-image.png";
 
 function Shop({ products = [], addToCart }) {
+
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("all");
+
+  const categories = [
+    "all",
+    "metabolic",
+    "regenerative",
+    "growth-hormone",
+    "antioxidant",
+    "sleep",
+    "experimental"
+  ];
+
+  const filteredProducts = products.filter((product) => {
+
+    const matchesSearch =
+      product.name.toLowerCase().includes(search.toLowerCase());
+
+    const matchesCategory =
+      category === "all" || product.category === category;
+
+    return matchesSearch && matchesCategory;
+
+  });
+
   return (
     <div style={{ padding: "40px" }}>
-      <h1 style={{ marginBottom: "30px" }}>
-        Shop Research Compounds
-      </h1>
+
+      <h1>Shop Research Compounds</h1>
+
+      {/* SEARCH BAR */}
+
+      <div className="shop-search">
+
+        <input
+          type="text"
+          placeholder="Search compounds..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+      </div>
+
+      {/* CATEGORY FILTER */}
+
+      <div className="shop-filters">
+
+        {categories.map((cat) => (
+
+          <button
+            key={cat}
+            className={`filter-btn ${category === cat ? "active" : ""}`}
+            onClick={() => setCategory(cat)}
+          >
+            {cat.toUpperCase()}
+          </button>
+
+        ))}
+
+      </div>
+
+      {/* PRODUCT GRID */}
 
       <div className="product-grid fade-in">
 
-        {products.length === 0 ? (
+        {filteredProducts.length === 0 ? (
 
-          <p>Loading products...</p>
+          <p>No compounds found.</p>
 
         ) : (
 
-          products.map((product) => {
+          filteredProducts.map((product) => {
 
             const imageUrl =
               product.image && product.image.startsWith("http")
@@ -87,11 +145,13 @@ function Shop({ products = [], addToCart }) {
               </div>
 
             );
+
           })
 
         )}
 
       </div>
+
     </div>
   );
 }

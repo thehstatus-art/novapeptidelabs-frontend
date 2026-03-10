@@ -78,50 +78,45 @@ function ProductDetail() {
 
       </div>
 
-      {/* SCIENTIFIC DATA */}
+      {/* ADVANCED RESEARCH DATA */}
 
-      <div className="compound-science-grid">
+<div className="compound-science-grid">
 
-        <div className="science-card">
+  <div className="science-card">
 
-          <h3>Scientific Data</h3>
+    <h3>Molecular Characteristics</h3>
 
-          <div className="science-row">
-            <span>Purity</span>
-            <p>{product.specifications?.purity || "≥99%"}</p>
-          </div>
+    <div className="science-row">
+      <span>Molecular Weight</span>
+      <p>{product.specifications?.weight || "Research Data"}</p>
+    </div>
 
-          <div className="science-row">
-            <span>Batch Number</span>
-            <p>{product.batchNumber || "Research Batch"}</p>
-          </div>
+    <div className="science-row">
+      <span>Chemical Formula</span>
+      <p>{product.specifications?.formula || "Peptide Chain"}</p>
+    </div>
 
-          <div className="science-row">
-            <span>Storage</span>
-            <p>-20°C recommended</p>
-          </div>
+    <div className="science-row">
+      <span>Half-Life (Research)</span>
+      <p>{product.specifications?.halfLife || "Under investigation"}</p>
+    </div>
 
-          <div className="science-row">
-            <span>Grade</span>
-            <p>Research Grade</p>
-          </div>
+  </div>
 
-        </div>
+  <div className="science-card">
 
-        <div className="science-card">
+    <h3>Mechanism of Action</h3>
 
-          <h3>Primary Research Areas</h3>
+    <p className="mechanism-text">
 
-          <ul>
-            <li>Metabolic regulation studies</li>
-            <li>Endocrine receptor signaling</li>
-            <li>Growth hormone pathway research</li>
-            <li>Cellular regeneration models</li>
-          </ul>
+      {product.mechanism ||
+        "This peptide is currently being studied for its ability to influence metabolic pathways, receptor signaling cascades, and cellular regeneration models in laboratory environments."}
 
-        </div>
+    </p>
 
-      </div>
+  </div>
+
+</div>
 
       {/* DISCLAIMER */}
 

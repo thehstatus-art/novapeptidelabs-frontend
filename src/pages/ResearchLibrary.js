@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Particles from "react-tsparticles";
 
 export default function ResearchLibrary({ products }) {
 
@@ -22,38 +23,48 @@ export default function ResearchLibrary({ products }) {
   return (
     <div className="research-page">
 
-      {/* MOLECULE BACKGROUND */}
+      <Particles
+        options={{
+          background: { color: { value: "transparent" } },
+          particles: {
+            number: { value: 40 },
+            size: { value: 2 },
+            move: { enable: true, speed: 0.5 },
+            links: {
+              enable: true,
+              distance: 120,
+              color: "#6ec1ff",
+              opacity: 0.15,
+              width: 1
+            },
+            color: { value: "#6ec1ff" }
+          }
+        }}
+      />
 
+      {/* MOLECULE BACKGROUND */}
       <div className="molecule-bg"></div>
 
       {/* HERO */}
-
       <div className="research-hero">
-
         <h1>Peptide Research Library</h1>
-
         <p>
           Scientific reference database covering laboratory research
           compounds, mechanisms of action, and analytical specifications.
         </p>
-
       </div>
 
       {/* SEARCH */}
-
       <div className="research-search">
-
         <input
           type="text"
           placeholder="Search peptide compounds..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-
       </div>
 
       {/* FILTERS */}
-
       <div className="research-filters">
 
         <button
@@ -87,7 +98,6 @@ export default function ResearchLibrary({ products }) {
       </div>
 
       {/* PRODUCTS */}
-
       <div className="research-grid">
 
         {filteredProducts.length === 0 && (
@@ -108,7 +118,6 @@ export default function ResearchLibrary({ products }) {
             <div className="research-card" key={product._id}>
 
               {/* IMAGE */}
-
               <div className="compound-image-wrapper">
 
                 <img
@@ -128,28 +137,35 @@ export default function ResearchLibrary({ products }) {
               </div>
 
               {/* HEADER */}
-
               <div className="compound-header">
-
                 <h2>{product.name}</h2>
-
                 <span className="compound-badge">
                   Research Compound
                 </span>
-
               </div>
 
               {/* SUMMARY */}
-
               <p className="compound-summary">
-
-                {product.description ||
-                  "Peptide compound currently studied in metabolic signaling, endocrine pathways, and regenerative research models."}
-
+                {product.shortDescription ||
+                  `Research peptide investigated in metabolic regulation,
+endocrine signaling pathways, and cellular regeneration
+models within controlled laboratory environments.`}
               </p>
 
-              {/* SCIENTIFIC DATA */}
+              {/* RESEARCH CLASSIFICATION */}
+              <div className="compound-meta">
+                <span className="compound-pill">
+                  {product.category || "Metabolic Research"}
+                </span>
+                <span className="compound-pill">
+                  Endocrine Signaling
+                </span>
+                <span className="compound-pill">
+                  Cellular Models
+                </span>
+              </div>
 
+              {/* SCIENTIFIC DATA */}
               <div className="compound-data">
 
                 <div>
@@ -174,39 +190,57 @@ export default function ResearchLibrary({ products }) {
 
               </div>
 
-              {/* RESEARCH AREAS */}
-
-              <div className="compound-applications">
-
-                <span className="area">Metabolic Research</span>
-                <span className="area">Endocrine Signaling</span>
-                <span className="area">Longevity Studies</span>
-                <span className="area">Cellular Regeneration</span>
-
-              </div>
-
               {/* RESEARCH SCORE */}
-
               <div className="research-score">
 
-                <div className="score-label">
-                  Research Interest
+                <div className="score-row">
+                  <span>Research Interest</span>
+                  <div className="score-bar">
+                    <div
+                      className="score-fill"
+                      style={{ width: `${70 + Math.random() * 20}%` }}
+                    ></div>
+                  </div>
                 </div>
 
-                <div className="score-bar">
-                  <div className="score-fill"></div>
+                <div className="score-row">
+                  <span>Stability</span>
+                  <div className="score-bar">
+                    <div className="score-fill" style={{ width: "70%" }}></div>
+                  </div>
                 </div>
 
               </div>
 
-              {/* CTA */}
+              {/* CTA + CART */}
+              <div className="research-actions">
 
-              <Link
-                to={`/product/${product._id}`}
-                className="research-cta"
-              >
-                View Full Research Profile →
-              </Link>
+                <Link
+                  to={`/product/${product.slug || product._id}`}
+                  className="research-cta"
+                >
+                  View Research →
+                </Link>
+
+                <button
+                  className="research-cart-btn"
+                  onClick={() => {
+
+                    const existing =
+                      JSON.parse(localStorage.getItem("cart")) || [];
+
+                    existing.push(product);
+
+                    localStorage.setItem("cart", JSON.stringify(existing));
+
+                    alert(`${product.name} added to cart`);
+
+                  }}
+                >
+                  Add to Cart
+                </button>
+
+              </div>
 
             </div>
 

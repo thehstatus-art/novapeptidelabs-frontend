@@ -188,23 +188,30 @@ onClick={()=>setVolume(v)}
 
           {doseVolume && (
 
-            <div className="tool-result-panel">
+<div className="lab-display">
 
-              <div className="tool-result-label">
-                Dose Calculation
-              </div>
+<div className="lab-row">
 
-              <div className="tool-result-row">
-                Injection Volume: <strong>{doseVolume.toFixed(2)} mL</strong>
-              </div>
+<div className="lab-box">
+<span>Injection Volume</span>
+<p>{doseVolume.toFixed(2)} mL</p>
+</div>
 
-              <div className="tool-result-row">
-                Insulin Syringe: <strong>{syringeUnits.toFixed(0)} units</strong>
-              </div>
+<div className="lab-box">
+<span>Syringe Units</span>
+<p>{syringeUnits.toFixed(0)}</p>
+</div>
 
-              <div className="tool-result-row">
-                Doses Per Vial: <strong>{totalDoses.toFixed(0)}</strong>
-              </div>
+<div className="lab-box">
+<span>Doses Per Vial</span>
+<p>{totalDoses.toFixed(0)}</p>
+</div>
+
+</div>
+
+</div>
+
+)}
 {concentration && (
 
 <div className="dose-chart">
@@ -249,9 +256,9 @@ return(
 )}
             </div>
 
-          )}
+       
 
-        </div>
+        
 
         <div className="tool-disclaimer">
           This calculator is provided strictly as a laboratory reference.

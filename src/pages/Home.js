@@ -80,10 +80,24 @@ function Home({ products, addToCart }) {
               <img src={product.image} alt={product.name} />
 
               <div className="card-body">
-                <h3>{product.name}</h3>
-                <p className="category">{product.category}</p>
-                <p className="price">${product.price}</p>
-              </div>
+
+  <span className="product-tag">
+    {product.category?.toUpperCase()}
+  </span>
+
+  <h3 className="product-title">
+    {product.name}
+  </h3>
+
+  <p className="product-summary">
+    {product.description}
+  </p>
+
+  <p className="product-price">
+    ${product.price.toFixed(2)}
+  </p>
+
+</div>
             </Link>
 
             <div className="card-overlay">

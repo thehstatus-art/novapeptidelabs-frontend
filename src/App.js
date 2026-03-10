@@ -236,7 +236,7 @@ useEffect(() => {
     );
   };
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (email) => {
     if (cart.length === 0) return alert("Cart is empty.");
 
     try {
@@ -244,11 +244,12 @@ useEffect(() => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: cart.map(item => ({
-            productId: item._id,
-            quantity: item.quantity
-          }))
-        })
+  email,
+  items: cart.map(item => ({
+    productId: item._id,
+    quantity: item.quantity
+  }))
+})
       });
 
       const data = await res.json();

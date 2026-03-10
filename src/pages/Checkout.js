@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
 export default function Checkout({
@@ -9,6 +9,26 @@ export default function Checkout({
   handleCheckout,
   handlePayPalSuccess
 }) {
+
+  const [email, setEmail] = useState("");
+
+  const startCheckout = () => {
+
+    const confirmBox = document.getElementById("research-confirm");
+
+    if (!confirmBox || !confirmBox.checked) {
+      alert("Please confirm research use before checkout.");
+      return;
+    }
+
+    if (!email || !email.includes("@")) {
+      alert("Please enter a valid email before checkout.");
+      return;
+    }
+
+    // SEND EMAIL TO BACKEND
+    handleCheckout(email);
+  };
 
   return (
     <div className="checkout-page">
@@ -63,21 +83,38 @@ export default function Checkout({
 
           <h3>Order Summary</h3>
 
+          {/* EMAIL FIELD */}
+
+          <div className="checkout-email">
+
+            <label>Researcher Email</label>
+
+            <input
+              type="email"
+              placeholder="you@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+          </div>
+
           <div className="summary-row total">
             <span>Total</span>
             <span>${cartTotal.toFixed(2)}</span>
           </div>
 
-          {/* CREDIT CARD BUTTON */}
-{/* RESEARCH CONFIRMATION */}
+          {/* RESEARCH CONFIRMATION */}
 
-<label className="research-confirm">
-  <input type="checkbox" id="research-confirm" />
-  I confirm these products are purchased for laboratory research purposes only and not for human consumption.
-</label>
+          <label className="research-confirm">
+            <input type="checkbox" id="research-confirm" />
+            I confirm these products are purchased for laboratory research purposes only and not for human consumption.
+          </label>
+
+          {/* CREDIT CARD BUTTON */}
+
           <button
             className="stripe-premium-btn"
-            onClick={handleCheckout}
+            onClick={startCheckout}
           >
             💳 Pay with Debit / Credit Card
           </button>
@@ -85,9 +122,11 @@ export default function Checkout({
           {/* PAYPAL */}
 
           <div className="paypal-section">
-<div className="checkout-security">
-🔐 256-bit SSL encryption • Payments processed securely
-</div>
+
+            <div className="checkout-security">
+              🔐 256-bit SSL encryption • Payments processed securely
+            </div>
+
             <PayPalButtons
               style={{
                 layout: "vertical",
@@ -114,24 +153,24 @@ export default function Checkout({
 
           <div className="checkout-security">
 
-  <div className="secure-lock">
-    🔒
-  </div>
+            <div className="secure-lock">
+              🔒
+            </div>
 
-  <p>
-    256-bit SSL encrypted checkout
-  </p>
+            <p>
+              256-bit SSL encrypted checkout
+            </p>
 
-</div>
+          </div>
 
-<div className="checkout-cards">
+          <div className="checkout-cards">
 
-  <span>💳 Visa</span>
-  <span>💳 Mastercard</span>
-  <span>💳 Amex</span>
-  <span>🅿 PayPal</span>
+            <span>💳 Visa</span>
+            <span>💳 Mastercard</span>
+            <span>💳 Amex</span>
+            <span>🅿 PayPal</span>
 
-</div>
+          </div>
 
         </div>
 

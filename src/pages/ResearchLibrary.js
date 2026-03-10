@@ -31,41 +31,70 @@ export default function ResearchLibrary({ products }) {
           </p>
         )}
 
-        {safeProducts.map((product) => (
-          <div className="research-card" key={product._id}>
+        {safeProducts.map((product) => {
 
-            {/* HEADER */}
+          const imageUrl =
+            product.image && product.image.startsWith("http")
+              ? product.image
+              : "/no-image.png";
 
-            <div className="compound-header">
-              <h2>{product.name}</h2>
-              <span className="compound-badge">
-                Research Compound
-              </span>
-            </div>
+          return (
 
-            {/* SUMMARY */}
+            <div className="research-card" key={product._id}>
 
-            <p className="compound-summary">
-              {product.description ||
-                "Peptide compound currently studied in metabolic signaling, endocrine pathways, and regenerative research models."}
-            </p>
+              {/* IMAGE */}
 
-            {/* SCIENTIFIC DATA */}
+              <div className="compound-image-wrapper">
 
-            <div className="compound-data">
+                <img
+                  src={imageUrl}
+                  alt={product.name}
+                  className="compound-image"
+                  onError={(e) => {
+                    e.target.src = "/no-image.png";
+                  }}
+                />
 
-              <h4>Scientific Data</h4>
+                <div className="compound-tags">
+                  <span className="tag-blue">Peptide</span>
+                  <span className="tag-green">≥99% Purity</span>
+                </div>
 
-              <div className="compound-grid">
+              </div>
+
+              {/* HEADER */}
+
+              <div className="compound-header">
+
+                <h2>{product.name}</h2>
+
+                <span className="compound-badge">
+                  Research Compound
+                </span>
+
+              </div>
+
+              {/* SUMMARY */}
+
+              <p className="compound-summary">
+
+                {product.description ||
+                  "Peptide compound currently studied in metabolic signaling, endocrine pathways, and regenerative research models."}
+
+              </p>
+
+              {/* SCIENTIFIC DATA */}
+
+              <div className="compound-data">
 
                 <div>
                   <span>Molecular Weight</span>
-                  <p>{product.molecularWeight || "N/A"}</p>
+                  <p>{product.molecularWeight || "Research Data"}</p>
                 </div>
 
                 <div>
                   <span>Formula</span>
-                  <p>{product.formula || "N/A"}</p>
+                  <p>{product.formula || "Peptide Chain"}</p>
                 </div>
 
                 <div>
@@ -75,60 +104,71 @@ export default function ResearchLibrary({ products }) {
 
                 <div>
                   <span>Purity</span>
-                  <p>≥99% (HPLC)</p>
+                  <p>≥99% HPLC</p>
                 </div>
 
               </div>
 
-            </div>
+              {/* RESEARCH AREAS */}
 
-            {/* RESEARCH APPLICATIONS */}
+              <div className="compound-applications">
 
-            <div className="compound-applications">
+                <span className="area">Metabolic Research</span>
+                <span className="area">Endocrine Signaling</span>
+                <span className="area">Longevity Studies</span>
+                <span className="area">Cellular Regeneration</span>
 
-              <h4>Primary Research Areas</h4>
-
-              <ul>
-                <li>Metabolic regulation studies</li>
-                <li>Endocrine receptor signaling</li>
-                <li>Cellular regeneration models</li>
-                <li>Growth factor expression research</li>
-              </ul>
-
-            </div>
-
-            {/* QUICK DECISION PANEL */}
-
-            <div className="compound-decision">
-
-              <div className="decision-box">
-                <span>Stability</span>
-                <p>High</p>
               </div>
 
-              <div className="decision-box">
-                <span>Research Interest</span>
-                <p>Very High</p>
+              {/* RESEARCH SCORE */}
+
+              <div className="research-score">
+
+                <div className="score-label">
+                  Research Interest
+                </div>
+
+                <div className="score-bar">
+                  <div className="score-fill"></div>
+                </div>
+
               </div>
 
-              <div className="decision-box">
-                <span>Typical Storage</span>
-                <p>-20°C</p>
+              {/* DECISION PANEL */}
+
+              <div className="compound-decision">
+
+                <div className="decision-box">
+                  <span>Stability</span>
+                  <p>High</p>
+                </div>
+
+                <div className="decision-box">
+                  <span>Research Interest</span>
+                  <p>Very High</p>
+                </div>
+
+                <div className="decision-box">
+                  <span>Typical Storage</span>
+                  <p>-20°C</p>
+                </div>
+
               </div>
+
+              {/* CTA */}
+
+              <Link
+                to={`/product/${product._id}`}
+                className="research-cta"
+              >
+                View Full Research Profile →
+              </Link>
 
             </div>
 
-            {/* CTA */}
+          );
 
-            <Link
-              to={`/product/${product._id}`}
-              className="research-cta"
-            >
-              View Full Research Profile →
-            </Link>
-
-          </div>
-        ))}
+        })}
 
       </div>
 

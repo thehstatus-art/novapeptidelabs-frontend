@@ -2259,3 +2259,70 @@ padding:10px;
 border-bottom:1px solid rgba(110,193,255,.1);
 font-size:14px;
 }
+/* ================= RESEARCH DISCLAIMER ================= */
+
+.research-disclaimer{
+
+margin-top:40px;
+
+display:flex;
+gap:18px;
+align-items:flex-start;
+
+padding:22px 24px;
+
+border-radius:16px;
+
+background:linear-gradient(
+160deg,
+rgba(8,21,35,.95),
+rgba(5,15,25,.95)
+);
+
+border:1px solid rgba(110,193,255,.35);
+
+box-shadow:
+0 0 40px rgba(110,193,255,.15),
+inset 0 0 20px rgba(110,193,255,.05);
+
+}
+
+/* icon */
+
+.disclaimer-icon{
+
+font-size:24px;
+
+color:#6ec1ff;
+
+text-shadow:0 0 15px rgba(110,193,255,.8);
+
+}
+
+/* text */
+
+.disclaimer-text strong{
+
+display:block;
+
+font-size:15px;
+
+margin-bottom:6px;
+
+color:#6ec1ff;
+
+letter-spacing:.4px;
+
+}
+
+.disclaimer-text p{
+
+margin:0;
+
+font-size:13px;
+
+line-height:1.6;
+
+color:#9bb3c9;
+
+}

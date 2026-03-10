@@ -260,11 +260,24 @@ return(
 
         
 
-        <div className="tool-disclaimer">
-          This calculator is provided strictly as a laboratory reference.
-          Compounds sold by Nova Peptide Labs are intended for research use only
-          and are not approved for human consumption.
-        </div>
+        <div className="research-disclaimer">
+
+<div className="disclaimer-icon">⚠️</div>
+
+<div className="disclaimer-text">
+
+<strong>Research Use Only</strong>
+
+<p>
+This calculator is provided strictly for laboratory reference purposes.
+Compounds supplied by Nova Peptide Labs are intended solely for
+scientific research and laboratory investigation. These materials
+are not approved for human consumption or medical use.
+</p>
+
+</div>
+
+</div>
 
       </div>
 

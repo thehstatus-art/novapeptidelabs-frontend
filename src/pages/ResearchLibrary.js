@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function ResearchLibrary({ products }) {
 
   const safeProducts = Array.isArray(products) ? products : [];
 
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  const filteredProducts = safeProducts.filter((product) => {
+
+    const matchesSearch =
+      product.name?.toLowerCase().includes(search.toLowerCase());
+
+    if (filter === "all") return matchesSearch;
+
+    return matchesSearch && product.category === filter;
+
+  });
+
   return (
     <div className="research-page">
+
+      {/* MOLECULE BACKGROUND */}
+
+      <div className="molecule-bg"></div>
 
       {/* HERO */}
 
@@ -21,17 +39,64 @@ export default function ResearchLibrary({ products }) {
 
       </div>
 
+      {/* SEARCH */}
+
+      <div className="research-search">
+
+        <input
+          type="text"
+          placeholder="Search peptide compounds..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+      </div>
+
+      {/* FILTERS */}
+
+      <div className="research-filters">
+
+        <button
+          className={filter === "all" ? "active" : ""}
+          onClick={() => setFilter("all")}
+        >
+          All
+        </button>
+
+        <button
+          className={filter === "metabolic" ? "active" : ""}
+          onClick={() => setFilter("metabolic")}
+        >
+          Metabolic
+        </button>
+
+        <button
+          className={filter === "longevity" ? "active" : ""}
+          onClick={() => setFilter("longevity")}
+        >
+          Longevity
+        </button>
+
+        <button
+          className={filter === "neuro" ? "active" : ""}
+          onClick={() => setFilter("neuro")}
+        >
+          Neuro
+        </button>
+
+      </div>
+
       {/* PRODUCTS */}
 
       <div className="research-grid">
 
-        {safeProducts.length === 0 && (
+        {filteredProducts.length === 0 && (
           <p className="research-empty">
-            No research compounds available.
+            No research compounds found.
           </p>
         )}
 
-        {safeProducts.map((product) => {
+        {filteredProducts.map((product) => {
 
           const imageUrl =
             product.image && product.image.startsWith("http")
@@ -130,27 +195,6 @@ export default function ResearchLibrary({ products }) {
 
                 <div className="score-bar">
                   <div className="score-fill"></div>
-                </div>
-
-              </div>
-
-              {/* DECISION PANEL */}
-
-              <div className="compound-decision">
-
-                <div className="decision-box">
-                  <span>Stability</span>
-                  <p>High</p>
-                </div>
-
-                <div className="decision-box">
-                  <span>Research Interest</span>
-                  <p>Very High</p>
-                </div>
-
-                <div className="decision-box">
-                  <span>Typical Storage</span>
-                  <p>-20°C</p>
                 </div>
 
               </div>

@@ -2744,3 +2744,88 @@ font-size:22px;
 color:#6ec1ff;
 
 }
+/* MOLECULE BACKGROUND */
+
+.molecule-bg{
+
+position:fixed;
+inset:0;
+
+background-image:
+radial-gradient(circle at 20% 30%, rgba(110,193,255,.15) 0px, transparent 120px),
+radial-gradient(circle at 70% 60%, rgba(110,193,255,.12) 0px, transparent 150px),
+radial-gradient(circle at 40% 80%, rgba(110,193,255,.08) 0px, transparent 140px);
+
+z-index:-1;
+
+animation:moleculeFloat 20s linear infinite;
+
+}
+
+@keyframes moleculeFloat{
+
+0%{transform:translateY(0)}
+50%{transform:translateY(-40px)}
+100%{transform:translateY(0)}
+
+}
+
+/* SEARCH */
+
+.research-search{
+
+display:flex;
+justify-content:center;
+margin-bottom:25px;
+
+}
+
+.research-search input{
+
+width:420px;
+
+padding:12px 16px;
+
+border-radius:10px;
+
+border:1px solid rgba(110,193,255,.35);
+
+background:#0b1b2e;
+
+color:white;
+
+}
+
+/* FILTERS */
+
+.research-filters{
+
+display:flex;
+justify-content:center;
+gap:12px;
+margin-bottom:40px;
+
+}
+
+.research-filters button{
+
+padding:8px 14px;
+
+border-radius:10px;
+
+background:#081523;
+
+border:1px solid rgba(110,193,255,.25);
+
+color:#9bb3c9;
+
+cursor:pointer;
+
+}
+
+.research-filters button.active{
+
+background:#6ec1ff;
+color:#081523;
+
+}

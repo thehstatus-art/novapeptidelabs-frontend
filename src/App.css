@@ -925,6 +925,7 @@ flex-shrink:0;
 }
 .checkout-left{
 overflow:visible;
+max-height:none;
 }
 @media (max-width: 900px){
 
@@ -1262,6 +1263,9 @@ box-shadow:0 0 10px rgba(110,193,255,0.15);
 max-width:1200px;
 margin:auto;
 padding:80px 20px;
+
+min-height:100vh;
+overflow-y:auto;
 }
 
 /* header */

@@ -3336,3 +3336,80 @@ color:#7fa3c4;
 margin:3px 0 0;
 font-weight:700;
 }
+/* ================= RESEARCH ACTION BUTTONS ================= */
+
+.research-actions{
+
+display:flex;
+gap:12px;
+margin-top:18px;
+
+}
+
+/* VIEW RESEARCH (SCIENCE BUTTON) */
+
+.research-cta{
+
+flex:1;
+
+text-align:center;
+
+padding:10px 14px;
+
+border-radius:10px;
+
+background:rgba(110,193,255,.08);
+
+border:1px solid rgba(110,193,255,.35);
+
+color:#6ec1ff;
+
+font-weight:600;
+
+text-decoration:none;
+
+transition:all .25s ease;
+
+}
+
+.research-cta:hover{
+
+background:rgba(110,193,255,.15);
+
+box-shadow:0 0 18px rgba(110,193,255,.35);
+
+transform:translateY(-1px);
+
+}
+
+/* ADD TO CART (PRIMARY BUTTON) */
+
+.research-cart-btn{
+
+flex:1;
+
+padding:10px 14px;
+
+border-radius:10px;
+
+border:none;
+
+font-weight:700;
+
+background:linear-gradient(135deg,#6ec1ff,#4ea8ff);
+
+color:#081523;
+
+cursor:pointer;
+
+transition:all .25s ease;
+
+}
+
+.research-cart-btn:hover{
+
+box-shadow:0 0 20px rgba(110,193,255,.8);
+
+transform:translateY(-2px);
+
+}

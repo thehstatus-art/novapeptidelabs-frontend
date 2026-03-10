@@ -139,7 +139,22 @@ const compoundPresets = [
           {concentration && (
 
             <div className="tool-result-panel">
+<div className="syringe-chart">
 
+<h3>Insulin Syringe Reference</h3>
+
+<div className="syringe-grid">
+
+<div>5 units = 0.05 mL</div>
+<div>10 units = 0.10 mL</div>
+<div>20 units = 0.20 mL</div>
+<div>25 units = 0.25 mL</div>
+<div>50 units = 0.50 mL</div>
+<div>100 units = 1 mL</div>
+
+</div>
+
+</div>
               <div className="tool-result-label">
                 Solution Concentration
               </div>
@@ -177,7 +192,48 @@ const compoundPresets = [
               <div className="tool-result-row">
                 Doses Per Vial: <strong>{totalDoses.toFixed(0)}</strong>
               </div>
+{concentration && (
 
+<div className="dose-chart">
+
+<h3>Common Research Dose Reference</h3>
+
+<table>
+
+<thead>
+<tr>
+<th>Dose (mg)</th>
+<th>Injection (mL)</th>
+<th>Syringe Units</th>
+</tr>
+</thead>
+
+<tbody>
+
+{[0.25,0.5,1,2].map((d)=>{
+
+const vol = d / concentration
+const units = vol * 100
+
+return(
+
+<tr key={d}>
+<td>{d}</td>
+<td>{vol.toFixed(2)}</td>
+<td>{units.toFixed(0)}</td>
+</tr>
+
+)
+
+})}
+
+</tbody>
+
+</table>
+
+</div>
+
+)}
             </div>
 
           )}

@@ -3588,3 +3588,35 @@ opacity:1;
 transform:translateY(0);
 }
 }
+.stock-alert{
+margin:10px 0 16px;
+padding:10px 12px;
+border-radius:10px;
+font-size:13px;
+font-weight:600;
+border:1px solid rgba(110,193,255,.2);
+}
+
+.stock-good{
+background:rgba(76,255,176,.08);
+border-color:rgba(76,255,176,.25);
+color:#7fffc8;
+}
+
+.stock-medium{
+background:rgba(255,193,7,.08);
+border-color:rgba(255,193,7,.25);
+color:#ffd76a;
+}
+
+.stock-low{
+background:rgba(255,90,90,.08);
+border-color:rgba(255,90,90,.28);
+color:#ff8e8e;
+}
+
+.stock-out{
+background:rgba(255,255,255,.05);
+border-color:rgba(255,255,255,.12);
+color:#b8c3d1;
+}

@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Particles from "@tsparticles/react";
-import { loadFull } from "tsparticles";
+
 export default function ResearchLibrary({ products }) {
-const particlesInit = async (main) => {
-  await loadFull(main);
-};
+
   const safeProducts = Array.isArray(products) ? products : [];
 
   const [search, setSearch] = useState("");

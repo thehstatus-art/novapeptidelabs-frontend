@@ -3512,31 +3512,43 @@ html, body {
   min-height: 100vh;
   overflow-y: auto;
 }
+/* ================= CORRECTED CHECKOUT PAGE SCROLLING LAYOUT ================= */
 .checkout-page{
-overflow-y:auto;
-}
-.checkout-page{
-height:auto !important;
-min-height:auto !important;
-overflow:visible !important;
+position:fixed;
+inset:0;
+z-index:9999;
+
+display:flex;
+justify-content:flex-end;
+
+background:rgba(5,8,15,0.75);
+backdrop-filter:blur(10px);
 }
 
 .checkout-grid{
-height:auto !important;
-overflow:visible !important;
+width:560px;
+max-width:100%;
+height:100vh;
+
+background:#081523;
+
+border-left:1px solid rgba(110,193,255,.15);
+box-shadow:-20px 0 60px rgba(0,0,0,.5);
+
+display:flex;
+flex-direction:column;
 }
+
 .checkout-products{
-overflow:visible !important;
-max-height:none !important;
-}
-.checkout-items-scroll{
-max-height:60vh;
+flex:1;
 overflow-y:auto;
-padding-right:10px;
+padding:24px 28px;
 }
+
 .checkout-payment{
-position:sticky;
-top:120px;
+flex-shrink:0;
+padding:24px 28px 28px;
+border-top:1px solid rgba(110,193,255,.12);
 }
 .cart-notification{
 position:fixed;

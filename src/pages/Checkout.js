@@ -43,7 +43,7 @@ export default function Checkout({
 
       <div className="checkout-grid">
 
-        {/* LEFT SIDE — CART */}
+        {/* LEFT SIDE — CART ITEMS */}
 
         <div className="checkout-products">
 
@@ -53,37 +53,47 @@ export default function Checkout({
             <p>Your cart is empty.</p>
           )}
 
-          {cart.map(item => (
+          <div className="checkout-items-scroll">
 
-            <div key={item._id} className="checkout-item">
+            {cart.map((item) => {
 
-              <img src={item.image} alt={item.name} />
+              const price = item.price || 0;
+              const quantity = item.quantity || 1;
 
-              <div className="checkout-item-info">
+              return (
 
-                <h4>{item.name}</h4>
+                <div key={item._id} className="checkout-item">
 
-                <p>${item.price.toFixed(2)}</p>
+                  <img src={item.image} alt={item.name} />
 
-                <div className="qty-controls">
+                  <div className="checkout-item-info">
 
-                  <button onClick={() => decreaseQty(item._id)}>
-                    -
-                  </button>
+                    <h4>{item.name}</h4>
 
-                  <span>{item.quantity}</span>
+                    <p>${price.toFixed(2)}</p>
 
-                  <button onClick={() => increaseQty(item._id)}>
-                    +
-                  </button>
+                    <div className="qty-controls">
+
+                      <button onClick={() => decreaseQty(item._id)}>
+                        -
+                      </button>
+
+                      <span>{quantity}</span>
+
+                      <button onClick={() => increaseQty(item._id)}>
+                        +
+                      </button>
+
+                    </div>
+
+                  </div>
 
                 </div>
 
-              </div>
+              );
+            })}
 
-            </div>
-
-          ))}
+          </div>
 
         </div>
 
@@ -111,11 +121,8 @@ export default function Checkout({
           {/* TOTAL */}
 
           <div className="summary-row total">
-
             <span>Total</span>
-
             <span>${cartTotal.toFixed(2)}</span>
-
           </div>
 
           {/* CONFIRMATION */}
@@ -128,8 +135,8 @@ export default function Checkout({
               onChange={(e) => setConfirmed(e.target.checked)}
             />
 
-            I confirm these products are purchased for laboratory
-            research purposes only and not for human consumption.
+            I confirm these products are purchased for laboratory research
+            purposes only and not for human consumption.
 
           </label>
 

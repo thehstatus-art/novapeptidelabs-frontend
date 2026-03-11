@@ -94,7 +94,21 @@ export default function ResearchLibrary({ products }) {
             product.image && product.image.startsWith("http")
               ? product.image
               : "/no-image.png";
+const stockCount = product.stock || 0;
 
+let stockMessage = "In research stock";
+let stockClass = "stock-good";
+
+if (stockCount > 0 && stockCount <= 10) {
+  stockMessage = `Only ${stockCount} vial${stockCount > 1 ? "s" : ""} remaining`;
+  stockClass = "stock-low";
+} else if (stockCount > 10 && stockCount <= 25) {
+  stockMessage = `Limited batch stock: ${stockCount} available`;
+  stockClass = "stock-medium";
+} else if (stockCount === 0) {
+  stockMessage = "Out of stock";
+  stockClass = "stock-out";
+}
           return (
 
             <div className="research-card" key={product._id}>

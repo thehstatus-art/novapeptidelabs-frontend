@@ -22,21 +22,7 @@ export default function ResearchLibrary({ products }) {
   return (
     <div className="research-page">
 
-      <Particles
-  id="tsparticles"
-  init={particlesInit}
-  options={{
-    background: {
-      color: { value: "#000000" }
-    },
-    particles: {
-      number: { value: 100 },
-      size: { value: 4 },
-      color: { value: "#ff0000" },
-      move: { enable: true, speed: 2 }
-    }
-  }}
-/>
+      
 
       {/* MOLECULE BACKGROUND */}
       <div className="molecule-bg"></div>

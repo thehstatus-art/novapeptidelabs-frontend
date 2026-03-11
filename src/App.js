@@ -3,7 +3,7 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "@studio-freight/lenis";
-import Particles from "react-tsparticles";
+import Particles from "@tsparticles/react";
 import AgeGate from "./components/AgeGate";
 import Header from "./components/Header";
 import ProductDetail from "./pages/ProductDetail";

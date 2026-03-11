@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
 export default function Checkout({
-  cart,
-  cartTotal,
+  cart = [],
+  cartTotal = 0,
   increaseQty,
   decreaseQty,
   handleCheckout,
@@ -11,12 +11,11 @@ export default function Checkout({
 }) {
 
   const [email, setEmail] = useState("");
+  const [confirmed, setConfirmed] = useState(false);
 
   const startCheckout = () => {
 
-    const confirmBox = document.getElementById("research-confirm");
-
-    if (!confirmBox || !confirmBox.checked) {
+    if (!confirmed) {
       alert("Please confirm research use before checkout.");
       return;
     }
@@ -26,7 +25,6 @@ export default function Checkout({
       return;
     }
 
-    // SEND EMAIL TO BACKEND
     handleCheckout(email);
   };
 
@@ -45,11 +43,15 @@ export default function Checkout({
 
       <div className="checkout-grid">
 
-        {/* LEFT — CART ITEMS */}
+        {/* LEFT SIDE — CART */}
 
         <div className="checkout-products">
 
           <h2>Your Cart</h2>
+
+          {cart.length === 0 && (
+            <p>Your cart is empty.</p>
+          )}
 
           {cart.map(item => (
 
@@ -64,9 +66,17 @@ export default function Checkout({
                 <p>${item.price.toFixed(2)}</p>
 
                 <div className="qty-controls">
-                  <button onClick={() => decreaseQty(item._id)}>-</button>
+
+                  <button onClick={() => decreaseQty(item._id)}>
+                    -
+                  </button>
+
                   <span>{item.quantity}</span>
-                  <button onClick={() => increaseQty(item._id)}>+</button>
+
+                  <button onClick={() => increaseQty(item._id)}>
+                    +
+                  </button>
+
                 </div>
 
               </div>
@@ -77,13 +87,13 @@ export default function Checkout({
 
         </div>
 
-        {/* RIGHT — PAYMENT */}
+        {/* RIGHT SIDE — PAYMENT */}
 
         <div className="checkout-payment">
 
           <h3>Order Summary</h3>
 
-          {/* EMAIL FIELD */}
+          {/* EMAIL */}
 
           <div className="checkout-email">
 
@@ -98,19 +108,32 @@ export default function Checkout({
 
           </div>
 
+          {/* TOTAL */}
+
           <div className="summary-row total">
+
             <span>Total</span>
+
             <span>${cartTotal.toFixed(2)}</span>
+
           </div>
 
-          {/* RESEARCH CONFIRMATION */}
+          {/* CONFIRMATION */}
 
           <label className="research-confirm">
-            <input type="checkbox" id="research-confirm" />
-            I confirm these products are purchased for laboratory research purposes only and not for human consumption.
+
+            <input
+              type="checkbox"
+              checked={confirmed}
+              onChange={(e) => setConfirmed(e.target.checked)}
+            />
+
+            I confirm these products are purchased for laboratory
+            research purposes only and not for human consumption.
+
           </label>
 
-          {/* CREDIT CARD BUTTON */}
+          {/* STRIPE */}
 
           <button
             className="stripe-premium-btn"
@@ -137,29 +160,32 @@ export default function Checkout({
               createOrder={(data, actions) =>
                 actions.order.create({
                   purchase_units: [
-                    { amount: { value: cartTotal.toFixed(2) } }
+                    {
+                      amount: {
+                        value: cartTotal.toFixed(2)
+                      }
+                    }
                   ]
                 })
               }
               onApprove={async (data, actions) => {
-                await actions.order.capture();
-                await handlePayPalSuccess(data.orderID);
+
+                const details = await actions.order.capture();
+
+                await handlePayPalSuccess(details.id);
+
               }}
             />
 
           </div>
 
-          {/* SECURITY TRUST TEXT */}
+          {/* SECURITY */}
 
           <div className="checkout-security">
 
-            <div className="secure-lock">
-              🔒
-            </div>
+            <div className="secure-lock">🔒</div>
 
-            <p>
-              256-bit SSL encrypted checkout
-            </p>
+            <p>256-bit SSL encrypted checkout</p>
 
           </div>
 

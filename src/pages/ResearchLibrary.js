@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Particles from "react-tsparticles";
-
+import Particles from "@tsparticles/react";
+import { loadFull } from "tsparticles";
 export default function ResearchLibrary({ products }) {
-
+const particlesInit = async (main) => {
+  await loadFull(main);
+};
   const safeProducts = Array.isArray(products) ? products : [];
 
   const [search, setSearch] = useState("");
@@ -24,23 +26,20 @@ export default function ResearchLibrary({ products }) {
     <div className="research-page">
 
       <Particles
-        options={{
-          background: { color: { value: "transparent" } },
-          particles: {
-            number: { value: 40 },
-            size: { value: 2 },
-            move: { enable: true, speed: 0.5 },
-            links: {
-              enable: true,
-              distance: 120,
-              color: "#6ec1ff",
-              opacity: 0.15,
-              width: 1
-            },
-            color: { value: "#6ec1ff" }
-          }
-        }}
-      />
+  id="tsparticles"
+  init={particlesInit}
+  options={{
+    background: {
+      color: { value: "#000000" }
+    },
+    particles: {
+      number: { value: 100 },
+      size: { value: 4 },
+      color: { value: "#ff0000" },
+      move: { enable: true, speed: 2 }
+    }
+  }}
+/>
 
       {/* MOLECULE BACKGROUND */}
       <div className="molecule-bg"></div>
@@ -107,7 +106,9 @@ export default function ResearchLibrary({ products }) {
         )}
 
         {filteredProducts.map((product) => {
-
+const particlesInit = async (main) => {
+  await loadFull(main);
+};
           const imageUrl =
             product.image && product.image.startsWith("http")
               ? product.image

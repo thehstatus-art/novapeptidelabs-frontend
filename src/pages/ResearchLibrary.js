@@ -89,9 +89,7 @@ export default function ResearchLibrary({ products }) {
         )}
 
         {filteredProducts.map((product) => {
-const particlesInit = async (main) => {
-  await loadFull(main);
-};
+
           const imageUrl =
             product.image && product.image.startsWith("http")
               ? product.image

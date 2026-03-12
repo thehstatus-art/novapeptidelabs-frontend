@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function VerifiedBatches(){
+
+  const [activeBatch, setActiveBatch] = useState(null);
 
   const batches = [
     {name:"Retatrutide", batch:"NP2408", purity:"99.21%"},
@@ -36,7 +38,10 @@ export default function VerifiedBatches(){
               <p>{b.purity}</p>
             </div>
 
-            <button className="coa-btn">
+            <button
+              className="coa-btn"
+              onClick={() => setActiveBatch(b)}
+            >
               View COA
             </button>
 
@@ -44,6 +49,34 @@ export default function VerifiedBatches(){
         ))}
 
       </div>
+
+      {activeBatch && (
+        <div className="coa-modal-overlay" onClick={() => setActiveBatch(null)}>
+
+          <div
+            className="coa-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+
+            <h3>Certificate of Analysis</h3>
+
+            <p><strong>Compound:</strong> {activeBatch.name}</p>
+            <p><strong>Batch:</strong> {activeBatch.batch}</p>
+            <p><strong>Purity:</strong> {activeBatch.purity}</p>
+            <p><strong>Method:</strong> HPLC</p>
+            <p><strong>Status:</strong> Verified</p>
+
+            <button
+              className="coa-close"
+              onClick={() => setActiveBatch(null)}
+            >
+              Close
+            </button>
+
+          </div>
+
+        </div>
+      )}
 
     </div>
 

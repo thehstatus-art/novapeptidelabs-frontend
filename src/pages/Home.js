@@ -14,6 +14,7 @@ function Home({ products, addToCart }) {
   return (
     <div className="home-container">
 
+      <div className="molecule-bg"></div>
 
       {/* ================= HERO ================= */}
 
@@ -28,11 +29,6 @@ function Home({ products, addToCart }) {
     </p>
 
     <TrustSection />
-
-<VerifiedBatches />
-
-<ResearchPipeline />
-
 
     {/* ===== ELITE TRUST PANEL ===== */}
 
@@ -74,6 +70,14 @@ function Home({ products, addToCart }) {
 
   </div>
 </div>
+
+      {/* ================= VERIFIED BATCHES ================= */}
+
+      <VerifiedBatches />
+
+      {/* ================= RESEARCH PIPELINE ================= */}
+
+      <ResearchPipeline />
 
       {/* ================= PRODUCTS ================= */}
 
@@ -194,13 +198,14 @@ function Home({ products, addToCart }) {
       <p>Secure Encrypted Checkout</p>
     </div>
 
+    <div className="footer-column">
+      <h5>Legal</h5>
+      <Link to="/privacy">Privacy Policy</Link>
+      <Link to="/terms">Terms & Conditions</Link>
+      <Link to="/disclaimer">Research Use Disclaimer</Link>
+    </div>
+
   </div>
-<div className="footer-column">
-  <h5>Legal</h5>
-  <Link to="/privacy">Privacy Policy</Link>
-  <Link to="/terms">Terms & Conditions</Link>
-  <Link to="/disclaimer">Research Use Disclaimer</Link>
-</div>
   <div className="footer-bottom">
     © 2026 <span>NovaPeptide Labs</span> • Third-Party Tested • Research Use Only
   </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import TrustSection from "../components/TrustSection";
-
+import VerifiedBatches from "../components/VerifiedBatches";
 function Home({ products, addToCart }) {
   
  

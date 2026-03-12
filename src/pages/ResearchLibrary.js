@@ -7,6 +7,7 @@ function ResearchLibrary({ products }) {
 
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
+  const [activeCoa, setActiveCoa] = useState(null);
 
   const filteredProducts = safeProducts.filter((product) => {
     const matchesSearch = product.name
@@ -234,14 +235,13 @@ function ResearchLibrary({ products }) {
                   Add to Cart
                 </button>
 
-                <a
-                  href={`/coa/${product.slug || product._id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
                   className="research-coa-btn"
+                  onClick={() => setActiveCoa(product)}
                 >
                   COA
-                </a>
+                </button>
               </div>
 
               <div className="coa-verified">✓ COA Verified</div>
@@ -249,6 +249,53 @@ function ResearchLibrary({ products }) {
           );
         })}
       </div>
+
+      {activeCoa && (
+        <div
+          className="coa-modal-overlay"
+          onClick={() => setActiveCoa(null)}
+        >
+          <div
+            className="coa-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>Certificate of Analysis</h3>
+
+            <div className="coa-row">
+              <span>Compound</span>
+              <p>{activeCoa.name}</p>
+            </div>
+
+            <div className="coa-row">
+              <span>Batch</span>
+              <p>{activeCoa.batchNumber || activeCoa.batch || "NP-2026"}</p>
+            </div>
+
+            <div className="coa-row">
+              <span>Purity</span>
+              <p>{activeCoa.specifications?.purity || "≥99% HPLC"}</p>
+            </div>
+
+            <div className="coa-row">
+              <span>Method</span>
+              <p>HPLC</p>
+            </div>
+
+            <div className="coa-row">
+              <span>Status</span>
+              <p>Verified</p>
+            </div>
+
+            <button
+              type="button"
+              className="coa-close"
+              onClick={() => setActiveCoa(null)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

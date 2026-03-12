@@ -1252,24 +1252,7 @@ font-weight:700;
 }
 /* ================= CHECKOUT PANEL ================= */
 
-.checkout-panel{
-position:fixed;
-top:0;
-right:0;
-
-width:420px;
-height:100vh;
-
-overflow-y:auto;
-
-background:#081523;
-padding:40px;
-
-border-left:1px solid rgba(110,193,255,.25);
-box-shadow:-20px 0 60px rgba(0,0,0,.5);
-
-z-index:2000;
-}
+/* OLD CHECKOUT PANEL REMOVED — replaced by .checkout-page + .checkout-grid layout */
 .checkout-item{
 display:flex;
 align-items:center;
@@ -1349,21 +1332,7 @@ flex-shrink:0;
 }
 /* ================= CHECKOUT PANEL ================= */
 
-.checkout-panel{
-width:92%;
-max-width:1200px;
-
-background:#081523;
-border-radius:28px;
-padding:60px;
-
-display:grid;
-grid-template-columns:1.3fr 0.9fr;
-gap:70px;
-
-border:1px solid rgba(110,193,255,0.15);
-box-shadow:0 0 80px rgba(110,193,255,0.12);
-}
+/* Deprecated checkout layout removed to prevent scroll conflicts */
 .checkout-item{
 display:flex;
 align-items:center;

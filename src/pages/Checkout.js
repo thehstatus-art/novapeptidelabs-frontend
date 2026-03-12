@@ -187,7 +187,28 @@ export default function Checkout({
 
                 const details = await actions.order.capture();
 
-                await handlePayPalSuccess(details.id);
+                try {
+
+                  // Send order to backend so it saves in MongoDB
+                  await fetch("/api/orders/paypal", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                      paypalOrderId: details.id,
+                      email: email,
+                      items: cart
+                    })
+                  });
+
+                  // Existing success handler
+                  await handlePayPalSuccess(details.id);
+
+                } catch (err) {
+                  console.error("Failed to save PayPal order:", err);
+                  alert("Payment succeeded but the order could not be saved. Please contact support.");
+                }
 
               }}
             />

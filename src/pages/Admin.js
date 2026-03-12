@@ -76,7 +76,8 @@ useEffect(() => {
   const revenueByDate = orders.reduce((acc, order) => {
     const date = new Date(order.createdAt).toLocaleDateString();
     if (!acc[date]) acc[date] = 0;
-    if (order.isPaid) acc[date] += order.totalAmount;
+    const paid = order.isPaid || order.status === "paid";
+    if (paid) acc[date] += order.totalAmount;
     return acc;
   }, {});
 
@@ -142,11 +143,13 @@ useEffect(() => {
   /* ================= CSV EXPORT ================= */
 
   const exportCSV = () => {
+    if (!orders.length) return alert("No orders to export");
+
     const rows = orders.map(order => ({
       id: order._id,
-      total: order.totalAmount,
+      total: order.totalAmount || 0,
       status: order.status,
-      email: order.customerEmail
+      email: order.email || order.customerEmail || ""
     }));
 
     const csv =
@@ -271,9 +274,13 @@ useEffect(() => {
               </p>
 
               <input
-  style={inputStyle}
-  type="number"
-  defaultValue={product.price}
+                type="number"
+                defaultValue={product.stock || 0}
+                style={inputStyle}
+                placeholder="Stock"
+                onBlur={(e) =>
+                  updateProduct(product._id, { stock: Number(e.target.value) })
+                }
               />
 
               <button
@@ -304,7 +311,33 @@ useEffect(() => {
           {orders.map(order => (
             <div key={order._id} style={card}>
               <p><strong>ID:</strong> {order._id}</p>
-              <p><strong>Total:</strong> ${order.totalAmount}</p>
+              <p><strong>Email:</strong> {order.email || order.customerEmail || "N/A"}</p>
+              <p><strong>Total:</strong> ${order.totalAmount || order.total || 0}</p>
+              <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+                <strong>Items:</strong>
+                {order.items && order.items.map((item, i) => {
+                  const name = item.product?.name || item.name || "Unknown Product";
+                  const price = item.product?.price || item.price || 0;
+                  const qty = item.quantity || 1;
+
+                  return (
+                    <div
+                      key={i}
+                      style={{
+                        fontSize: "14px",
+                        opacity: 0.95,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        borderBottom: "1px solid rgba(255,255,255,0.05)",
+                        padding: "4px 0"
+                      }}
+                    >
+                      <span>{name} × {qty}</span>
+                      <span>${(price * qty).toFixed(2)}</span>
+                    </div>
+                  );
+                })}
+              </div>
 <p><strong>Tracking:</strong> {order.trackingNumber || "Not generated"}</p>
 
 {order.shippingLabelUrl && (

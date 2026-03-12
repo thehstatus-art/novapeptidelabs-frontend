@@ -3869,6 +3869,10 @@ margin-bottom:6px;
 color:#ffffff;
 letter-spacing:.5px;
 }
+.batch-card{
+min-height:180px;
+justify-content:space-between;
+}
 
 .batch-purity{
 font-size:24px;

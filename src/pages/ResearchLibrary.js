@@ -41,3 +41,5 @@
               <div className="coa-verified">
                 ✓ COA Verified
               </div>
+
+              export default ResearchLibrary;

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import TrustSection from "../components/TrustSection";
 import VerifiedBatches from "../components/VerifiedBatches";
+import ResearchPipeline from "../components/ResearchPipeline";
 function Home({ products, addToCart }) {
   
  
@@ -27,6 +28,11 @@ function Home({ products, addToCart }) {
     </p>
 
     <TrustSection />
+
+<VerifiedBatches />
+
+<ResearchPipeline />
+
 
     {/* ===== ELITE TRUST PANEL ===== */}
 

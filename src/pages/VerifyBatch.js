@@ -6,13 +6,41 @@ export default function VerifyBatch() {
 
   const [batch, setBatch] = useState("");
   const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const verify = async () => {
 
-    const res = await fetch(`${API}/api/verify/${batch}`);
-    const data = await res.json();
+    if (!batch) {
+      setError("Please enter a batch number.");
+      return;
+    }
 
-    setResult(data);
+    try {
+
+      setLoading(true);
+      setError(null);
+      setResult(null);
+
+      const res = await fetch(`${API}/api/verify/${batch}`);
+
+      if (!res.ok) {
+        throw new Error("Batch not found");
+      }
+
+      const data = await res.json();
+
+      setResult(data);
+
+    } catch (err) {
+
+      setError("Batch not found or verification service unavailable.");
+
+    } finally {
+
+      setLoading(false);
+
+    }
 
   };
 
@@ -32,6 +60,14 @@ export default function VerifyBatch() {
       <button onClick={verify}>
         Verify Batch
       </button>
+
+      {loading && (
+        <p className="verify-loading">Checking laboratory records...</p>
+      )}
+
+      {error && (
+        <p className="verify-error">{error}</p>
+      )}
 
       {result && result.verified && (
 
@@ -55,6 +91,21 @@ export default function VerifyBatch() {
           >
             Download COA
           </a>
+
+        </div>
+
+      )}
+
+      {result && !result.verified && (
+
+        <div className="verify-result error">
+
+          <h3>Batch Not Verified</h3>
+
+          <p>
+            This batch could not be verified in the NovaPeptide Labs
+            certificate database.
+          </p>
 
         </div>
 

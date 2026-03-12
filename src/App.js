@@ -50,7 +50,7 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
 
-  const [, setCheckoutOpen] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const cartTotal = cart.reduce(
@@ -202,6 +202,17 @@ function App() {
 
       <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
 
+      {checkoutOpen && (
+        <Checkout
+          cart={cart}
+          cartTotal={cartTotal}
+          increaseQty={increaseQty}
+          decreaseQty={decreaseQty}
+          handleCheckout={handleCheckout}
+          handlePayPalSuccess={handlePayPalSuccess}
+        />
+      )}
+
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route
@@ -232,21 +243,6 @@ function App() {
           <Route path="/verify" element={<PageWrapper><VerifyBatch /></PageWrapper>} />
           <Route path="/compounds" element={<PageWrapper><CompoundDatabase products={products} /></PageWrapper>} />
 
-          <Route
-            path="/checkout"
-            element={
-              <PageWrapper>
-                <Checkout
-                  cart={cart}
-                  cartTotal={cartTotal}
-                  increaseQty={increaseQty}
-                  decreaseQty={decreaseQty}
-                  handleCheckout={handleCheckout}
-                  handlePayPalSuccess={handlePayPalSuccess}
-                />
-              </PageWrapper>
-            }
-          />
         </Routes>
       </AnimatePresence>
     </>

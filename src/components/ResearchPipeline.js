@@ -69,15 +69,32 @@ endocrine, and regenerative research models.
 
 <div key={i} className="pipeline-card">
 
-<h3>{c.name}</h3>
+<div className="pipeline-card-top">
+
+<h3 className="pipeline-name">{c.name}</h3>
+
+<span className={`pipeline-status-badge ${c.status.replace(/\s+/g,'-').toLowerCase()}`}>
+{c.status}
+</span>
+
+</div>
 
 <p className="pipeline-cat">
 {c.category}
 </p>
 
-<span className="pipeline-status">
-{c.status}
-</span>
+<div className="pipeline-progress">
+
+<div className="pipeline-bar">
+
+<div
+className="pipeline-fill"
+style={{width: c.status.includes("Active") ? "90%" : c.status.includes("Ongoing") ? "70%" : "45%"}}
+></div>
+
+</div>
+
+</div>
 
 </div>
 

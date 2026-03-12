@@ -30,16 +30,43 @@ export default function VerifiedBatches(){
         {batches.map((b,i)=>(
           <div key={i} className="batch-card">
 
-            <h4>{b.name}</h4>
+            <div className="batch-card-top">
 
-            <div className="batch-line">
-              <span>Batch</span>
-              <p>{b.batch}</p>
+              <h4 className="batch-name">{b.name}</h4>
+
+              <span className="batch-verified">✓ Verified</span>
+
             </div>
 
-            <div className="batch-line">
-              <span>Purity</span>
-              <p>{b.purity}</p>
+            <div className="batch-info">
+
+              <div className="batch-line">
+                <span>Batch ID</span>
+                <p>{b.batch}</p>
+              </div>
+
+              <div className="batch-line">
+                <span>Purity</span>
+                <p>{b.purity}</p>
+              </div>
+
+            </div>
+
+            <div className="batch-purity-wrapper">
+
+              <div className="batch-purity-bar">
+
+                <div
+                  className="batch-purity-fill"
+                  style={{ width: `${parseFloat(b.purity)}%` }}
+                ></div>
+
+              </div>
+
+              <div className="batch-purity-label">
+                {b.purity} HPLC Verified
+              </div>
+
             </div>
 
             <button

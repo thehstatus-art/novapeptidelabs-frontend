@@ -1,34 +1,34 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import { PayPalButtons } from "@paypal/react-paypal-js";
+import React, { useState, useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "@studio-freight/lenis";
 import Particles from "@tsparticles/react";
+
 import AgeGate from "./components/AgeGate";
 import Header from "./components/Header";
-import ProductDetail from "./pages/ProductDetail";
+import EmailCapture from "./components/EmailCapture";
+import OrderPopup from "./components/OrderPopup";
+
 import Home from "./pages/Home";
+import Shop from "./pages/Shop";
+import ProductDetail from "./pages/ProductDetail";
+import Success from "./pages/Success";
+import Cancel from "./pages/Cancel";
 import Disclaimer from "./pages/Disclaimer";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Orders from "./pages/Orders";
 import Admin from "./pages/Admin";
 import AdminOrders from "./pages/AdminOrders";
-import Shop from "./pages/Shop";
-import Success from "./pages/Success";
-import Cancel from "./pages/Cancel";
-import ReconstitutionTool from "./pages/ReconstitutionTool";
-import Checkout from "./pages/Checkout";
-import EmailCapture from "./components/EmailCapture";
-import CompoundDatabase from "./pages/CompoundDatabase";
-import VerifyBatch from "./pages/VerifyBatch";
 import ResearchLibrary from "./pages/ResearchLibrary";
-import "./App.css";
-import OrderPopup from "./components/OrderPopup";
-const API = "https://nova-backend-lu2l.onrender.com";
-const FALLBACK_IMAGE = "/no-image.png";
+import ReconstitutionTool from "./pages/ReconstitutionTool";
+import VerifyBatch from "./pages/VerifyBatch";
+import CompoundDatabase from "./pages/CompoundDatabase";
+import Checkout from "./pages/Checkout";
 
-/* ================= PAGE TRANSITION ================= */
+import "./App.css";
+
+const API = "https://nova-backend-lu2l.onrender.com";
 
 const PageWrapper = ({ children }) => (
   <motion.div
@@ -43,30 +43,25 @@ const PageWrapper = ({ children }) => (
 
 function App() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const spotlightRef = useRef(null);
 
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("cart");
     return saved ? JSON.parse(saved) : [];
   });
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
+
+  const [, setCheckoutOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-const [researchConfirmed, setResearchConfirmed] = useState(false);
+
   const cartTotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
-  /* ================= LOADER ================= */
-
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 900);
     return () => clearTimeout(timer);
   }, []);
-
-  /* ================= SMOOTH SCROLL ================= */
 
   useEffect(() => {
     const lenis = new Lenis({ duration: 1.1, smooth: true });
@@ -85,30 +80,6 @@ const [researchConfirmed, setResearchConfirmed] = useState(false);
     };
   }, []);
 
-  /* ================= SPOTLIGHT ================= */
-
-  useEffect(() => {
-    const spotlight = document.createElement("div");
-    spotlight.className = "spotlight";
-    document.body.appendChild(spotlight);
-    spotlightRef.current = spotlight;
-
-    const move = (e) => {
-      spotlight.style.transform = `translate(${e.clientX - 300}px, ${e.clientY - 300}px)`;
-    };
-
-    window.addEventListener("mousemove", move);
-
-    return () => {
-      window.removeEventListener("mousemove", move);
-      if (spotlightRef.current) {
-        document.body.removeChild(spotlightRef.current);
-      }
-    };
-  }, []);
-
-  /* ================= LOAD PRODUCTS ================= */
-
   useEffect(() => {
     fetch(`${API}/api/products`)
       .then((res) => res.json())
@@ -116,107 +87,29 @@ const [researchConfirmed, setResearchConfirmed] = useState(false);
       .catch((err) => console.error("Product load error:", err));
   }, []);
 
-  /* ================= MAGNETIC BUTTONS ================= */
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const magnets = document.querySelectorAll(".magnetic");
-
-      magnets.forEach((btn) => {
-        const handleMove = (e) => {
-          const rect = btn.getBoundingClientRect();
-          const x = e.clientX - rect.left - rect.width / 2;
-          const y = e.clientY - rect.top - rect.height / 2;
-          btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-        };
-
-        const reset = () => {
-          btn.style.transform = "translate(0,0)";
-        };
-
-        btn.addEventListener("mousemove", handleMove);
-        btn.addEventListener("mouseleave", reset);
-      });
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [location, checkoutOpen]);
-
-  /* ================= PRODUCT TILT (SAFE) ================= */
-
-useEffect(() => {
-  const timer = setTimeout(() => {
-
-    // ONLY target product grid cards
-    const cards = document.querySelectorAll(".product-grid .card");
-
-    cards.forEach((card) => {
-      const handleMove = (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const rotateX = -(y - rect.height / 2) / 25;
-        const rotateY = (x - rect.width / 2) / 25;
-
-        card.style.transform =
-          `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-      };
-
-      const reset = () => {
-        card.style.transform = "rotateX(0) rotateY(0) scale(1)";
-      };
-
-      card.addEventListener("mousemove", handleMove);
-      card.addEventListener("mouseleave", reset);
-    });
-
-  }, 400);
-
-  return () => clearTimeout(timer);
-
-}, [products, location]);
-
-  /* ================= SMART CTA PULSE ================= */
-
-  useEffect(() => {
-    const lowStock = products.some(p => p.stock && p.stock < 10);
-
-    if (lowStock) {
-      setTimeout(() => {
-        const btn = document.querySelector(".stripe-premium-btn");
-        if (btn) btn.classList.add("pulse-cta");
-      }, 500);
-    }
-  }, [products]);
-
-  /* ================= SAVE CART ================= */
-
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  /* ================= CART LOGIC ================= */
-
   const addToCart = (product) => {
-  setCart(prev => {
-    const exists = prev.find(item => item._id === product._id);
+    setCart((prev) => {
+      const exists = prev.find((item) => item._id === product._id);
 
-    if (exists) {
-      return prev.map(item =>
-        item._id === product._id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      );
-    }
+      if (exists) {
+        return prev.map((item) =>
+          item._id === product._id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
 
-    return [...prev, { ...product, quantity: 1 }];
-  });
-};
+      return [...prev, { ...product, quantity: 1 }];
+    });
+  };
 
   const increaseQty = (id) => {
-    setCart(prev =>
-      prev.map(item =>
+    setCart((prev) =>
+      prev.map((item) =>
         item._id === id
           ? { ...item, quantity: item.quantity + 1 }
           : item
@@ -225,14 +118,14 @@ useEffect(() => {
   };
 
   const decreaseQty = (id) => {
-    setCart(prev =>
+    setCart((prev) =>
       prev
-        .map(item =>
+        .map((item) =>
           item._id === id
             ? { ...item, quantity: item.quantity - 1 }
             : item
         )
-        .filter(item => item.quantity > 0)
+        .filter((item) => item.quantity > 0)
     );
   };
 
@@ -244,12 +137,12 @@ useEffect(() => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-  email,
-  items: cart.map(item => ({
-    productId: item._id,
-    quantity: item.quantity
-  }))
-})
+          email,
+          items: cart.map((item) => ({
+            productId: item._id,
+            quantity: item.quantity,
+          })),
+        }),
       });
 
       const data = await res.json();
@@ -265,10 +158,7 @@ useEffect(() => {
     await fetch(`${API}/api/orders/paypal`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        paypalOrderId: orderID,
-        items: cart
-      })
+      body: JSON.stringify({ paypalOrderId: orderID, items: cart }),
     });
 
     setCart([]);
@@ -277,8 +167,6 @@ useEffect(() => {
 
   if (loading) {
     return (
-      
-      
       <div className="loader-screen">
         <div className="loader-logo">NovaPeptide Labs</div>
       </div>
@@ -286,270 +174,83 @@ useEffect(() => {
   }
 
   return (
-  
-  <>
-  <EmailCapture />
-  <OrderPopup />
-  <div className="lab-particles">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
+    <>
+      <EmailCapture />
+      <OrderPopup />
 
-  <div className="dna-strand"></div>
+      <AgeGate />
 
-  <div className="lab-orb orb1"></div>
-  <div className="lab-orb orb2"></div>
-  <div className="depth-layer"></div>
-  <AgeGate />
-    <div className="depth-layer"></div>
-
-    <Particles
-      options={{
-        fpsLimit: 60,
-        particles: {
-          number: { value: 25 },
-          color: { value: "#6ec1ff" },
-          opacity: { value: 0.12 },
-          size: { value: 2 },
-          move: { enable: true, speed: 0.4 },
-          links: {
-            enable: true,
-            distance: 120,
-            opacity: 0.08,
-            color: "#6ec1ff"
-          }
-        }
-      }}
-      style={{ position: "fixed", top: 0, left: 0, zIndex: -4 }}
-    />
-
-    <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
-
-    <AnimatePresence mode="wait">
-  <Routes location={location} key={location.pathname}>
-
-    <Route
-      path="/"
-      element={<PageWrapper><Home products={products} addToCart={addToCart} /></PageWrapper>}
-    />
-
-    <Route
-      path="/shop"
-      element={<PageWrapper><Shop products={products} addToCart={addToCart} /></PageWrapper>}
-    />
-
-    <Route
-      path="/product/:id"
-      element={<PageWrapper><ProductDetail products={products} addToCart={addToCart} /></PageWrapper>}
-    />
-
-    <Route
-      path="/success"
-      element={<PageWrapper><Success /></PageWrapper>}
-    />
-
-    <Route
-      path="/cancel"
-      element={<PageWrapper><Cancel /></PageWrapper>}
-    />
-
-    <Route
-      path="/disclaimer"
-      element={<PageWrapper><Disclaimer /></PageWrapper>}
-    />
-
-    <Route
-      path="/privacy"
-      element={<PageWrapper><Privacy /></PageWrapper>}
-    />
-
-    <Route
-      path="/terms"
-      element={<PageWrapper><Terms /></PageWrapper>}
-    />
-
-    <Route
-      path="/orders"
-      element={<PageWrapper><Orders /></PageWrapper>}
-    />
-
-    <Route
-      path="/admin"
-      element={<PageWrapper><Admin /></PageWrapper>}
-    />
-
-    <Route
-      path="/admin/orders"
-      element={<PageWrapper><AdminOrders /></PageWrapper>}
-    />
-
-    <Route
-      path="/research"
-      element={<PageWrapper><ResearchLibrary products={products} /></PageWrapper>}
-    />
-
-    <Route
-      path="/reconstitution-tool"
-      element={<PageWrapper><ReconstitutionTool /></PageWrapper>}
-    />
-
-    <Route
-      path="/verify"
-      element={<PageWrapper><VerifyBatch /></PageWrapper>}
-    />
-
-    <Route
-      path="/compounds"
-      element={<PageWrapper><CompoundDatabase products={products} /></PageWrapper>}
-    />
-<Route
-  path="/checkout"
-  element={
-    <PageWrapper>
-      <Checkout
-        cart={cart}
-        cartTotal={cartTotal}
-        increaseQty={increaseQty}
-        decreaseQty={decreaseQty}
-        handleCheckout={handleCheckout}
-        handlePayPalSuccess={handlePayPalSuccess}
+      <Particles
+        options={{
+          fpsLimit: 60,
+          particles: {
+            number: { value: 25 },
+            color: { value: "#6ec1ff" },
+            opacity: { value: 0.12 },
+            size: { value: 2 },
+            move: { enable: true, speed: 0.4 },
+            links: {
+              enable: true,
+              distance: 120,
+              opacity: 0.08,
+              color: "#6ec1ff",
+            },
+          },
+        }}
+        style={{ position: "fixed", top: 0, left: 0, zIndex: -4 }}
       />
-    </PageWrapper>
-  }
-/>
-  </Routes>
-</AnimatePresence>
 
-    {/* ================= CHECKOUT OVERLAY ================= */}
+      <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
 
-    {checkoutOpen && (
-  <div className="checkout-overlay">
-    <div className="checkout-panel">
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route
+            path="/"
+            element={<PageWrapper><Home products={products} addToCart={addToCart} /></PageWrapper>}
+          />
 
-      {/* LEFT SIDE */}
-      <div className="checkout-left">
+          <Route
+            path="/shop"
+            element={<PageWrapper><Shop products={products} addToCart={addToCart} /></PageWrapper>}
+          />
 
+          <Route
+            path="/product/:id"
+            element={<PageWrapper><ProductDetail products={products} addToCart={addToCart} /></PageWrapper>}
+          />
 
+          <Route path="/success" element={<PageWrapper><Success /></PageWrapper>} />
+          <Route path="/cancel" element={<PageWrapper><Cancel /></PageWrapper>} />
+          <Route path="/disclaimer" element={<PageWrapper><Disclaimer /></PageWrapper>} />
+          <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
+          <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
+          <Route path="/orders" element={<PageWrapper><Orders /></PageWrapper>} />
+          <Route path="/admin" element={<PageWrapper><Admin /></PageWrapper>} />
+          <Route path="/admin/orders" element={<PageWrapper><AdminOrders /></PageWrapper>} />
+          <Route path="/research" element={<PageWrapper><ResearchLibrary products={products} /></PageWrapper>} />
+          <Route path="/reconstitution-tool" element={<PageWrapper><ReconstitutionTool /></PageWrapper>} />
+          <Route path="/verify" element={<PageWrapper><VerifyBatch /></PageWrapper>} />
+          <Route path="/compounds" element={<PageWrapper><CompoundDatabase products={products} /></PageWrapper>} />
 
-       <button
-  className="checkout-back-btn"
-  onClick={() => {
-    setCheckoutOpen(false);
-    navigate("/");
-  }}
->
-  ← Continue Shopping
-</button>
-
-        <h2 className="checkout-title">Your Cart</h2>
-
-        {cart.map(item => (
-          <div key={item._id} className="checkout-item">
-            <img
-              src={
-                item.image && item.image.startsWith("http")
-                  ? item.image
-                  : FALLBACK_IMAGE
-              }
-              alt={item.name}
-            />
-
-            <div className="checkout-item-info">
-  <h4>{item.name}</h4>
-
-  {item.description && (
-    <p className="checkout-description">
-      {item.description}
-    </p>
-  )}
-
-  <p className="checkout-unit-price">
-    ${item.price.toFixed(2)}
-  </p>
-
-  <div className="qty-controls">
-    <button onClick={() => decreaseQty(item._id)}>-</button>
-    <span>{item.quantity}</span>
-    <button onClick={() => increaseQty(item._id)}>+</button>
-  </div>
-</div>
-          </div>
-        ))}
-
-      </div>
-
-      {/* RIGHT SIDE */}
-<div className="checkout-right">
-
-  <h3>Order Summary</h3>
-
-  <div className="summary-row total">
-    <span>Total</span>
-    <span>${cartTotal.toFixed(2)}</span>
-  </div>
-
-  {/* Research Confirmation */}
-  <label className="research-confirm">
-    <input
-      type="checkbox"
-      checked={researchConfirmed}
-      onChange={(e) => setResearchConfirmed(e.target.checked)}
-    />
-    I confirm these products are for laboratory research use only and not for human consumption.
-  </label>
-
-  {/* Stripe Checkout */}
-  <button
-    className="stripe-premium-btn magnetic"
-    onClick={() => {
-      if (!researchConfirmed) {
-        alert("Please confirm research use before checkout.");
-        return;
-      }
-      handleCheckout();
-    }}
-  >
-    💳 Pay with Debit / Credit Card
-  </button>
-
-  {/* PayPal */}
-  <div className="paypal-section">
-    <PayPalButtons
-      style={{
-        layout: "vertical",
-        color: "gold",
-        shape: "rect",
-        height: 50
-      }}
-      createOrder={(data, actions) =>
-        actions.order.create({
-          purchase_units: [
-            { amount: { value: cartTotal.toFixed(2) } }
-          ]
-        })
-      }
-      onApprove={async (data, actions) => {
-        await actions.order.capture();
-        await handlePayPalSuccess(data.orderID);
-      }}
-    />
-  </div>
-
-  <div className="secure-badge">
-    🔒 Secure encrypted checkout
-  </div>
-
-</div>
-    </div>
-  </div>
-)}
-
-  </>
-);
+          <Route
+            path="/checkout"
+            element={
+              <PageWrapper>
+                <Checkout
+                  cart={cart}
+                  cartTotal={cartTotal}
+                  increaseQty={increaseQty}
+                  decreaseQty={decreaseQty}
+                  handleCheckout={handleCheckout}
+                  handlePayPalSuccess={handlePayPalSuccess}
+                />
+              </PageWrapper>
+            }
+          />
+        </Routes>
+      </AnimatePresence>
+    </>
+  );
 }
 
 export default App;

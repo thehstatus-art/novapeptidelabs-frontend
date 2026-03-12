@@ -264,6 +264,119 @@ inset 0 0 20px rgba(110,193,255,.05);
 margin-bottom:40px;
 
 }
+
+/* ================= RESEARCH TOOL BUTTONS ================= */
+
+.research-tools{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-top:25px;
+  flex-wrap:wrap;
+}
+
+.research-tool-btn{
+  padding:12px 18px;
+  border-radius:12px;
+
+  background:linear-gradient(
+    135deg,
+    rgba(110,193,255,.15),
+    rgba(78,168,255,.25)
+  );
+
+  border:1px solid rgba(110,193,255,.45);
+
+  color:#6ec1ff;
+  font-weight:700;
+  font-size:14px;
+
+  text-decoration:none;
+
+  box-shadow:
+    0 0 20px rgba(110,193,255,.25),
+    inset 0 0 10px rgba(110,193,255,.1);
+
+  transition:all .25s ease;
+}
+
+.research-tool-btn:hover{
+  transform:translateY(-2px);
+
+  background:linear-gradient(
+    135deg,
+    #4ea8ff,
+    #6ec1ff
+  );
+
+  color:#081523;
+
+  box-shadow:
+    0 0 35px rgba(110,193,255,.9),
+    inset 0 0 15px rgba(255,255,255,.25);
+}
+
+/* STACK RECOMMENDER PRIMARY BUTTON */
+
+.stack-recommender-btn{
+  padding:12px 18px;
+  border-radius:12px;
+
+  background:linear-gradient(
+    135deg,
+    #6ec1ff,
+    #4ea8ff
+  );
+
+  border:1px solid rgba(110,193,255,.7);
+
+  color:#081523;
+  font-weight:800;
+  font-size:14px;
+
+  text-decoration:none;
+
+  box-shadow:
+    0 0 25px rgba(110,193,255,.6),
+    inset 0 0 10px rgba(255,255,255,.2);
+
+  transition:all .25s ease;
+}
+
+.stack-recommender-btn:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 0 45px rgba(110,193,255,1),
+    inset 0 0 15px rgba(255,255,255,.35);
+}
+
+/* COMPOUND DATABASE SECONDARY BUTTON */
+
+.compound-database-btn{
+  padding:12px 18px;
+  border-radius:12px;
+
+  background:rgba(110,193,255,.08);
+
+  border:1px solid rgba(110,193,255,.35);
+
+  color:#6ec1ff;
+  font-weight:700;
+  font-size:14px;
+
+  text-decoration:none;
+
+  transition:all .25s ease;
+}
+
+.compound-database-btn:hover{
+  background:rgba(110,193,255,.15);
+
+  color:white;
+
+  box-shadow:0 0 18px rgba(110,193,255,.35);
+}
 .research-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
@@ -2598,24 +2711,37 @@ position:relative;
 }
 
 .purity-stamp{
-
 position:absolute;
 
 top:10px;
 left:10px;
 
-background:#132a1f;
+background:linear-gradient(135deg,#0f3d2c,#1e7a55);
 
-color:#4cffb0;
+color:#7fffc8;
 
-padding:4px 10px;
+padding:6px 12px;
 
 font-size:11px;
+font-weight:800;
+letter-spacing:.5px;
 
-border-radius:14px;
+border-radius:16px;
 
-border:1px solid rgba(76,255,176,.4);
+border:1px solid rgba(76,255,176,.6);
 
+box-shadow:
+0 0 12px rgba(76,255,176,.7),
+inset 0 0 6px rgba(255,255,255,.2);
+
+backdrop-filter:blur(4px);
+}
+
+.card:hover .purity-stamp{
+transform:scale(1.05);
+box-shadow:
+0 0 18px rgba(76,255,176,.9),
+inset 0 0 8px rgba(255,255,255,.25);
 }
 .product-meta{
 
@@ -2653,6 +2779,129 @@ padding:3px 8px;
 
 border-radius:14px;
 
+}
+
+/* ================= PRODUCT TRUST BADGES ================= */
+
+/* COA VERIFIED BADGE */
+
+.coa-verified-badge{
+position:absolute;
+top:10px;
+right:10px;
+
+font-size:10px;
+padding:5px 9px;
+
+border-radius:10px;
+
+background:rgba(110,193,255,.08);
+border:1px solid rgba(110,193,255,.5);
+
+color:#6ec1ff;
+font-weight:700;
+
+box-shadow:0 0 10px rgba(110,193,255,.6);
+
+animation:coaPulse 2.5s infinite;
+}
+
+@keyframes coaPulse{
+0%{box-shadow:0 0 6px rgba(110,193,255,.5);}
+50%{box-shadow:0 0 16px rgba(110,193,255,.9);}
+100%{box-shadow:0 0 6px rgba(110,193,255,.5);}
+}
+
+
+/* ================= STOCK SCARCITY INDICATOR ================= */
+
+.stock-indicator{
+margin-top:6px;
+font-size:12px;
+font-weight:700;
+letter-spacing:.4px;
+}
+
+.stock-high{ color:#7fffc8; }
+.stock-medium{ color:#ffd76a; }
+.stock-low{ color:#ff8e8e; }
+
+
+/* ================= BATCH ID LABEL ================= */
+
+.batch-id-label{
+margin-top:6px;
+font-size:11px;
+color:#7fa3c4;
+letter-spacing:.5px;
+}
+
+
+/* ================= MOLECULE HOVER GLOW ================= */
+
+.card::after{
+content:"";
+position:absolute;
+inset:-40px;
+
+background:radial-gradient(circle,rgba(110,193,255,.25),transparent 70%);
+
+opacity:0;
+transition:.35s ease;
+
+z-index:-1;
+}
+
+.card:hover::after{
+opacity:1;
+}
+
+
+/* ================= PREMIUM ADD TO CART BUTTON ================= */
+
+.add-cart-btn{
+
+margin-top:14px;
+
+padding:12px 16px;
+
+border-radius:12px;
+
+border:none;
+
+font-size:14px;
+font-weight:800;
+
+cursor:pointer;
+
+background:linear-gradient(
+135deg,
+#6ec1ff,
+#4ea8ff
+);
+
+color:#081523;
+
+box-shadow:
+0 0 20px rgba(110,193,255,.6),
+inset 0 0 10px rgba(255,255,255,.2);
+
+transition:all .25s ease;
+
+}
+
+.add-cart-btn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:
+0 0 40px rgba(110,193,255,.9),
+inset 0 0 15px rgba(255,255,255,.25);
+
+}
+
+.add-cart-btn:active{
+transform:scale(.97);
 }
 .shop-search {
 margin: 20px 0;
@@ -4539,4 +4788,89 @@ animation:orbDrift 20s infinite alternate ease-in-out;
 @keyframes orbDrift{
 0%{transform:translate(0,0);} 
 100%{transform:translate(120px,-60px);} 
+}
+/* ================= BIOTECH UI UPGRADE ================= */
+
+/* Floating molecule nodes */
+
+.molecule-node{
+position:fixed;
+width:8px;
+height:8px;
+border-radius:50%;
+background:#6ec1ff;
+box-shadow:0 0 12px rgba(110,193,255,.9);
+opacity:.35;
+pointer-events:none;
+z-index:-2;
+animation:moleculeRise linear infinite;
+}
+
+.molecule-node:nth-child(1){left:8%;animation-duration:18s;bottom:-20px;}
+.molecule-node:nth-child(2){left:22%;animation-duration:22s;bottom:-20px;}
+.molecule-node:nth-child(3){left:37%;animation-duration:16s;bottom:-20px;}
+.molecule-node:nth-child(4){left:52%;animation-duration:20s;bottom:-20px;}
+.molecule-node:nth-child(5){left:68%;animation-duration:24s;bottom:-20px;}
+.molecule-node:nth-child(6){left:83%;animation-duration:19s;bottom:-20px;}
+
+@keyframes moleculeRise{
+0%{
+transform:translateY(0) scale(1);
+opacity:.25;
+}
+50%{
+opacity:.6;
+}
+100%{
+transform:translateY(-120vh) scale(1.4);
+opacity:0;
+}
+}
+
+/* scanning hover effect for product + research cards */
+
+.card::before,
+.research-card::before{
+content:"";
+position:absolute;
+inset:-2px;
+
+background:linear-gradient(
+120deg,
+transparent,
+rgba(110,193,255,.35),
+transparent
+);
+
+opacity:0;
+transition:.45s;
+pointer-events:none;
+}
+
+.card:hover::before,
+.research-card:hover::before{
+opacity:1;
+}
+
+/* subtle lab grid glow */
+
+.lab-grid-glow{
+position:fixed;
+inset:0;
+
+background-image:
+linear-gradient(rgba(110,193,255,.04) 1px,transparent 1px),
+linear-gradient(90deg,rgba(110,193,255,.04) 1px,transparent 1px);
+
+background-size:60px 60px;
+
+pointer-events:none;
+z-index:-3;
+
+animation:gridShift 18s linear infinite;
+}
+
+@keyframes gridShift{
+0%{background-position:0 0;}
+100%{background-position:120px 120px;}
 }

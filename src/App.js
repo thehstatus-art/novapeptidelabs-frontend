@@ -23,6 +23,7 @@ import AdminOrders from "./pages/AdminOrders";
 import ResearchLibrary from "./pages/ResearchLibrary";
 import ReconstitutionTool from "./pages/ReconstitutionTool";
 import VerifyBatch from "./pages/VerifyBatch";
+import StackRecommender from "./pages/StackRecommender";
 import CompoundDatabase from "./pages/CompoundDatabase";
 import Checkout from "./pages/Checkout";
 
@@ -177,6 +178,15 @@ function App() {
     <>
       <EmailCapture />
       <OrderPopup />
+      {/* Biotech UI background effects */}
+      <div className="lab-grid-glow"></div>
+
+      <div className="molecule-node"></div>
+      <div className="molecule-node"></div>
+      <div className="molecule-node"></div>
+      <div className="molecule-node"></div>
+      <div className="molecule-node"></div>
+      <div className="molecule-node"></div>
 
       <AgeGate />
 
@@ -241,6 +251,7 @@ function App() {
           <Route path="/research" element={<PageWrapper><ResearchLibrary products={products} /></PageWrapper>} />
           <Route path="/reconstitution-tool" element={<PageWrapper><ReconstitutionTool /></PageWrapper>} />
           <Route path="/verify" element={<PageWrapper><VerifyBatch /></PageWrapper>} />
+          <Route path="/stack" element={<PageWrapper><StackRecommender products={products} /></PageWrapper>} />
           <Route path="/compounds" element={<PageWrapper><CompoundDatabase products={products} /></PageWrapper>} />
 
         </Routes>

@@ -32,6 +32,16 @@ function ResearchLibrary({ products }) {
         </p>
       </div>
 
+      {/* Research Tools */}
+      <div className="research-tools">
+        <Link to="/stack" className="research-tool-btn">
+          🧬 Stack Recommender
+        </Link>
+        <Link to="/compounds" className="research-tool-btn">
+          🔬 Compound Database
+        </Link>
+      </div>
+
       <div className="research-search">
         <input
           type="text"

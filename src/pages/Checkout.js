@@ -34,6 +34,14 @@ export default function Checkout({
       {/* HEADER */}
 
       <div className="checkout-header">
+
+        <button
+          className="checkout-close"
+          onClick={() => window.location.reload()}
+        >
+          ✕
+        </button>
+
         <h1>Secure Checkout</h1>
 
         <div className="checkout-trust">

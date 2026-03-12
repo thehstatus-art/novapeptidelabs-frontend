@@ -17,61 +17,57 @@ function Home({ products, addToCart }) {
       {/* ================= HERO ================= */}
 
       <div className="hero">
-        <div className="hero-content fade-in">
+  <div className="hero-content fade-in">
 
-          <h1>Advanced Research Peptides</h1>
-<TrustSection />
-<div className="hero">
-  <h1>NovaPeptide Labs</h1>
-  <p>Research-grade peptide compounds</p>
-</div>
+    <h1>Advanced Research Peptides</h1>
 
-<TrustSection />
-          <p className="hero-sub">
-            Pharmaceutical-grade compounds engineered for serious laboratory research.
-            Third-party tested. Ultra-high purity. Zero compromise.
-          </p>
+    <p className="hero-sub">
+      Pharmaceutical-grade compounds engineered for serious laboratory research.
+      Third-party tested. Ultra-high purity. Zero compromise.
+    </p>
 
-          {/* ===== ELITE TRUST PANEL ===== */}
+    <TrustSection />
 
-          <div className="trust-panel">
+    {/* ===== ELITE TRUST PANEL ===== */}
 
-            <div className="trust-item elite">
-              <span className="trust-icon">🧪</span>
-              <div className="trust-content">
-                <h4>Third-Party Lab Verified</h4>
-                <p>Each batch independently tested for analytical accuracy</p>
-              </div>
-            </div>
+    <div className="trust-panel">
 
-            <div className="trust-item elite">
-              <span className="trust-icon">📊</span>
-              <div className="trust-content">
-                <h4>99%+ Purity Standards</h4>
-                <p>HPLC certified compounds meeting strict research criteria</p>
-              </div>
-            </div>
-
-            <div className="trust-item elite">
-              <span className="trust-icon">🔒</span>
-              <div className="trust-content">
-                <h4>Secure Encrypted Checkout</h4>
-                <p>Enterprise-grade SSL protection</p>
-              </div>
-            </div>
-
-            <div className="trust-item elite">
-              <span className="trust-icon">🚚</span>
-              <div className="trust-content">
-                <h4>Rapid U.S. Fulfillment</h4>
-                <p>Orders processed within 24–48 hours</p>
-              </div>
-            </div>
-
-          </div>
-
+      <div className="trust-item elite">
+        <span className="trust-icon">🧪</span>
+        <div className="trust-content">
+          <h4>Third-Party Lab Verified</h4>
+          <p>Each batch independently tested for analytical accuracy</p>
         </div>
       </div>
+
+      <div className="trust-item elite">
+        <span className="trust-icon">📊</span>
+        <div className="trust-content">
+          <h4>99%+ Purity Standards</h4>
+          <p>HPLC certified compounds meeting strict research criteria</p>
+        </div>
+      </div>
+
+      <div className="trust-item elite">
+        <span className="trust-icon">🔒</span>
+        <div className="trust-content">
+          <h4>Secure Encrypted Checkout</h4>
+          <p>Enterprise-grade SSL protection</p>
+        </div>
+      </div>
+
+      <div className="trust-item elite">
+        <span className="trust-icon">🚚</span>
+        <div className="trust-content">
+          <h4>Rapid U.S. Fulfillment</h4>
+          <p>Orders processed within 24–48 hours</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
 
       {/* ================= PRODUCTS ================= */}
 

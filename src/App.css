@@ -3624,3 +3624,27 @@ background:rgba(255,255,255,.05);
 border-color:rgba(255,255,255,.12);
 color:#b8c3d1;
 }
+.coa-preview{
+margin-top:12px;
+padding:12px;
+background:rgba(10,20,35,.7);
+border:1px solid rgba(110,193,255,.25);
+border-radius:10px;
+font-size:12px;
+}
+
+.coa-row{
+display:flex;
+justify-content:space-between;
+margin-bottom:4px;
+color:#9fb8d6;
+}
+
+.coa-row span{
+opacity:.7;
+}
+
+.coa-row p{
+font-weight:600;
+color:#6ec1ff;
+}

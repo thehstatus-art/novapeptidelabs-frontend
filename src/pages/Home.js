@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import TrustSection from "../components/TrustSection";
 
 function Home({ products, addToCart }) {
   
@@ -20,7 +20,13 @@ function Home({ products, addToCart }) {
         <div className="hero-content fade-in">
 
           <h1>Advanced Research Peptides</h1>
+<TrustSection />
+<div className="hero">
+  <h1>NovaPeptide Labs</h1>
+  <p>Research-grade peptide compounds</p>
+</div>
 
+<TrustSection />
           <p className="hero-sub">
             Pharmaceutical-grade compounds engineered for serious laboratory research.
             Third-party tested. Ultra-high purity. Zero compromise.

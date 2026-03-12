@@ -38,6 +38,16 @@ status:"Preclinical Research"
 name:"GHK-CU",
 category:"Copper Peptide Regeneration",
 status:"Active Research"
+},
+{
+name:"DSIP",
+category:"Neuroregulatory Peptide",
+status:"Preclinical Investigation"
+},
+{
+name:"5-Amino-1MQ",
+category:"Metabolic Enzyme Modulation",
+status:"Emerging Research"
 }
 
 ];

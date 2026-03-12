@@ -11,6 +11,8 @@ export default function VerifiedBatches(){
     {name:"MOTS-c", batch:"NP2416", purity:"99.28%"},
     {name:"KLOW-80", batch:"NP2420", purity:"99.18%"},
     {name:"GHK-CU", batch:"NP2422", purity:"99.30%"},
+    {name:"DSIP", batch:"NP2425", purity:"99.26%"},
+    {name:"5-Amino-1MQ", batch:"NP2427", purity:"99.17%"},
   ];
 
   return(

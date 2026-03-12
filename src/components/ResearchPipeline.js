@@ -26,6 +26,18 @@ status:"Active Research"
 name:"BPC-157",
 category:"Regenerative Pathways",
 status:"Ongoing Study"
+},
+
+{
+name:"KLOW-80",
+category:"Longevity & Metabolic Signaling",
+status:"Preclinical Research"
+},
+
+{
+name:"GHK-CU",
+category:"Copper Peptide Regeneration",
+status:"Active Research"
 }
 
 ];

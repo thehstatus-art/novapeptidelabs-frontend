@@ -9,6 +9,8 @@ export default function VerifiedBatches(){
     {name:"Tesamorelin", batch:"NP2411", purity:"99.34%"},
     {name:"BPC-157", batch:"NP2413", purity:"99.11%"},
     {name:"MOTS-c", batch:"NP2416", purity:"99.28%"},
+    {name:"KLOW-80", batch:"NP2420", purity:"99.18%"},
+    {name:"GHK-CU", batch:"NP2422", purity:"99.30%"},
   ];
 
   return(

@@ -2222,6 +2222,86 @@ color:white;
 
 }
 
+/* ===== BIOTECH LAB VISUAL ENHANCEMENTS ===== */
+
+/* compound category pills */
+
+.compound-category{
+  display:inline-block;
+  margin-bottom:8px;
+  padding:4px 10px;
+
+  font-size:11px;
+  letter-spacing:.5px;
+
+  border-radius:20px;
+
+  background:rgba(110,193,255,.08);
+  border:1px solid rgba(110,193,255,.35);
+
+  color:#6ec1ff;
+
+  font-weight:700;
+}
+
+/* molecule glow behind compound cards */
+
+.compound-card::after{
+
+  content:"";
+
+  position:absolute;
+  inset:-40px;
+
+  background:radial-gradient(circle, rgba(110,193,255,.15), transparent 70%);
+
+  opacity:0;
+
+  transition:.4s;
+
+  z-index:-1;
+}
+
+.compound-card:hover::after{
+  opacity:1;
+}
+
+/* biotech hover highlight */
+
+.compound-card:hover h3{
+  color:#6ec1ff;
+  text-shadow:0 0 12px rgba(110,193,255,.8);
+}
+
+/* research score bars for compound metrics */
+
+.compound-score{
+  margin-top:14px;
+}
+
+.compound-score-row{
+  margin-bottom:6px;
+}
+
+.compound-score-row span{
+  font-size:11px;
+  color:#7fa3c4;
+}
+
+.compound-score-bar{
+  height:5px;
+  background:#0b1b2e;
+  border-radius:6px;
+  margin-top:3px;
+  overflow:hidden;
+}
+
+.compound-score-fill{
+  height:100%;
+  background:linear-gradient(90deg,#6ec1ff,#4ea8ff);
+  box-shadow:0 0 12px rgba(110,193,255,.8);
+}
+
 /* hover glow */
 
 .compound-card:hover{
@@ -2258,6 +2338,139 @@ margin-bottom:18px;
 
 color:#ffffff;
 
+}
+
+/* HERO PANEL */
+
+.compound-hero{
+  text-align:center;
+  margin-bottom:60px;
+}
+
+.compound-search{
+  display:flex;
+  justify-content:center;
+  margin-top:20px;
+}
+
+.compound-search input{
+  width:420px;
+  max-width:90%;
+
+  padding:12px 16px;
+
+  border-radius:12px;
+
+  border:1px solid rgba(110,193,255,.35);
+
+  background:#0b1b2e;
+
+  color:white;
+
+  box-shadow:0 0 20px rgba(110,193,255,.15);
+
+  transition:.25s;
+}
+
+.compound-search input:focus{
+  outline:none;
+  border-color:#6ec1ff;
+  box-shadow:0 0 30px rgba(110,193,255,.5);
+}
+
+/* IMAGE WRAPPER */
+
+.compound-image-wrap{
+  position:relative;
+}
+
+/* BADGES */
+
+.compound-badges{
+  position:absolute;
+  top:10px;
+  right:10px;
+
+  display:flex;
+  gap:6px;
+}
+
+.badge-blue{
+  font-size:10px;
+  padding:4px 8px;
+  border-radius:6px;
+
+  background:rgba(110,193,255,.12);
+
+  border:1px solid rgba(110,193,255,.45);
+
+  color:#6ec1ff;
+
+  font-weight:700;
+}
+
+.badge-green{
+  font-size:10px;
+  padding:4px 8px;
+  border-radius:6px;
+
+  background:rgba(76,255,176,.12);
+
+  border:1px solid rgba(76,255,176,.45);
+
+  color:#7fffc8;
+
+  font-weight:700;
+}
+
+/* DESCRIPTION */
+
+.compound-description{
+  font-size:13px;
+
+  line-height:1.5;
+
+  color:#9bb3c9;
+
+  margin-bottom:18px;
+}
+
+/* VIEW PROFILE BUTTON */
+
+.compound-view{
+  margin-top:18px;
+
+  font-size:13px;
+
+  font-weight:700;
+
+  color:#6ec1ff;
+
+  text-align:right;
+
+  transition:.25s;
+}
+
+.compound-card:hover .compound-view{
+  text-shadow:0 0 12px rgba(110,193,255,.8);
+}
+
+/* EMPTY SEARCH */
+
+.compound-empty{
+  grid-column:1/-1;
+
+  text-align:center;
+
+  padding:40px;
+
+  border-radius:14px;
+
+  background:rgba(110,193,255,.05);
+
+  border:1px solid rgba(110,193,255,.25);
+
+  color:#9bb3c9;
 }
 .compound-data{
 
@@ -4125,6 +4338,61 @@ color:#6ec1ff;
   box-shadow:0 0 15px rgba(110,193,255,.8);
   transition:width .6s ease;
 }
+/* ================= LAB DASHBOARD PIPELINE STATUS ================= */
+
+.pipeline-status-badge{
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:10px;
+  font-weight:700;
+  letter-spacing:.4px;
+}
+
+/* ACTIVE RESEARCH */
+.status-active{
+  background:rgba(76,255,176,.08);
+  border:1px solid rgba(76,255,176,.45);
+  color:#7fffc8;
+  box-shadow:0 0 12px rgba(76,255,176,.6);
+}
+
+/* CLINICAL PHASE */
+.status-phase{
+  background:rgba(110,193,255,.08);
+  border:1px solid rgba(110,193,255,.45);
+  color:#6ec1ff;
+  box-shadow:0 0 12px rgba(110,193,255,.6);
+}
+
+/* PRECLINICAL */
+.status-preclinical{
+  background:rgba(180,120,255,.08);
+  border:1px solid rgba(180,120,255,.45);
+  color:#c7a6ff;
+  box-shadow:0 0 12px rgba(180,120,255,.6);
+}
+
+/* EMERGING COMPOUND */
+.status-emerging{
+  background:rgba(255,193,7,.08);
+  border:1px solid rgba(255,193,7,.45);
+  color:#ffd76a;
+  box-shadow:0 0 12px rgba(255,193,7,.6);
+}
+
+/* subtle dashboard pulse */
+.status-active::after,
+.status-phase::after,
+.status-preclinical::after,
+.status-emerging::after{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:12px;
+  opacity:.25;
+  filter:blur(6px);
+  z-index:-1;
+}
 /* GRID BALANCE FIX FOR PIPELINE + BATCH */
 
 @media (max-width:1000px){
@@ -4168,4 +4436,97 @@ grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
 gap:28px;
 max-width:1100px;
 margin:auto;
+}
+
+
+/* ================= FLOATING BIOTECH LAB PARTICLES ================= */
+
+.lab-particles{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:-2;
+overflow:hidden;
+}
+
+.lab-particles span{
+position:absolute;
+width:6px;
+height:6px;
+border-radius:50%;
+background:#6ec1ff;
+opacity:.35;
+box-shadow:0 0 10px rgba(110,193,255,.9);
+animation:labFloat linear infinite;
+}
+
+/* random particle positions */
+
+.lab-particles span:nth-child(1){left:10%;animation-duration:18s;top:90%;}
+.lab-particles span:nth-child(2){left:25%;animation-duration:22s;top:95%;}
+.lab-particles span:nth-child(3){left:40%;animation-duration:16s;top:92%;}
+.lab-particles span:nth-child(4){left:60%;animation-duration:24s;top:94%;}
+.lab-particles span:nth-child(5){left:75%;animation-duration:20s;top:93%;}
+.lab-particles span:nth-child(6){left:90%;animation-duration:26s;top:96%;}
+
+@keyframes labFloat{
+0%{
+transform:translateY(0) scale(1);
+opacity:.2;
+}
+50%{
+opacity:.6;
+}
+100%{
+transform:translateY(-120vh) scale(1.4);
+opacity:0;
+}
+}
+
+
+/* ================= DNA HELIX BACKGROUND EFFECT ================= */
+
+.dna-strand{
+position:fixed;
+left:50%;
+top:0;
+width:2px;
+height:100vh;
+background:linear-gradient(
+transparent,
+rgba(110,193,255,.25),
+transparent
+);
+opacity:.15;
+filter:blur(1px);
+animation:dnaMove 12s linear infinite;
+z-index:-2;
+}
+
+@keyframes dnaMove{
+0%{transform:translateX(-50%) rotate(0deg);} 
+100%{transform:translateX(-50%) rotate(360deg);} 
+}
+
+
+/* ================= LAB GLOW ORBS ================= */
+
+.lab-orb{
+position:fixed;
+width:320px;
+height:320px;
+border-radius:50%;
+background:radial-gradient(circle,rgba(110,193,255,.25),transparent 70%);
+filter:blur(70px);
+opacity:.35;
+z-index:-2;
+animation:orbDrift 20s infinite alternate ease-in-out;
+}
+
+.lab-orb.orb1{top:10%;left:15%;}
+.lab-orb.orb2{bottom:10%;right:10%;animation-duration:26s;}
+
+@keyframes orbDrift{
+0%{transform:translate(0,0);} 
+100%{transform:translate(120px,-60px);} 
 }

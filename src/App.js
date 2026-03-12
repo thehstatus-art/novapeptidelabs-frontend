@@ -290,6 +290,19 @@ useEffect(() => {
   <>
   <EmailCapture />
   <OrderPopup />
+  <div className="lab-particles">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div className="dna-strand"></div>
+
+  <div className="lab-orb orb1"></div>
+  <div className="lab-orb orb2"></div>
   <div className="depth-layer"></div>
   <AgeGate />
     <div className="depth-layer"></div>

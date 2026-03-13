@@ -10,22 +10,15 @@ export default function Checkout({
   handlePayPalSuccess
 }) {
 
-  const [email, setEmail] = useState("");
   const [confirmed, setConfirmed] = useState(false);
 
   const startCheckout = () => {
-
     if (!confirmed) {
       alert("Please confirm research use before checkout.");
       return;
     }
 
-    if (!email || !email.includes("@")) {
-      alert("Please enter a valid email before checkout.");
-      return;
-    }
-
-    handleCheckout(email);
+    handleCheckout();
   };
 
   return (
@@ -72,7 +65,7 @@ export default function Checkout({
 
                 <div key={item._id} className="checkout-item">
 
-                  <img src={item.image} alt={item.name} />
+                  <img src={item.image || "/no-image.png"} alt={item.name} />
 
                   <div className="checkout-item-info">
 
@@ -110,21 +103,6 @@ export default function Checkout({
         <div className="checkout-payment">
 
           <h3>Order Summary</h3>
-
-          {/* EMAIL */}
-
-          <div className="checkout-email">
-
-            <label>Researcher Email</label>
-
-            <input
-              type="email"
-              placeholder="you@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-          </div>
 
           {/* TOTAL */}
 
@@ -197,7 +175,6 @@ export default function Checkout({
                     },
                     body: JSON.stringify({
                       paypalOrderId: details.id,
-                      email: email,
                       items: cart
                     })
                   });

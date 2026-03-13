@@ -224,7 +224,7 @@ function App() {
           <Route
             path="/checkout"
             element={
-              <PageWrapper>
+              <div className="checkout-route">
                 <Checkout
                   cart={cart}
                   cartTotal={cartTotal}
@@ -233,7 +233,7 @@ function App() {
                   handleCheckout={handleCheckout}
                   handlePayPalSuccess={handlePayPalSuccess}
                 />
-              </PageWrapper>
+              </div>
             }
           />
 

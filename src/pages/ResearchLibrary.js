@@ -235,7 +235,13 @@ function ResearchLibrary({ products }) {
                     const existing =
                       JSON.parse(localStorage.getItem("cart")) || [];
 
-                    existing.push(product);
+                    existing.push({
+                      _id: product._id,
+                      name: product.name,
+                      price: product.price,
+                      image: imageUrl,
+                      quantity: 1
+                    });
 
                     localStorage.setItem("cart", JSON.stringify(existing));
 

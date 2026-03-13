@@ -13,19 +13,36 @@ export default function Checkout({
   const [confirmed, setConfirmed] = useState(false);
 
   const startCheckout = () => {
+
     if (!confirmed) {
       alert("Please confirm research use before checkout.");
       return;
     }
 
     handleCheckout();
+
   };
 
   return (
 
-    <div className="checkout-page">
+    <div
+      className="checkout-page"
+      style={{
+        minHeight: "100vh",
+        overflowY: "auto",
+        position: "relative",
+        paddingBottom: "140px"
+      }}
+    >
 
-      <div className="checkout-container">
+      <div
+        className="checkout-container"
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "70px 24px"
+        }}
+      >
 
         {/* HEADER */}
 
@@ -33,8 +50,10 @@ export default function Checkout({
 
           <h1>Secure Laboratory Checkout</h1>
 
-          <div className="checkout-trust">
-            🔬 Research Grade Compounds • 🔒 Secure Payments • 🧪 Lab Verified
+          <div className="checkout-badges">
+            <span>🔬 Research Grade</span>
+            <span>🔒 Secure Checkout</span>
+            <span>🧪 Lab Verified</span>
           </div>
 
         </div>
@@ -42,7 +61,7 @@ export default function Checkout({
 
         <div className="checkout-grid">
 
-          {/* LEFT SIDE — CART ITEMS */}
+          {/* LEFT — PRODUCTS */}
 
           <div className="checkout-products">
 
@@ -56,41 +75,40 @@ export default function Checkout({
 
               const price = item.price || 0;
               const quantity = item.quantity || 1;
-              const imageSrc = item.image || item.imageUrl || "/no-image.png";
-              const subtotal = price * quantity;
+              const image = item.image || item.imageUrl || "/no-image.png";
 
               return (
 
                 <div key={item._id} className="checkout-item">
 
                   <img
-                    className="checkout-product-image"
-                    src={imageSrc}
+                    src={image}
                     alt={item.name}
+                    className="checkout-product-image"
                   />
 
                   <div className="checkout-item-info">
 
-                    <h4>{item.name}</h4>
+                    <h3>{item.name}</h3>
 
-                    <div className="checkout-meta">
-                      <span className="badge">Research Grade</span>
-                      <span className="badge">≥99% Purity</span>
+                    <div className="checkout-tags">
+                      <span>Research Grade</span>
+                      <span>≥99% Purity</span>
                     </div>
 
                     <p className="checkout-price">${price.toFixed(2)}</p>
 
-                    <span className="item-subtotal">
-                      Subtotal: ${subtotal.toFixed(2)}
-                    </span>
-
                     <div className="qty-controls">
 
-                      <button onClick={() => decreaseQty(item._id)}>-</button>
+                      <button onClick={() => decreaseQty(item._id)}>
+                        -
+                      </button>
 
                       <span>{quantity}</span>
 
-                      <button onClick={() => increaseQty(item._id)}>+</button>
+                      <button onClick={() => increaseQty(item._id)}>
+                        +
+                      </button>
 
                     </div>
 
@@ -105,15 +123,17 @@ export default function Checkout({
           </div>
 
 
-          {/* RIGHT SIDE — PAYMENT */}
+          {/* RIGHT — PAYMENT */}
 
           <div className="checkout-payment">
 
             <h3>Order Summary</h3>
 
-            <div className="summary-row total">
+            <div className="checkout-total">
+
               <span>Total</span>
               <span>${cartTotal.toFixed(2)}</span>
+
             </div>
 
 
@@ -127,13 +147,12 @@ export default function Checkout({
                 onChange={(e) => setConfirmed(e.target.checked)}
               />
 
-              I confirm these products are purchased for laboratory research
-              purposes only and not for human consumption.
+              I confirm these compounds are for laboratory research only and not for human consumption.
 
             </label>
 
 
-            {/* STRIPE BUTTON */}
+            {/* STRIPE */}
 
             <button
               className="stripe-premium-btn"
@@ -146,10 +165,6 @@ export default function Checkout({
             {/* PAYPAL */}
 
             <div className="paypal-section">
-
-              <div className="checkout-security">
-                🔐 256-bit SSL encryption • Payments processed securely
-              </div>
 
               <PayPalButtons
                 style={{
@@ -190,11 +205,9 @@ export default function Checkout({
 
                   } catch (err) {
 
-                    console.error("Failed to save PayPal order:", err);
+                    console.error("Order save error", err);
 
-                    alert(
-                      "Payment succeeded but the order could not be saved. Please contact support."
-                    );
+                    alert("Payment succeeded but the order could not be saved. Please contact support.");
 
                   }
 
@@ -204,7 +217,7 @@ export default function Checkout({
             </div>
 
 
-            {/* TRUST BADGES */}
+            {/* PAYMENT ICONS */}
 
             <div className="checkout-cards">
 

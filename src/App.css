@@ -4915,3 +4915,187 @@ animation:gridShift 18s linear infinite;
 .checkout-item:hover .checkout-product-image{
   box-shadow:0 0 25px rgba(110,193,255,.6);
 }
+
+
+/* ===== PREMIUM CHECKOUT ENHANCEMENTS ===== */
+
+.checkout-back{
+  margin-bottom:30px;
+}
+
+.checkout-back-btn{
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.3px;
+}
+
+/* larger product display */
+
+.checkout-product-image-large{
+  width:120px;
+  height:120px;
+  border-radius:16px;
+  box-shadow:0 0 25px rgba(110,193,255,.35);
+}
+
+/* product title */
+
+.checkout-product-title{
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:.4px;
+  color:white;
+}
+
+/* price highlight */
+
+.checkout-price{
+  font-size:18px;
+  font-weight:700;
+  color:#6ec1ff;
+}
+
+.checkout-price strong{
+  font-size:24px;
+  background:linear-gradient(90deg,#6ec1ff,#4ea8ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 20px rgba(110,193,255,.6);
+}
+
+/* premium research confirmation box */
+
+.premium-confirm{
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+
+  padding:22px 24px;
+
+  border-radius:16px;
+
+  background:linear-gradient(
+    160deg,
+    rgba(8,21,35,.95),
+    rgba(5,15,25,.95)
+  );
+
+  border:1px solid rgba(110,193,255,.35);
+
+  box-shadow:
+    0 0 35px rgba(110,193,255,.12),
+    inset 0 0 20px rgba(110,193,255,.06);
+
+  margin-bottom:28px;
+}
+
+.premium-confirm:hover{
+  border-color:#6ec1ff;
+  box-shadow:
+    0 0 50px rgba(110,193,255,.35),
+    inset 0 0 25px rgba(110,193,255,.08);
+}
+
+.confirm-text strong{
+  display:block;
+  font-size:15px;
+  color:#6ec1ff;
+  margin-bottom:6px;
+  letter-spacing:.4px;
+}
+
+.confirm-text p{
+  font-size:13px;
+  line-height:1.6;
+  color:#9bb3c9;
+  margin:0;
+}
+
+/* larger product row spacing */
+
+.checkout-item{
+  gap:26px;
+  padding-bottom:24px;
+}
+
+/* smoother scroll for product area */
+
+.checkout-products{
+  overflow-y:auto;
+  scrollbar-width:thin;
+}
+
+.checkout-products::-webkit-scrollbar{
+  width:6px;
+}
+
+.checkout-products::-webkit-scrollbar-thumb{
+  background:rgba(110,193,255,.35);
+  border-radius:10px;
+}
+
+
+/* ===== LAB STYLE CHECKOUT HEADER ===== */
+
+.checkout-lab-header{
+  margin-bottom:40px;
+  padding:30px 32px;
+
+  border-radius:18px;
+
+  background:linear-gradient(
+    160deg,
+    rgba(8,21,35,.95),
+    rgba(5,15,25,.95)
+  );
+
+  border:1px solid rgba(110,193,255,.35);
+
+  box-shadow:
+    0 0 50px rgba(110,193,255,.12),
+    inset 0 0 25px rgba(110,193,255,.06);
+
+  text-align:center;
+}
+
+.checkout-lab-header h2{
+  font-size:34px;
+  margin-bottom:10px;
+
+  background:linear-gradient(90deg,#ffffff,#6ec1ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:0 0 20px rgba(110,193,255,.5);
+}
+
+.checkout-lab-sub{
+  font-size:14px;
+  color:#9bb3c9;
+  opacity:.85;
+}
+
+.checkout-lab-badges{
+  margin-top:18px;
+
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.checkout-lab-badges span{
+  font-size:12px;
+  font-weight:700;
+
+  padding:6px 10px;
+
+  border-radius:10px;
+
+  background:rgba(110,193,255,.08);
+  border:1px solid rgba(110,193,255,.35);
+
+  color:#6ec1ff;
+
+  box-shadow:0 0 12px rgba(110,193,255,.25);
+}

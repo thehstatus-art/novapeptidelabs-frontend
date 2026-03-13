@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
 export default function Checkout({
@@ -11,6 +12,7 @@ export default function Checkout({
 }) {
 
   const [confirmed, setConfirmed] = useState(false);
+  const navigate = useNavigate();
 
   const startCheckout = () => {
 
@@ -44,11 +46,20 @@ export default function Checkout({
         }}
       >
 
+        <div className="checkout-back">
+          <button
+            className="checkout-back-btn"
+            onClick={() => navigate(-1)}
+          >
+            ← Back to Research Library
+          </button>
+        </div>
+
         {/* HEADER */}
 
         <div className="checkout-header">
 
-          <h1>Secure Laboratory Checkout</h1>
+          <h1>Secure Research Compound Checkout</h1>
 
           <div className="checkout-badges">
             <span>🔬 Research Grade</span>
@@ -84,19 +95,21 @@ export default function Checkout({
                   <img
                     src={image}
                     alt={item.name}
-                    className="checkout-product-image"
+                    className="checkout-product-image checkout-product-image-large"
                   />
 
                   <div className="checkout-item-info">
 
-                    <h3>{item.name}</h3>
+                    <h3 className="checkout-product-title">{item.name}</h3>
 
                     <div className="checkout-tags">
                       <span>Research Grade</span>
                       <span>≥99% Purity</span>
                     </div>
 
-                    <p className="checkout-price">${price.toFixed(2)}</p>
+                    <p className="checkout-price">
+                      Price per vial: <strong>${price.toFixed(2)}</strong>
+                    </p>
 
                     <div className="qty-controls">
 
@@ -139,7 +152,7 @@ export default function Checkout({
 
             {/* RESEARCH CONFIRMATION */}
 
-            <label className="research-confirm">
+            <div className="research-confirm premium-confirm">
 
               <input
                 type="checkbox"
@@ -147,9 +160,16 @@ export default function Checkout({
                 onChange={(e) => setConfirmed(e.target.checked)}
               />
 
-              I confirm these compounds are for laboratory research only and not for human consumption.
+              <div className="confirm-text">
+                <strong>Research Use Confirmation</strong>
+                <p>
+                  I confirm these compounds are being purchased strictly for
+                  laboratory research and analytical purposes and not for
+                  human or veterinary consumption.
+                </p>
+              </div>
 
-            </label>
+            </div>
 
 
             {/* STRIPE */}

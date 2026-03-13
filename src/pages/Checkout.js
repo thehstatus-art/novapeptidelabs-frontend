@@ -55,26 +55,29 @@ export default function Checkout({
           </button>
         </div>
 
-        {/* HEADER */}
-
-        <div className="checkout-header">
-
-          <h1>Secure Research Compound Checkout</h1>
-
-          <div className="checkout-badges">
-            <span>🔬 Research Grade</span>
-            <span>🔒 Secure Checkout</span>
-            <span>🧪 Lab Verified</span>
-          </div>
-
-        </div>
-
 
         <div className="checkout-grid">
+
+          {/* LEFT COLUMN */}
+          <div className="checkout-left">
 
           {/* LEFT — PRODUCTS */}
 
           <div className="checkout-products">
+
+            {/* HEADER */}
+
+            <div className="checkout-header">
+
+              <h1>Secure Research Compound Checkout</h1>
+
+              <div className="checkout-badges">
+                <span>🔬 Research Grade</span>
+                <span>🔒 Secure Checkout</span>
+                <span>🧪 Lab Verified</span>
+              </div>
+
+            </div>
 
             <h2>Your Research Cart</h2>
 
@@ -135,6 +138,7 @@ export default function Checkout({
 
           </div>
 
+          </div>
 
           {/* RIGHT — PAYMENT */}
 

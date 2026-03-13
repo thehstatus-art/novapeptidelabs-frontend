@@ -50,7 +50,6 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
 
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const cartTotal = cart.reduce(
@@ -162,7 +161,6 @@ function App() {
     });
 
     setCart([]);
-    setCheckoutOpen(false);
   };
 
   if (loading) {
@@ -209,7 +207,7 @@ function App() {
         style={{ position: "fixed", top: 0, left: 0, zIndex: -4 }}
       />
 
-      <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
+      <Header cart={cart} />
 
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>

@@ -22,34 +22,35 @@ export default function Checkout({
   };
 
   return (
+
     <div className="checkout-page">
+
       <div className="checkout-container">
 
-      {/* HEADER */}
+        {/* HEADER */}
 
-      <div className="checkout-header">
+        <div className="checkout-header">
 
+          <h1>Secure Laboratory Checkout</h1>
 
-        <h1>Secure Checkout</h1>
+          <div className="checkout-trust">
+            🔬 Research Grade Compounds • 🔒 Secure Payments • 🧪 Lab Verified
+          </div>
 
-        <div className="checkout-trust">
-          🔒 Encrypted Payment • 💳 Stripe Secure • 🧪 Research Use Verified
         </div>
-      </div>
 
-      <div className="checkout-grid">
 
-        {/* LEFT SIDE — CART ITEMS */}
+        <div className="checkout-grid">
 
-        <div className="checkout-products">
+          {/* LEFT SIDE — CART ITEMS */}
 
-          <h2>Your Cart</h2>
+          <div className="checkout-products">
 
-          {cart.length === 0 && (
-            <p>Your cart is empty.</p>
-          )}
+            <h2>Your Research Cart</h2>
 
-          <div className="checkout-items-scroll">
+            {cart.length === 0 && (
+              <p>Your cart is empty.</p>
+            )}
 
             {cart.map((item) => {
 
@@ -72,22 +73,24 @@ export default function Checkout({
 
                     <h4>{item.name}</h4>
 
-                    <p>${price.toFixed(2)}</p>
+                    <div className="checkout-meta">
+                      <span className="badge">Research Grade</span>
+                      <span className="badge">≥99% Purity</span>
+                    </div>
+
+                    <p className="checkout-price">${price.toFixed(2)}</p>
+
                     <span className="item-subtotal">
                       Subtotal: ${subtotal.toFixed(2)}
                     </span>
 
                     <div className="qty-controls">
 
-                      <button onClick={() => decreaseQty(item._id)}>
-                        -
-                      </button>
+                      <button onClick={() => decreaseQty(item._id)}>-</button>
 
                       <span>{quantity}</span>
 
-                      <button onClick={() => increaseQty(item._id)}>
-                        +
-                      </button>
+                      <button onClick={() => increaseQty(item._id)}>+</button>
 
                     </div>
 
@@ -96,131 +99,130 @@ export default function Checkout({
                 </div>
 
               );
+
             })}
 
           </div>
 
-        </div>
 
-        {/* RIGHT SIDE — PAYMENT */}
+          {/* RIGHT SIDE — PAYMENT */}
 
-        <div className="checkout-payment">
+          <div className="checkout-payment">
 
-          <h3>Order Summary</h3>
+            <h3>Order Summary</h3>
 
-          {/* TOTAL */}
-
-          <div className="summary-row total">
-            <span>Total</span>
-            <span>${cartTotal.toFixed(2)}</span>
-          </div>
-
-          {/* CONFIRMATION */}
-
-          <label className="research-confirm">
-
-            <input
-              type="checkbox"
-              checked={confirmed}
-              onChange={(e) => setConfirmed(e.target.checked)}
-            />
-
-            I confirm these products are purchased for laboratory research
-            purposes only and not for human consumption.
-
-          </label>
-
-          {/* STRIPE */}
-
-          <button
-            className="stripe-premium-btn"
-            onClick={startCheckout}
-          >
-            💳 Pay with Debit / Credit Card
-          </button>
-
-          {/* PAYPAL */}
-
-          <div className="paypal-section">
-
-            <div className="checkout-security">
-              🔐 256-bit SSL encryption • Payments processed securely
+            <div className="summary-row total">
+              <span>Total</span>
+              <span>${cartTotal.toFixed(2)}</span>
             </div>
 
-            <PayPalButtons
-              style={{
-                layout: "vertical",
-                color: "gold",
-                shape: "rect",
-                height: 50
-              }}
-              createOrder={(data, actions) =>
-                actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: cartTotal.toFixed(2)
+
+            {/* RESEARCH CONFIRMATION */}
+
+            <label className="research-confirm">
+
+              <input
+                type="checkbox"
+                checked={confirmed}
+                onChange={(e) => setConfirmed(e.target.checked)}
+              />
+
+              I confirm these products are purchased for laboratory research
+              purposes only and not for human consumption.
+
+            </label>
+
+
+            {/* STRIPE BUTTON */}
+
+            <button
+              className="stripe-premium-btn"
+              onClick={startCheckout}
+            >
+              💳 Pay with Debit / Credit Card
+            </button>
+
+
+            {/* PAYPAL */}
+
+            <div className="paypal-section">
+
+              <div className="checkout-security">
+                🔐 256-bit SSL encryption • Payments processed securely
+              </div>
+
+              <PayPalButtons
+                style={{
+                  layout: "vertical",
+                  color: "gold",
+                  shape: "rect",
+                  height: 50
+                }}
+                createOrder={(data, actions) =>
+                  actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: cartTotal.toFixed(2)
+                        }
                       }
-                    }
-                  ]
-                })
-              }
-              onApprove={async (data, actions) => {
-
-                const details = await actions.order.capture();
-
-                try {
-
-                  // Send order to backend so it saves in MongoDB
-                  await fetch("/api/orders/paypal", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                      paypalOrderId: details.id,
-                      items: cart
-                    })
-                  });
-
-                  // Existing success handler
-                  await handlePayPalSuccess(details.id);
-
-                } catch (err) {
-                  console.error("Failed to save PayPal order:", err);
-                  alert("Payment succeeded but the order could not be saved. Please contact support.");
+                    ]
+                  })
                 }
+                onApprove={async (data, actions) => {
 
-              }}
-            />
+                  const details = await actions.order.capture();
 
-          </div>
+                  try {
 
-          {/* SECURITY */}
+                    await fetch("/api/orders/paypal", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json"
+                      },
+                      body: JSON.stringify({
+                        paypalOrderId: details.id,
+                        items: cart
+                      })
+                    });
 
-          <div className="checkout-security">
+                    await handlePayPalSuccess(details.id);
 
-            <div className="secure-lock">🔒</div>
+                  } catch (err) {
 
-            <p>256-bit SSL encrypted checkout</p>
+                    console.error("Failed to save PayPal order:", err);
 
-          </div>
+                    alert(
+                      "Payment succeeded but the order could not be saved. Please contact support."
+                    );
 
-          <div className="checkout-cards">
+                  }
 
-            <span>💳 Visa</span>
-            <span>💳 Mastercard</span>
-            <span>💳 Amex</span>
-            <span>🅿 PayPal</span>
+                }}
+              />
+
+            </div>
+
+
+            {/* TRUST BADGES */}
+
+            <div className="checkout-cards">
+
+              <span>💳 Visa</span>
+              <span>💳 Mastercard</span>
+              <span>💳 Amex</span>
+              <span>🅿 PayPal</span>
+
+            </div>
 
           </div>
 
         </div>
-
-      </div>
 
       </div>
 
     </div>
+
   );
+
 }

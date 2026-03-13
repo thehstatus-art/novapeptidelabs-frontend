@@ -40,13 +40,23 @@ export default function Checkout({
       <div
         className="checkout-container"
         style={{
-          maxWidth: "1200px",
+          maxWidth: "1100px",
           margin: "0 auto",
-          padding: "70px 24px"
+          padding: "40px 24px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center"
         }}
       >
 
-        <div className="checkout-back">
+        <div
+          className="checkout-back"
+          style={{
+            width: "100%",
+            maxWidth: "1100px",
+            marginBottom: "20px"
+          }}
+        >
           <button
             className="checkout-back-btn"
             onClick={() => navigate(-1)}
@@ -56,7 +66,13 @@ export default function Checkout({
         </div>
 
 
-        <div className="checkout-grid">
+        <div
+          className="checkout-grid"
+          style={{
+            width: "100%",
+            maxWidth: "1100px"
+          }}
+        >
 
           {/* LEFT COLUMN */}
           <div className="checkout-left">
@@ -72,9 +88,9 @@ export default function Checkout({
               <h1>Secure Research Compound Checkout</h1>
 
               <div className="checkout-badges">
-                <span>🔬 Research Grade</span>
-                <span>🔒 Secure Checkout</span>
-                <span>🧪 Lab Verified</span>
+                <span>🔬 Certified Research Grade</span>
+                <span>🔒 Encrypted Secure Checkout</span>
+                <span>🧪 Laboratory Tested & Verified</span>
               </div>
 
             </div>
@@ -106,8 +122,8 @@ export default function Checkout({
                     <h3 className="checkout-product-title">{item.name}</h3>
 
                     <div className="checkout-tags">
-                      <span>Research Grade</span>
-                      <span>≥99% Purity</span>
+                      <span>Laboratory Research Grade</span>
+                      <span>HPLC Purity ≥99%</span>
                     </div>
 
                     <p className="checkout-price">
@@ -144,12 +160,12 @@ export default function Checkout({
 
           <div className="checkout-payment">
 
-            <h3>Order Summary</h3>
+            <h3>Research Order Summary</h3>
 
             <div className="checkout-total">
 
-              <span>Total</span>
-              <span>${cartTotal.toFixed(2)}</span>
+              <span>Research Order Total</span>
+              <span className="checkout-total-price">${cartTotal.toFixed(2)}</span>
 
             </div>
 

@@ -83,19 +83,32 @@ export default function Checkout({
 
             {/* HEADER */}
 
-            <div className="checkout-header">
+            <div className="checkout-header checkout-lab-header">
 
               <h1>Secure Research Compound Checkout</h1>
 
-              <div className="checkout-badges">
-                <span>🔬 Certified Research Grade</span>
-                <span>🔒 Encrypted Secure Checkout</span>
-                <span>🧪 Laboratory Tested & Verified</span>
+              <div className="checkout-badges premium-badges">
+
+                <div className="badge-pill">
+                  <span className="badge-icon">🔬</span>
+                  <span className="badge-text">Certified Research Grade</span>
+                </div>
+
+                <div className="badge-pill">
+                  <span className="badge-icon">🔒</span>
+                  <span className="badge-text">Encrypted Secure Checkout</span>
+                </div>
+
+                <div className="badge-pill">
+                  <span className="badge-icon">🧪</span>
+                  <span className="badge-text">Laboratory Tested & Verified</span>
+                </div>
+
               </div>
 
             </div>
 
-            <h2>Your Research Cart</h2>
+            <h2 className="cart-title">Your Research Cart</h2>
 
             {cart.length === 0 && (
               <p>Your cart is empty.</p>
@@ -158,14 +171,19 @@ export default function Checkout({
 
           {/* RIGHT — PAYMENT */}
 
-          <div className="checkout-payment">
+          <div className="checkout-payment premium-summary">
 
-            <h3>Research Order Summary</h3>
+            <h3 className="summary-title">Research Order Summary</h3>
 
-            <div className="checkout-total">
+            <div className="checkout-total summary-card">
 
-              <span>Research Order Total</span>
-              <span className="checkout-total-price">${cartTotal.toFixed(2)}</span>
+              <div className="summary-label">
+                Research Order Total
+              </div>
+
+              <div className="checkout-total-price premium-total">
+                ${cartTotal.toFixed(2)}
+              </div>
 
             </div>
 

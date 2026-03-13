@@ -5409,3 +5409,291 @@ animation:gridShift 18s linear infinite;
 
   z-index:-1;
 }
+/* ===== PREMIUM CHECKOUT TOTAL (ACTIVE CLASSES) ===== */
+
+.checkout-total{
+
+padding:22px 24px;
+
+border-radius:18px;
+
+background:linear-gradient(
+160deg,
+#0e2238,
+#081523
+);
+
+border:1px solid rgba(110,193,255,.45);
+
+box-shadow:
+0 0 40px rgba(110,193,255,.15),
+inset 0 0 15px rgba(110,193,255,.05);
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+margin:20px 0 30px;
+}
+
+/* label */
+
+.checkout-total span:first-child{
+
+font-size:14px;
+letter-spacing:.5px;
+text-transform:uppercase;
+
+color:#7fa3c4;
+
+}
+
+/* glowing price */
+
+.checkout-total-price{
+
+font-size:36px;
+font-weight:900;
+
+background:linear-gradient(90deg,#6ec1ff,#9fd6ff);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+text-shadow:
+0 0 25px rgba(110,193,255,.9),
+0 0 60px rgba(110,193,255,.45);
+
+}
+/* ===== FORCE PREMIUM CHECKOUT VISUAL (OVERRIDES) ===== */
+
+/* product row card */
+.checkout-item{
+  background:linear-gradient(
+    160deg,
+    rgba(8,21,35,.98),
+    rgba(4,14,24,.98)
+  ) !important;
+
+  padding:24px !important;
+  border-radius:18px !important;
+
+  border:1px solid rgba(110,193,255,.45) !important;
+
+  box-shadow:
+    0 0 40px rgba(110,193,255,.18),
+    inset 0 0 20px rgba(110,193,255,.06) !important;
+
+  transition:.25s ease;
+}
+
+/* product title glow */
+.checkout-product-title{
+  font-size:24px !important;
+  font-weight:800 !important;
+
+  background:linear-gradient(90deg,#ffffff,#6ec1ff) !important;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:0 0 18px rgba(110,193,255,.6);
+}
+
+/* research confirmation panel */
+.research-confirm{
+  padding:22px 24px !important;
+
+  border-radius:16px !important;
+
+  background:linear-gradient(
+    160deg,
+    #0c2238,
+    #071423
+  ) !important;
+
+  border:1px solid rgba(110,193,255,.45) !important;
+
+  box-shadow:
+    0 0 40px rgba(110,193,255,.18),
+    inset 0 0 20px rgba(110,193,255,.08) !important;
+}
+
+/* order total container */
+.summary-row.total{
+  padding:20px 24px !important;
+
+  border-radius:16px !important;
+
+  background:linear-gradient(
+    160deg,
+    #0e2238,
+    #081523
+  ) !important;
+
+  border:1px solid rgba(110,193,255,.45) !important;
+
+  box-shadow:
+    0 0 40px rgba(110,193,255,.15),
+    inset 0 0 15px rgba(110,193,255,.05);
+}
+
+/* glowing order total price */
+.summary-row.total span:last-child{
+  font-size:36px !important;
+  font-weight:900 !important;
+
+  background:linear-gradient(90deg,#6ec1ff,#9fd6ff) !important;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:
+    0 0 25px rgba(110,193,255,.9),
+    0 0 60px rgba(110,193,255,.45);
+}
+/* ===============================
+PREMIUM CHECKOUT HEADER
+================================ */
+
+.checkout-lab-header h1{
+font-size:32px;
+font-weight:700;
+letter-spacing:.5px;
+margin-bottom:20px;
+color:#ffffff;
+}
+
+.premium-badges{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+margin-bottom:25px;
+}
+
+.badge-pill{
+display:flex;
+align-items:center;
+gap:8px;
+
+padding:8px 14px;
+
+border-radius:30px;
+
+background:linear-gradient(
+135deg,
+rgba(110,193,255,.18),
+rgba(110,193,255,.05)
+);
+
+border:1px solid rgba(110,193,255,.35);
+
+font-size:13px;
+font-weight:500;
+
+box-shadow:
+0 0 10px rgba(110,193,255,.25),
+inset 0 0 6px rgba(110,193,255,.15);
+}
+
+.badge-icon{
+font-size:14px;
+}
+
+/* ===============================
+PRODUCT TAGS
+================================ */
+
+.checkout-tags span{
+display:inline-block;
+
+padding:6px 10px;
+margin-right:8px;
+margin-top:6px;
+
+font-size:12px;
+font-weight:600;
+
+border-radius:8px;
+
+background:rgba(110,193,255,.12);
+border:1px solid rgba(110,193,255,.35);
+
+color:#9dd6ff;
+}
+
+/* ===============================
+ORDER SUMMARY CARD
+================================ */
+
+.premium-summary{
+background:rgba(8,21,35,.9);
+
+border-radius:22px;
+
+padding:30px;
+
+border:1px solid rgba(110,193,255,.25);
+
+box-shadow:
+0 0 40px rgba(110,193,255,.12),
+inset 0 0 20px rgba(110,193,255,.04);
+}
+
+.summary-title{
+font-size:22px;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.summary-card{
+background:linear-gradient(
+135deg,
+rgba(110,193,255,.15),
+rgba(110,193,255,.05)
+);
+
+padding:22px;
+border-radius:16px;
+
+border:1px solid rgba(110,193,255,.35);
+
+margin-bottom:22px;
+}
+
+.summary-label{
+font-size:13px;
+opacity:.7;
+margin-bottom:4px;
+letter-spacing:.5px;
+}
+
+.premium-total{
+font-size:32px;
+font-weight:700;
+color:#6ec1ff;
+
+text-shadow:0 0 10px rgba(110,193,255,.4);
+}
+
+/* ===============================
+RESEARCH CONFIRMATION BOX
+================================ */
+
+.premium-confirm{
+display:flex;
+gap:12px;
+
+padding:18px;
+
+border-radius:14px;
+
+background:rgba(110,193,255,.08);
+border:1px solid rgba(110,193,255,.3);
+
+margin-bottom:20px;
+}
+
+.premium-confirm p{
+font-size:13px;
+opacity:.8;
+margin-top:4px;
+}

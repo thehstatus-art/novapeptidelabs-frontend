@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const ENABLE_AUTH = false;
 
 function Header({ cart, setCheckoutOpen }) {
 
   const location = useLocation();
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   const [miniCartOpen, setMiniCartOpen] = useState(false);
@@ -192,7 +193,7 @@ function Header({ cart, setCheckoutOpen }) {
                       className="view-cart-btn"
                       onClick={() => {
                         setMiniCartOpen(false);
-                        setCheckoutOpen(true);
+                        navigate("/checkout");
                       }}
                     >
                       View Cart

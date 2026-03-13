@@ -211,17 +211,6 @@ function App() {
 
       <Header cart={cart} setCheckoutOpen={setCheckoutOpen} />
 
-      {checkoutOpen && (
-        <Checkout
-          cart={cart}
-          cartTotal={cartTotal}
-          increaseQty={increaseQty}
-          decreaseQty={decreaseQty}
-          handleCheckout={handleCheckout}
-          handlePayPalSuccess={handlePayPalSuccess}
-        />
-      )}
-
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route
@@ -232,6 +221,22 @@ function App() {
           <Route
             path="/shop"
             element={<PageWrapper><Shop products={products} addToCart={addToCart} /></PageWrapper>}
+          />
+
+          <Route
+            path="/checkout"
+            element={
+              <PageWrapper>
+                <Checkout
+                  cart={cart}
+                  cartTotal={cartTotal}
+                  increaseQty={increaseQty}
+                  decreaseQty={decreaseQty}
+                  handleCheckout={handleCheckout}
+                  handlePayPalSuccess={handlePayPalSuccess}
+                />
+              </PageWrapper>
+            }
           />
 
           <Route

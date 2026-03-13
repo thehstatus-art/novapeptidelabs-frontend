@@ -240,6 +240,7 @@ function ResearchLibrary({ products }) {
                       name: product.name,
                       price: product.price,
                       image: imageUrl,
+                      imageUrl: imageUrl,
                       quantity: 1
                     });
 

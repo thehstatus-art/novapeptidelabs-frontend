@@ -23,17 +23,12 @@ export default function Checkout({
 
   return (
     <div className="checkout-page">
+      <div className="checkout-container">
 
       {/* HEADER */}
 
       <div className="checkout-header">
 
-        <button
-          className="checkout-close"
-          onClick={() => window.location.reload()}
-        >
-          ✕
-        </button>
 
         <h1>Secure Checkout</h1>
 
@@ -60,18 +55,27 @@ export default function Checkout({
 
               const price = item.price || 0;
               const quantity = item.quantity || 1;
+              const imageSrc = item.image || item.imageUrl || "/no-image.png";
+              const subtotal = price * quantity;
 
               return (
 
                 <div key={item._id} className="checkout-item">
 
-                  <img src={item.image || "/no-image.png"} alt={item.name} />
+                  <img
+                    className="checkout-product-image"
+                    src={imageSrc}
+                    alt={item.name}
+                  />
 
                   <div className="checkout-item-info">
 
                     <h4>{item.name}</h4>
 
                     <p>${price.toFixed(2)}</p>
+                    <span className="item-subtotal">
+                      Subtotal: ${subtotal.toFixed(2)}
+                    </span>
 
                     <div className="qty-controls">
 
@@ -212,6 +216,8 @@ export default function Checkout({
           </div>
 
         </div>
+
+      </div>
 
       </div>
 

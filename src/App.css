@@ -5207,3 +5207,157 @@ animation:gridShift 18s linear infinite;
 
   text-shadow:0 0 20px rgba(110,193,255,.7);
 }
+
+/* ================= ULTRA PREMIUM CHECKOUT VISUAL UPGRADE ================= */
+
+/* product row card */
+
+.checkout-item{
+  background:linear-gradient(
+    160deg,
+    rgba(8,21,35,.95),
+    rgba(5,15,25,.95)
+  );
+
+  padding:18px 20px;
+
+  border-radius:16px;
+
+  border:1px solid rgba(110,193,255,.25);
+
+  box-shadow:
+    0 0 25px rgba(110,193,255,.08),
+    inset 0 0 15px rgba(110,193,255,.05);
+
+  transition:.25s ease;
+}
+
+.checkout-item:hover{
+  border-color:#6ec1ff;
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 0 40px rgba(110,193,255,.35),
+    inset 0 0 20px rgba(110,193,255,.08);
+}
+
+/* product title glow */
+
+.checkout-product-title{
+  font-size:22px;
+  font-weight:800;
+
+  background:linear-gradient(90deg,#ffffff,#6ec1ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:0 0 12px rgba(110,193,255,.4);
+}
+
+/* item subtotal */
+
+.item-subtotal{
+  font-size:13px;
+  letter-spacing:.3px;
+  color:#9bb3c9;
+}
+
+/* premium divider */
+
+.checkout-products hr{
+  border:none;
+  height:1px;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(110,193,255,.35),
+    transparent
+  );
+
+  margin:24px 0;
+}
+
+/* order summary header */
+
+.summary-title{
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:.6px;
+
+  background:linear-gradient(90deg,#ffffff,#6ec1ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:0 0 20px rgba(110,193,255,.5);
+}
+
+/* order total container */
+
+.summary-card{
+  padding:24px 26px;
+
+  border-radius:18px;
+
+  background:linear-gradient(
+    145deg,
+    #0e2238,
+    #081523
+  );
+
+  border:1px solid rgba(110,193,255,.35);
+
+  box-shadow:
+    0 0 35px rgba(110,193,255,.15),
+    inset 0 0 15px rgba(110,193,255,.05);
+}
+
+/* order total label */
+
+.summary-label{
+  font-size:13px;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  color:#7fa3c4;
+}
+
+/* glowing order total price */
+
+.premium-total{
+  font-size:32px;
+  font-weight:900;
+
+  background:linear-gradient(90deg,#6ec1ff,#4ea8ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:
+    0 0 25px rgba(110,193,255,.8),
+    0 0 45px rgba(110,193,255,.35);
+}
+
+/* research confirmation premium glow */
+
+.premium-confirm{
+  position:relative;
+}
+
+.premium-confirm::before{
+  content:"";
+
+  position:absolute;
+  inset:-1px;
+
+  border-radius:16px;
+
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(110,193,255,.35),
+    transparent
+  );
+
+  opacity:.4;
+
+  z-index:-1;
+}

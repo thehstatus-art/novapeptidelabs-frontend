@@ -27,36 +27,11 @@ export default function Checkout({
 
   return (
 
-    <div
-      className="checkout-page"
-      style={{
-        minHeight: "100vh",
-        overflowY: "auto",
-        position: "relative",
-        paddingBottom: "140px"
-      }}
-    >
+    <div className="checkout-page">
 
-      <div
-        className="checkout-container"
-        style={{
-          maxWidth: "1100px",
-          margin: "0 auto",
-          padding: "40px 24px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center"
-        }}
-      >
+      <div className="checkout-container">
 
-        <div
-          className="checkout-back"
-          style={{
-            width: "100%",
-            maxWidth: "1100px",
-            marginBottom: "20px"
-          }}
-        >
+        <div className="checkout-back">
           <button
             className="checkout-back-btn"
             onClick={() => navigate(-1)}
@@ -66,13 +41,7 @@ export default function Checkout({
         </div>
 
 
-        <div
-          className="checkout-grid"
-          style={{
-            width: "100%",
-            maxWidth: "1100px"
-          }}
-        >
+        <div className="checkout-grid">
 
           {/* LEFT COLUMN */}
           <div className="checkout-left">
@@ -86,6 +55,7 @@ export default function Checkout({
             <div className="checkout-header checkout-lab-header">
 
               <h1>Secure Research Compound Checkout</h1>
+              <div className="checkout-divider"></div>
 
               <div className="checkout-badges premium-badges">
 
@@ -111,7 +81,9 @@ export default function Checkout({
             <h2 className="cart-title">Your Research Cart</h2>
 
             {cart.length === 0 && (
-              <p>Your cart is empty.</p>
+              <p className="empty-cart">
+                No research compounds have been added to your cart yet.
+              </p>
             )}
 
             {cart.map((item) => {
@@ -141,6 +113,9 @@ export default function Checkout({
 
                     <p className="checkout-price">
                       Price per vial: <strong>${price.toFixed(2)}</strong>
+                    </p>
+                    <p className="item-subtotal">
+                      Subtotal: <strong>${(price * quantity).toFixed(2)}</strong>
                     </p>
 
                     <div className="qty-controls">
@@ -255,7 +230,12 @@ export default function Checkout({
                       },
                       body: JSON.stringify({
                         paypalOrderId: details.id,
-                        items: cart
+                        items: cart.map(item => ({
+                          productId: item._id,
+                          name: item.name,
+                          price: item.price,
+                          quantity: item.quantity
+                        }))
                       })
                     });
 

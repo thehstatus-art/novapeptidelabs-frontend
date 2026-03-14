@@ -29,7 +29,14 @@ export default function Checkout({
 
     <div className="checkout-page">
 
-      <div className="checkout-container">
+      <div
+        className="checkout-container"
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          width: "100%"
+        }}
+      >
 
         <div className="checkout-back">
           <button

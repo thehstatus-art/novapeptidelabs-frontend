@@ -1700,97 +1700,8 @@ box-shadow:0 0 10px rgba(110,193,255,0.15);
 }
 /* ================= CHECKOUT PAGE ================= */
 
-.checkout-page{
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-
-  display: flex;
-  justify-content: flex-end;
-
-  background: rgba(5, 8, 15, 0.75);
-  backdrop-filter: blur(10px);
-}
-/* header */
-
-.checkout-header{
-text-align:center;
-margin-bottom:40px;
-}
-
-.checkout-header h1{
-font-size:40px;
-margin-bottom:10px;
-
-background:linear-gradient(90deg,#ffffff,#6ec1ff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
-.checkout-trust{
-font-size:14px;
-opacity:.75;
-color:#9bb3c9;
-}
-
-/* GRID LAYOUT */
-
-.checkout-grid{
-  width: 560px;
-  max-width: 100%;
-  height: 100vh;
-
-  background: #081523;
-  border-left: 1px solid rgba(110,193,255,.15);
-  box-shadow: -20px 0 60px rgba(0,0,0,.5);
-
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-/* LEFT SIDE */
-
-.checkout-products{
-  flex: 1;
-  overflow-y: auto;
-  padding: 24px 28px;
-}
-/* RIGHT SIDE */
-
-.checkout-payment{
-  flex-shrink: 0;
-  padding: 24px 28px 28px;
-  border-top: 1px solid rgba(110,193,255,.12);
-
-  position: relative;
-  top: auto;
-}
-
-/* TOTAL STYLE */
-
-.summary-row.total{
-display:flex;
-justify-content:space-between;
-margin:20px 0 30px;
-font-size:20px;
-font-weight:700;
-}
-
-/* Mobile */
-
-@media(max-width:900px){
-
-.checkout-grid{
-grid-template-columns:1fr;
-}
-
-.checkout-payment{
-position:relative;
-top:auto;
-}
-
-}
+/* OLD DRAWER CHECKOUT LAYOUT REMOVED
+   This conflicted with the full-page checkout layout defined later in the file. */
 .research-confirm{
 display:flex;
 gap:12px;
@@ -5499,23 +5410,89 @@ text-shadow:
   text-shadow:0 0 18px rgba(110,193,255,.6);
 }
 
-/* research confirmation panel */
-.research-confirm{
-  padding:22px 24px !important;
+/* ===== Premium Research Confirmation Box ===== */
 
-  border-radius:16px !important;
+.research-confirm{
+  margin-top:24px;
+  padding:24px;
 
   background:linear-gradient(
     160deg,
     #0c2238,
     #071423
-  ) !important;
+  );
 
-  border:1px solid rgba(110,193,255,.45) !important;
+  border:1px solid rgba(110,193,255,.45);
+  border-radius:18px;
+
+  color:#dff3ff;
+  font-size:14px;
+  line-height:1.5;
 
   box-shadow:
-    0 0 40px rgba(110,193,255,.18),
-    inset 0 0 20px rgba(110,193,255,.08) !important;
+    0 0 25px rgba(110,193,255,.15),
+    inset 0 0 20px rgba(110,193,255,.05);
+}
+
+.research-confirm input{
+  margin-right:10px;
+  transform:scale(1.1);
+}
+
+/* ===== Premium Order Summary ===== */
+
+.checkout-payment h3{
+  font-size:20px;
+  font-weight:600;
+  letter-spacing:.5px;
+
+  background:linear-gradient(90deg,#6ec1ff,#9de0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  margin-bottom:20px;
+}
+
+/* ===== Order Total Card ===== */
+
+.summary-row.total{
+  margin-top:20px;
+  padding:18px;
+
+  border-radius:14px;
+
+  background:linear-gradient(
+    160deg,
+    #0b1e31,
+    #071423
+  );
+
+  border:1px solid rgba(110,193,255,.35);
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  font-size:18px;
+  font-weight:600;
+
+  color:#e8f7ff;
+
+  box-shadow:
+    0 0 20px rgba(110,193,255,.1);
+}
+
+/* ===== Research Security Text ===== */
+
+.checkout-security{
+  margin-top:24px;
+  font-size:13px;
+  letter-spacing:.3px;
+
+  color:#a7dfff;
+  text-align:center;
+
+  opacity:.9;
 }
 
 /* order total container */

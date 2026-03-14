@@ -238,6 +238,39 @@ useEffect(() => {
               />
             </LineChart>
           </ResponsiveContainer>
+
+          {/* LOW INVENTORY WARNING */}
+          {products.filter(p => (p.stock || 0) <= 5).length > 0 && (
+            <div style={{
+              marginTop: "40px",
+              padding: "25px",
+              borderRadius: "16px",
+              background: "rgba(40,10,10,0.9)",
+              border: "1px solid rgba(255,80,80,0.35)",
+              boxShadow: "0 0 20px rgba(255,80,80,0.25)"
+            }}>
+              <h3 style={{ color: "#ff6b6b", marginBottom: "15px" }}>
+                ⚠ Low Inventory Alert
+              </h3>
+              {products
+                .filter(p => (p.stock || 0) <= 5)
+                .map(p => (
+                  <div
+                    key={p._id}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      borderBottom: "1px solid rgba(255,255,255,0.08)",
+                      padding: "6px 0",
+                      fontSize: "14px"
+                    }}
+                  >
+                    <span>{p.name}</span>
+                    <span style={{ color: "#ff6b6b" }}>{p.stock || 0} left</span>
+                  </div>
+                ))}
+            </div>
+          )}
         </>
       )}
 
@@ -278,9 +311,34 @@ useEffect(() => {
                 defaultValue={product.stock || 0}
                 style={inputStyle}
                 placeholder="Stock"
-                onBlur={(e) =>
-                  updateProduct(product._id, { stock: Number(e.target.value) })
-                }
+                onBlur={async (e) => {
+                  const newStock = Number(e.target.value);
+                  const previousStock = product.stock || 0;
+
+                  const updates = { stock: newStock };
+
+                  if (newStock <= 0) {
+                    updates.isActive = false;
+                  }
+
+                  if (newStock > 0) {
+                    updates.isActive = true;
+                  }
+
+                  await updateProduct(product._id, updates);
+
+                  // If item was out of stock and is now restocked, notify waitlist
+                  if (previousStock === 0 && newStock > 0) {
+                    try {
+                      await fetch(`${API}/api/waitlist/notify/${product._id}`, {
+                        method: "POST",
+                        headers: { Authorization: `Bearer ${token}` }
+                      });
+                    } catch (err) {
+                      console.error("Waitlist notification failed", err);
+                    }
+                  }
+                }}
               />
 
               <button
@@ -358,6 +416,19 @@ useEffect(() => {
     📦 Download Shipping Label
   </a>
 )}
+
+<button
+  style={actionBtn}
+  onClick={async () => {
+    await fetch(`${API}/api/admin/orders/${order._id}/create-label`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    fetchOrders();
+  }}
+>
+  Create Shipping Label
+</button>
               <select
                 value={order.status}
                 onChange={(e) =>

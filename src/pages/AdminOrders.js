@@ -5,20 +5,20 @@ const API = process.env.REACT_APP_API_URL;
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
 
+  const token = localStorage.getItem("token");
+
+  const fetchOrders = async () => {
+    const res = await fetch(`${API}/api/admin/orders`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+    setOrders(data);
+  };
+
   useEffect(() => {
-    const fetchOrders = async () => {
-      const token = localStorage.getItem("token");
-
-      const res = await fetch(`${API}/api/admin/orders`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await res.json();
-      setOrders(data);
-    };
-
     fetchOrders();
   }, []);
 
@@ -27,39 +27,165 @@ function AdminOrders() {
     0
   );
 
-  return (
-    <div style={{ padding: "40px", color: "white" }}>
-      <h1>Admin Orders</h1>
+  const readyToShip = orders.filter((o) => o.status === "processing").length;
+  const shipped = orders.filter((o) => o.status === "shipped").length;
 
-      <h2>Total Revenue: ${totalRevenue.toFixed(2)}</h2>
+  const createLabel = async (id) => {
+    await fetch(`${API}/api/admin/orders/${id}/create-label`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    fetchOrders();
+  };
+
+  const markDelivered = async (id) => {
+    await fetch(`${API}/api/admin/orders/${id}/delivered`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    fetchOrders();
+  };
+
+  return (
+    <div style={{ padding: "40px", color: "white", maxWidth: "1200px", margin: "auto" }}>
+
+      <h1>Fulfillment Dashboard</h1>
+
+      {/* Dashboard Stats */}
+
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(4,1fr)",
+        gap: "20px",
+        marginBottom: "40px"
+      }}>
+
+        <div style={cardStyle}>
+          <h3>Total Revenue</h3>
+          <p>${totalRevenue.toFixed(2)}</p>
+        </div>
+
+        <div style={cardStyle}>
+          <h3>Total Orders</h3>
+          <p>{orders.length}</p>
+        </div>
+
+        <div style={cardStyle}>
+          <h3>Ready To Ship</h3>
+          <p>{readyToShip}</p>
+        </div>
+
+        <div style={cardStyle}>
+          <h3>Shipped</h3>
+          <p>{shipped}</p>
+        </div>
+
+      </div>
+
+      {/* Orders */}
 
       {orders.map((order) => (
-        <div
-          key={order._id}
-          style={{
-            marginBottom: "20px",
-            padding: "20px",
-            background: "#111",
-            borderRadius: "8px",
-          }}
-        >
-          <p><strong>Email:</strong> {order.email}</p>
-          <p><strong>Total:</strong> ${order.totalAmount}</p>
-          <p>
-            <strong>Date:</strong>{" "}
-            {new Date(order.createdAt).toLocaleString()}
-          </p>
 
-          <h4>Items:</h4>
+        <div key={order._id} style={orderCard}>
+
+          <div style={{ marginBottom: "10px" }}>
+            <strong>Email:</strong> {order.email}
+          </div>
+
+          <div>
+            <strong>Total:</strong> ${order.totalAmount}
+          </div>
+
+          <div>
+            <strong>Status:</strong> {order.status}
+          </div>
+
+          <div>
+            <strong>Date:</strong> {new Date(order.createdAt).toLocaleString()}
+          </div>
+
+          <h4 style={{ marginTop: "20px" }}>Items</h4>
+
           {order.items.map((item, index) => (
-            <div key={index}>
-              {item.name} — ${item.price} x {item.quantity}
+
+            <div key={index} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+
+              {item.product?.image && (
+                <img
+                  src={item.product.image}
+                  alt={item.name}
+                  style={{ width: "40px", height: "40px", borderRadius: "6px" }}
+                />
+              )}
+
+              <div>
+                {item.name} — ${item.price} x {item.quantity}
+              </div>
+
             </div>
+
           ))}
+
+          {/* Action Buttons */}
+
+          <div style={{ marginTop: "20px", display: "flex", gap: "10px", flexWrap: "wrap" }}>
+
+            <button style={btn} onClick={() => createLabel(order._id)}>
+              Create Label
+            </button>
+
+            {order.shippingLabelUrl && (
+              <button
+                style={btn}
+                onClick={() => window.open(order.shippingLabelUrl, "_blank")}
+              >
+                Print Label
+              </button>
+            )}
+
+            <button style={btn} onClick={() => markDelivered(order._id)}>
+              Mark Delivered
+            </button>
+
+          </div>
+
         </div>
+
       ))}
+
     </div>
   );
 }
+
+const cardStyle = {
+  background: "#081523",
+  padding: "20px",
+  borderRadius: "10px",
+  border: "1px solid rgba(110,193,255,.25)",
+  textAlign: "center"
+};
+
+const orderCard = {
+  marginBottom: "25px",
+  padding: "25px",
+  background: "#111",
+  borderRadius: "10px",
+  border: "1px solid rgba(110,193,255,.15)"
+};
+
+const btn = {
+  background: "#0c3d5a",
+  color: "white",
+  border: "none",
+  padding: "8px 14px",
+  borderRadius: "6px",
+  cursor: "pointer"
+};
 
 export default AdminOrders;

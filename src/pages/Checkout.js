@@ -12,6 +12,10 @@ export default function Checkout({
 }) {
 
   const [confirmed, setConfirmed] = useState(false);
+  const [zip, setZip] = useState("");
+  const [shippingRates, setShippingRates] = useState([]);
+  const [selectedRate, setSelectedRate] = useState(null);
+  const [loadingRates, setLoadingRates] = useState(false);
   const navigate = useNavigate();
 
   const startCheckout = () => {
@@ -22,6 +26,39 @@ export default function Checkout({
     }
 
     handleCheckout();
+
+  };
+
+  const fetchShippingRates = async () => {
+
+    if (!zip || zip.length < 5) {
+      alert("Enter a valid ZIP code to calculate shipping.");
+      return;
+    }
+
+    try {
+
+      setLoadingRates(true);
+
+      const res = await fetch("/api/shipping/rates", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ zip })
+      });
+
+      const data = await res.json();
+
+      setShippingRates(data || []);
+      setLoadingRates(false);
+
+    } catch (err) {
+
+      console.error("Shipping rate error", err);
+      setLoadingRates(false);
+
+    }
 
   };
 
@@ -157,6 +194,74 @@ export default function Checkout({
 
             <h3 className="summary-title">Research Order Summary</h3>
 
+            {/* SHIPPING CALCULATOR */}
+
+            <div className="shipping-box">
+
+              <h4>Shipping Destination</h4>
+
+              <div className="shipping-zip-row">
+
+                <input
+                  type="text"
+                  placeholder="Enter ZIP code"
+                  value={zip}
+                  onChange={(e) => setZip(e.target.value)}
+                  className="shipping-zip-input"
+                />
+
+                <button
+                  className="shipping-rate-btn"
+                  onClick={fetchShippingRates}
+                >
+                  Calculate
+                </button>
+
+              </div>
+
+              {loadingRates && (
+                <p className="shipping-loading">
+                  Calculating shipping rates...
+                </p>
+              )}
+
+              {shippingRates.length > 0 && (
+
+                <div className="shipping-options">
+
+                  {shippingRates.slice(0,3).map((rate) => (
+
+                    <label
+                      key={rate.object_id}
+                      className={`shipping-option ${selectedRate === rate ? "active" : ""}`}
+                    >
+
+                      <input
+                        type="radio"
+                        name="shippingRate"
+                        onChange={() => setSelectedRate(rate)}
+                      />
+
+                      <div className="shipping-option-info">
+
+                        <strong>{rate.provider}</strong>
+
+                        <span>
+                          {rate.servicelevel?.name} — ${rate.amount}
+                        </span>
+
+                      </div>
+
+                    </label>
+
+                  ))}
+
+                </div>
+
+              )}
+
+            </div>
+
             <div className="checkout-total summary-card">
 
               <div className="summary-label">
@@ -164,7 +269,7 @@ export default function Checkout({
               </div>
 
               <div className="checkout-total-price premium-total">
-                ${cartTotal.toFixed(2)}
+                ${(cartTotal + (selectedRate ? Number(selectedRate.amount) : 0)).toFixed(2)}
               </div>
 
             </div>
@@ -218,7 +323,7 @@ export default function Checkout({
                     purchase_units: [
                       {
                         amount: {
-                          value: cartTotal.toFixed(2)
+                          value: (cartTotal + (selectedRate ? Number(selectedRate.amount) : 0)).toFixed(2)
                         }
                       }
                     ]

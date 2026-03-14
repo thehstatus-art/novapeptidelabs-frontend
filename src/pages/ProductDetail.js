@@ -15,6 +15,8 @@ export default function ProductDetail({ products = [], addToCart }) {
   const [product, setProduct] = useState(fromList || null);
   const [loading, setLoading] = useState(!fromList);
   const [error, setError] = useState("");
+  const [waitEmail, setWaitEmail] = useState("");
+  const [waitMsg, setWaitMsg] = useState("");
 
   useEffect(() => {
     if (fromList) return;
@@ -102,12 +104,69 @@ export default function ProductDetail({ products = [], addToCart }) {
                 "High purity research compound intended strictly for laboratory research applications."}
             </p>
 
-            <button
-              className="checkout-btn"
-              onClick={() => addToCart(product)}
-            >
-              Add to Cart
-            </button>
+            {product.stock > 0 ? (
+              <button
+                className="checkout-btn"
+                onClick={() => addToCart(product)}
+              >
+                Add to Cart
+              </button>
+            ) : (
+              <div style={{ marginTop: "20px" }}>
+                <div style={{
+                  color: "#ff6b6b",
+                  marginBottom: "10px",
+                  fontWeight: "600"
+                }}>
+                  Out of Stock — Restocking Soon
+                </div>
+                <input
+                  type="email"
+                  placeholder="Enter email for restock alert"
+                  value={waitEmail}
+                  onChange={(e) => setWaitEmail(e.target.value)}
+                  style={{
+                    padding: "10px",
+                    width: "100%",
+                    marginBottom: "10px",
+                    borderRadius: "6px",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    background: "#081523",
+                    color: "white"
+                  }}
+                />
+                <button
+                  className="checkout-btn"
+                  onClick={async () => {
+                    if (!waitEmail.includes("@")) {
+                      setWaitMsg("Please enter a valid email.");
+                      return;
+                    }
+                    try {
+                      await fetch(`${API}/api/waitlist`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          email: waitEmail,
+                          productId: product._id
+                        })
+                      });
+                      setWaitMsg("You're on the waitlist. We'll email you when it restocks.");
+                      setWaitEmail("");
+                    } catch (err) {
+                      setWaitMsg("Failed to join waitlist. Try again later.");
+                    }
+                  }}
+                >
+                  Join Waitlist
+                </button>
+                {waitMsg && (
+                  <div style={{ marginTop: "10px", fontSize: "13px", opacity: 0.9 }}>
+                    {waitMsg}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* ===== SCIENTIFIC SPECIFICATIONS ===== */}
 

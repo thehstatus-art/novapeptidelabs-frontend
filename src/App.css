@@ -4855,7 +4855,8 @@ animation:gridShift 18s linear infinite;
   font-size:22px;
   font-weight:800;
   letter-spacing:.4px;
-  color:white;
+  color:#ffffff;
+  text-shadow:0 0 12px rgba(110,193,255,.4);
 }
 
 /* price highlight */
@@ -5402,11 +5403,7 @@ text-shadow:
 .checkout-product-title{
   font-size:24px !important;
   font-weight:800 !important;
-
-  background:linear-gradient(90deg,#ffffff,#6ec1ff) !important;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-
+  color:#ffffff !important;
   text-shadow:0 0 18px rgba(110,193,255,.6);
 }
 

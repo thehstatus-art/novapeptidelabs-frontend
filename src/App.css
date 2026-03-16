@@ -5783,3 +5783,134 @@ inset 0 0 6px rgba(110,193,255,.12);
   box-shadow:
     0 0 20px rgba(110,193,255,.4);
 }
+/* ==============================
+   SHIPPING CALCULATOR PREMIUM UI
+============================== */
+
+.shipping-box{
+
+  margin-top:30px;
+  padding:28px;
+
+  border-radius:18px;
+
+  background:linear-gradient(
+    160deg,
+    rgba(8,21,35,.95),
+    rgba(4,14,24,.95)
+  );
+
+  border:1px solid rgba(110,193,255,.35);
+
+  box-shadow:
+    0 0 45px rgba(110,193,255,.18),
+    inset 0 0 20px rgba(110,193,255,.05);
+}
+
+.shipping-title{
+
+  font-size:18px;
+  margin-bottom:18px;
+
+  color:#6ec1ff;
+  font-weight:600;
+
+}
+
+.shipping-zip-row{
+
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+
+}
+
+.shipping-zip-input{
+
+  flex:1;
+
+  padding:12px 14px;
+
+  border-radius:10px;
+
+  background:#06121c;
+
+  border:1px solid rgba(110,193,255,.35);
+
+  color:white;
+
+}
+
+.shipping-rate-btn{
+
+  padding:12px 18px;
+
+  border-radius:10px;
+
+  border:none;
+
+  background:linear-gradient(
+    135deg,
+    #4ea8ff,
+    #6ec1ff
+  );
+
+  color:white;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  box-shadow:0 0 20px rgba(110,193,255,.4);
+
+  transition:.25s ease;
+
+}
+
+.shipping-rate-btn:hover{
+
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 0 40px rgba(110,193,255,.6);
+
+}
+
+.shipping-options{
+
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+
+}
+
+.shipping-option{
+
+  padding:14px;
+
+  border-radius:12px;
+
+  border:1px solid rgba(110,193,255,.25);
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  background:#07131c;
+
+  cursor:pointer;
+
+  transition:.25s ease;
+
+}
+
+.shipping-option.active{
+
+  border-color:#6ec1ff;
+
+  box-shadow:
+    0 0 25px rgba(110,193,255,.45);
+
+}

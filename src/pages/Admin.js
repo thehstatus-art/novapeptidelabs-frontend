@@ -18,6 +18,7 @@ function Admin() {
   const [orders, setOrders] = useState([]);
   const [stats, setStats] = useState(null);
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [subscriberCount, setSubscriberCount] = useState(0);
 
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -65,11 +66,33 @@ const fetchStats = useCallback(async () => {
     console.error("Stats fetch failed", err);
   }
 }, [token]);
+
+const fetchSubscribers = useCallback(async () => {
+  try {
+    const res = await fetch(`${API}/api/subscribers/count`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    setSubscriberCount(data.count || 0);
+  } catch (err) {
+    console.error("Subscriber fetch failed", err);
+  }
+}, [token]);
+
 useEffect(() => {
   fetchProducts();
   fetchStats();
   fetchOrders();
-}, [fetchProducts, fetchStats, fetchOrders]);
+  fetchSubscribers();
+
+  // live refresh every 10 seconds for new orders
+  const interval = setInterval(() => {
+    fetchOrders();
+    fetchStats();
+  }, 10000);
+
+  return () => clearInterval(interval);
+}, [fetchProducts, fetchStats, fetchOrders, fetchSubscribers]);
 
   /* ================= REVENUE CHART ================= */
 
@@ -186,6 +209,25 @@ useEffect(() => {
     fetchProducts();
   };
 
+  const sendNewsletter = async () => {
+    if (!window.confirm("Send newsletter to all subscribers?")) return;
+
+    try {
+      const res = await fetch(`${API}/api/admin/newsletter/send`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const data = await res.json();
+
+      alert(data.message || "Newsletter sent successfully");
+
+    } catch (err) {
+      console.error("Newsletter failed", err);
+      alert("Newsletter failed");
+    }
+  };
+
   /* ================= UI ================= */
 
   return (
@@ -223,6 +265,16 @@ useEffect(() => {
             <Stat title="Orders" value={stats.totalOrders} />
             <Stat title="Paid" value={stats.paidOrders} />
             <Stat title="Pending" value={stats.pendingOrders} />
+            <div style={card}>
+              <h3>Subscribers</h3>
+              <p style={{ fontSize: "24px" }}>{subscriberCount}</p>
+              <button
+                style={{ ...primaryBtn, marginTop: "10px" }}
+                onClick={sendNewsletter}
+              >
+                Send Newsletter
+              </button>
+            </div>
           </div>
 
           <ResponsiveContainer width="100%" height={300}>
@@ -365,6 +417,9 @@ useEffect(() => {
           <button style={primaryBtn} onClick={exportCSV}>
             Export CSV
           </button>
+          <p style={{ opacity: 0.7, marginBottom: "10px" }}>
+            🔄 Orders auto‑refresh every 10 seconds
+          </p>
 
           {orders.map(order => (
             <div key={order._id} style={card}>

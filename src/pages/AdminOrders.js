@@ -52,10 +52,47 @@ function AdminOrders() {
     fetchOrders();
   };
 
+  const sendNewsletter = async () => {
+    const confirmSend = window.confirm("Send newsletter to all Nova Research Network subscribers?");
+    if (!confirmSend) return;
+
+    try {
+      const res = await fetch(`${API}/api/admin/newsletter/send`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+      alert(data.message || "Newsletter sent successfully");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send newsletter");
+    }
+  };
+
   return (
     <div style={{ padding: "40px", color: "white", maxWidth: "1200px", margin: "auto" }}>
 
       <h1>Fulfillment Dashboard</h1>
+
+      <div style={{ marginBottom: "20px" }}>
+        <button
+          style={{
+            background: "#0ea5e9",
+            color: "white",
+            border: "none",
+            padding: "10px 16px",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "600"
+          }}
+          onClick={sendNewsletter}
+        >
+          📧 Send Newsletter to Subscribers
+        </button>
+      </div>
 
       {/* Dashboard Stats */}
 

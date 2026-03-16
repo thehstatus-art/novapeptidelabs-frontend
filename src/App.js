@@ -3,7 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "@studio-freight/lenis";
 import Particles from "@tsparticles/react";
-
+import { io } from "socket.io-client";
 import AgeGate from "./components/AgeGate";
 import Header from "./components/Header";
 import EmailCapture from "./components/EmailCapture";
@@ -28,7 +28,11 @@ import Checkout from "./pages/Checkout";
 
 import "./App.css";
 
+
 const API = "https://nova-backend-lu2l.onrender.com";
+
+// live purchase socket connection
+const socket = io(API);
 
 const PageWrapper = ({ children }) => (
   <motion.div
@@ -84,6 +88,28 @@ function App() {
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error("Product load error:", err));
+  }, []);
+
+  // listen for live purchases from backend
+  useEffect(() => {
+    socket.on("purchase", (data) => {
+      console.log("Live purchase event:", data);
+
+      // trigger the popup component
+      window.dispatchEvent(
+        new CustomEvent("live-order", {
+          detail: {
+            name: data.name || "Researcher",
+            product: data.product || "Research compound",
+            location: data.location || "USA"
+          }
+        })
+      );
+    });
+
+    return () => {
+      socket.off("purchase");
+    };
   }, []);
 
   useEffect(() => {

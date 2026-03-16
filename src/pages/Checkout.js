@@ -7,7 +7,6 @@ export default function Checkout({
   cartTotal = 0,
   increaseQty,
   decreaseQty,
-  handleCheckout,
   handlePayPalSuccess
 }) {
 
@@ -17,17 +16,6 @@ export default function Checkout({
   const [selectedRate, setSelectedRate] = useState(null);
   const [loadingRates, setLoadingRates] = useState(false);
   const navigate = useNavigate();
-
-  const startCheckout = () => {
-
-    if (!confirmed) {
-      alert("Please confirm research use before checkout.");
-      return;
-    }
-
-    handleCheckout();
-
-  };
 
   const fetchShippingRates = async () => {
 
@@ -198,7 +186,7 @@ export default function Checkout({
 
             <div className="shipping-box">
 
-              <h4>Shipping Destination</h4>
+              <h4 className="shipping-title">Research Shipping Destination</h4>
 
               <div className="shipping-zip-row">
 
@@ -211,10 +199,10 @@ export default function Checkout({
                 />
 
                 <button
-                  className="shipping-rate-btn"
+                  className="shipping-rate-btn premium-calc-btn"
                   onClick={fetchShippingRates}
                 >
-                  Calculate
+                  Calculate Shipping
                 </button>
 
               </div>
@@ -310,6 +298,7 @@ export default function Checkout({
                   shape: "rect",
                   height: 50
                 }}
+                disabled={!confirmed}
                 createOrder={(data, actions) =>
                   actions.order.create({
                     purchase_units: [

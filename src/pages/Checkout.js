@@ -39,6 +39,10 @@ export default function Checkout({
       const data = await res.json();
 
       setShippingRates(data || []);
+      if (data && data.length > 0) {
+        const cheapest = [...data].sort((a,b)=>Number(a.amount)-Number(b.amount))[0];
+        setSelectedRate(cheapest);
+      }
       setLoadingRates(false);
 
     } catch (err) {
@@ -236,6 +240,11 @@ export default function Checkout({
 
                         <span>
                           {rate.servicelevel?.name} — ${rate.amount}
+                          {rate.estimated_days && (
+                            <em style={{marginLeft:"6px",opacity:0.7}}>
+                              ({rate.estimated_days} days)
+                            </em>
+                          )}
                         </span>
 
                       </div>
@@ -298,7 +307,7 @@ export default function Checkout({
                   shape: "rect",
                   height: 50
                 }}
-                disabled={!confirmed}
+                disabled={!confirmed || !selectedRate}
                 createOrder={(data, actions) =>
                   actions.order.create({
                     purchase_units: [

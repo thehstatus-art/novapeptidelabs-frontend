@@ -297,14 +297,6 @@ export default function Checkout({
             </div>
 
 
-            {/* STRIPE */}
-
-            <button
-              className="stripe-premium-btn"
-              onClick={startCheckout}
-            >
-              💳 Pay with Debit / Credit Card
-            </button>
 
 
             {/* PAYPAL */}

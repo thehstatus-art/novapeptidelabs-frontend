@@ -5573,24 +5573,39 @@ inset 0 0 6px rgba(110,193,255,.12);
    ===================================================== */
 
 /* product row */
+/* =====================================================
+   FINAL CHECKOUT PREMIUM OVERRIDES (FORCE VISUAL UPDATE)
+   ===================================================== */
+
 .checkout-item{
-  background:linear-gradient(160deg,#0c2238,#071423) !important;
-  border:1px solid rgba(110,193,255,.5) !important;
-  border-radius:20px !important;
-  padding:26px !important;
+  display:flex;
+  align-items:center;
+  gap:26px;
+
+  background:linear-gradient(
+    160deg,
+    #0c2238,
+    #071423
+  );
+
+  padding:24px;
+  border-radius:18px;
+
+  border:1px solid rgba(110,193,255,.45);
 
   box-shadow:
-  0 0 50px rgba(110,193,255,.25),
-  inset 0 0 20px rgba(110,193,255,.08) !important;
+    0 0 40px rgba(110,193,255,.18),
+    inset 0 0 20px rgba(110,193,255,.06);
 
-  transition:all .3s ease;
+  transition:.25s ease;
 }
 
 .checkout-item:hover{
-  transform:translateY(-4px);
+  transform:translateY(-2px);
+
   box-shadow:
-  0 0 70px rgba(110,193,255,.45),
-  inset 0 0 25px rgba(110,193,255,.1);
+    0 0 55px rgba(110,193,255,.35),
+    inset 0 0 25px rgba(110,193,255,.08);
 }
 
 /* product title */

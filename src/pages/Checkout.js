@@ -356,6 +356,21 @@ export default function Checkout({
 
             </div>
 
+            {/* CHECKOUT TRUST PANEL */}
+
+            <div className="checkout-trust-panel">
+              <strong>Secure Laboratory Checkout</strong>
+              <p>
+                All research compounds are produced in certified laboratory
+                environments and verified through third‑party analytical
+                testing. Payments are processed through encrypted
+                infrastructure and secured payment providers.
+              </p>
+              <p>
+                Orders are packaged in laboratory‑grade sterile containers
+                and shipped with tracking from verified fulfillment partners.
+              </p>
+            </div>
 
             {/* PAYMENT ICONS */}
 

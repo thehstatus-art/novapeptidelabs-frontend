@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -7,7 +7,7 @@ function AdminOrders() {
 
   const token = localStorage.getItem("token");
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     const res = await fetch(`${API}/api/admin/orders`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -16,12 +16,11 @@ function AdminOrders() {
 
     const data = await res.json();
     setOrders(data);
-  };
+  }, [token]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [fetchOrders]);
 
   const totalRevenue = orders.reduce(
     (sum, order) => sum + order.totalAmount,

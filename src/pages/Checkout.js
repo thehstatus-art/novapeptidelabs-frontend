@@ -16,12 +16,33 @@ export default function Checkout({
   const [zip, setZip] = useState("");
   const [shippingRates, setShippingRates] = useState([]);
   const [selectedRate, setSelectedRate] = useState(null);
+  const [discountCode, setDiscountCode] = useState("");
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [discountApplied, setDiscountApplied] = useState(false);
   const [loadingRates, setLoadingRates] = useState(false);
   const navigate = useNavigate();
 
   const shippingCost = selectedRate
     ? Number(selectedRate.price ?? selectedRate.amount ?? 0)
     : 0;
+
+  const applyDiscount = () => {
+
+    const code = discountCode.trim().toUpperCase();
+
+    if (code === "NOVA10") {
+      setDiscountAmount(cartTotal * 0.10);
+      setDiscountApplied(true);
+    } else if (code === "LAB20") {
+      setDiscountAmount(cartTotal * 0.20);
+      setDiscountApplied(true);
+    } else {
+      alert("Invalid discount code");
+      setDiscountAmount(0);
+      setDiscountApplied(false);
+    }
+
+  };
 
   const fetchShippingRates = async () => {
 
@@ -267,6 +288,40 @@ export default function Checkout({
 
             </div>
 
+            <div className="discount-box premium-discount-panel">
+
+              <h4 className="shipping-title">
+                🎟 Research Discount Code
+              </h4>
+
+              <div className="shipping-zip-row">
+
+                <input
+                  type="text"
+                  placeholder="Enter discount code"
+                  value={discountCode}
+                  onChange={(e) => setDiscountCode(e.target.value)}
+                  className="shipping-zip-input"
+                />
+
+                <button
+                  className="shipping-rate-btn premium-calc-btn"
+                  onClick={applyDiscount}
+                >
+                  Apply
+                </button>
+
+              </div>
+
+              {discountApplied && (
+                <div className="discount-success">
+                  <span>✓</span>
+                  <p>Discount successfully applied to this research order.</p>
+                </div>
+              )}
+
+            </div>
+
             <div className="checkout-total summary-card">
 
               <div className="summary-label">
@@ -278,6 +333,13 @@ export default function Checkout({
                 <span>${cartTotal.toFixed(2)}</span>
               </div>
 
+              {discountAmount > 0 && (
+                <div className="summary-row">
+                  <span>Discount</span>
+                  <span>- ${discountAmount.toFixed(2)}</span>
+                </div>
+              )}
+
               {selectedRate && (
                 <div className="summary-row">
                   <span>Shipping</span>
@@ -286,7 +348,7 @@ export default function Checkout({
               )}
 
               <div className="checkout-total-price premium-total">
-                ${(cartTotal + shippingCost).toFixed(2)}
+                ${(cartTotal + shippingCost - discountAmount).toFixed(2)}
               </div>
 
             </div>
@@ -333,7 +395,7 @@ export default function Checkout({
                     purchase_units: [
                       {
                         amount: {
-                          value: (cartTotal + shippingCost).toFixed(2)
+                          value: (cartTotal + shippingCost - discountAmount).toFixed(2)
                         }
                       }
                     ]

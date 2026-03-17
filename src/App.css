@@ -6635,3 +6635,41 @@ letter-spacing:.3px;
     padding:100px 20px 50px;
   }
 }
+/* DISCOUNT PANEL */
+
+.premium-discount-panel{
+  margin-top:24px;
+  padding:24px;
+  border-radius:18px;
+  background:linear-gradient(
+    160deg,
+    rgba(8,21,35,.95),
+    rgba(4,14,24,.95)
+  );
+  border:1px solid rgba(110,193,255,.35);
+  box-shadow:
+    0 0 35px rgba(110,193,255,.14),
+    inset 0 0 16px rgba(110,193,255,.05);
+}
+
+.discount-success{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:10px;
+  color:#6ec1ff;
+  font-weight:600;
+}
+
+.discount-success span{
+  background:#6ec1ff;
+  color:#081523;
+  font-weight:900;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:12px;
+}

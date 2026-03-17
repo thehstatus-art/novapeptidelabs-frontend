@@ -6066,3 +6066,19 @@ color:#9bb3c9;
 .checkout-trust-panel strong{
 color:#6ec1ff;
 }
+.checkout-specs{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin:8px 0 14px 0;
+}
+
+.checkout-specs span{
+background:rgba(110,193,255,.08);
+border:1px solid rgba(110,193,255,.25);
+padding:6px 10px;
+border-radius:6px;
+font-size:12px;
+color:#9ed0ff;
+letter-spacing:.3px;
+}

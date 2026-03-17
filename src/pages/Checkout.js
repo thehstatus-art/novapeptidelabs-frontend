@@ -17,6 +17,10 @@ export default function Checkout({
   const [loadingRates, setLoadingRates] = useState(false);
   const navigate = useNavigate();
 
+  const shippingCost = selectedRate
+    ? Number(selectedRate.price ?? selectedRate.amount ?? 0)
+    : 0;
+
   const fetchShippingRates = async () => {
 
     if (!zip || zip.length < 5) {
@@ -40,7 +44,7 @@ export default function Checkout({
 
       setShippingRates(data || []);
       if (data && data.length > 0) {
-        const cheapest = [...data].sort((a,b)=>Number(a.amount)-Number(b.amount))[0];
+        const cheapest = data[0];
         setSelectedRate(cheapest);
       }
       setLoadingRates(false);
@@ -142,9 +146,10 @@ export default function Checkout({
 
                     <h3 className="checkout-product-title">{item.name}</h3>
 
-                    <div className="checkout-tags">
-                      <span>Laboratory Research Grade</span>
-                      <span>HPLC Purity ≥99%</span>
+                    <div className="checkout-specs">
+                      <span>≥99% Purity Verified</span>
+                      <span>COA Batch Tested</span>
+                      <span>Research Compound</span>
                     </div>
 
                     <p className="checkout-price">
@@ -184,7 +189,7 @@ export default function Checkout({
 
           <div className="checkout-payment premium-summary">
 
-            <h3 className="summary-title">Research Order Summary</h3>
+            <h3 className="summary-title">Secure Order Summary</h3>
 
             {/* SHIPPING CALCULATOR */}
 
@@ -224,13 +229,14 @@ export default function Checkout({
                   {shippingRates.slice(0,3).map((rate) => (
 
                     <label
-                      key={rate.object_id}
+                      key={rate.rateId || rate.object_id || rate.provider}
                       className={`shipping-option ${selectedRate === rate ? "active" : ""}`}
                     >
 
                       <input
                         type="radio"
                         name="shippingRate"
+                        checked={selectedRate === rate}
                         onChange={() => setSelectedRate(rate)}
                       />
 
@@ -239,7 +245,7 @@ export default function Checkout({
                         <strong>{rate.provider}</strong>
 
                         <span>
-                          {rate.servicelevel?.name} — ${rate.amount}
+                          {rate.service || rate.servicelevel?.name} — ${rate.price || rate.amount}
                           {rate.estimated_days && (
                             <em style={{marginLeft:"6px",opacity:0.7}}>
                               ({rate.estimated_days} days)
@@ -266,7 +272,7 @@ export default function Checkout({
               </div>
 
               <div className="checkout-total-price premium-total">
-                ${(cartTotal + (selectedRate ? Number(selectedRate.amount) : 0)).toFixed(2)}
+                ${(cartTotal + shippingCost).toFixed(2)}
               </div>
 
             </div>
@@ -307,13 +313,13 @@ export default function Checkout({
                   shape: "rect",
                   height: 50
                 }}
-                disabled={!confirmed || !selectedRate}
+                disabled={!confirmed}
                 createOrder={(data, actions) =>
                   actions.order.create({
                     purchase_units: [
                       {
                         amount: {
-                          value: (cartTotal + (selectedRate ? Number(selectedRate.amount) : 0)).toFixed(2)
+                          value: (cartTotal + shippingCost).toFixed(2)
                         }
                       }
                     ]

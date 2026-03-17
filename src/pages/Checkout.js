@@ -126,36 +126,15 @@ export default function Checkout({
             {/* HEADER */}
 
             <div className="checkout-header checkout-lab-header">
-
-              <h1>Secure Research Compound Checkout</h1>
+              <h1>Checkout</h1>
               <div className="checkout-divider"></div>
-
-              <div className="checkout-badges premium-badges">
-
-                <div className="badge-pill">
-                  <span className="badge-icon">🔬</span>
-                  <span className="badge-text">Certified Research Grade</span>
-                </div>
-
-                <div className="badge-pill">
-                  <span className="badge-icon">🔒</span>
-                  <span className="badge-text">Encrypted Secure Checkout</span>
-                </div>
-
-                <div className="badge-pill">
-                  <span className="badge-icon">🧪</span>
-                  <span className="badge-text">Laboratory Tested & Verified</span>
-                </div>
-
-              </div>
-
             </div>
 
-            <h2 className="cart-title">Your Research Cart</h2>
+            <h2 className="cart-title">Cart</h2>
 
             {cart.length === 0 && (
               <p className="empty-cart">
-                No research compounds have been added to your cart yet.
+                Your cart is currently empty.
               </p>
             )}
 
@@ -179,11 +158,6 @@ export default function Checkout({
 
                     <h3 className="checkout-product-title">{item.name}</h3>
 
-                    <div className="checkout-specs premium-specs">
-                      <span className="spec-badge">≥99% Purity</span>
-                      <span className="spec-badge">COA Verified</span>
-                      <span className="spec-badge">Lab Grade</span>
-                    </div>
 
                     <p className="checkout-price">
                       Price per vial: <strong>${price.toFixed(2)}</strong>
@@ -222,13 +196,13 @@ export default function Checkout({
 
           <div className="checkout-payment" style={{ backdropFilter: "none", WebkitBackdropFilter: "none", filter: "none", background: "#0b1b2e" }}>
 
-            <h3 className="summary-title">Secure Order Summary</h3>
+            <h3 className="summary-title">Order Summary</h3>
 
             {/* SHIPPING CALCULATOR */}
 
             <div className="shipping-box">
 
-              <h4 className="shipping-title">Research Shipping Destination</h4>
+              <h4 className="shipping-title">Shipping Destination</h4>
 
               <div className="shipping-zip-row">
 
@@ -301,7 +275,7 @@ export default function Checkout({
             <div className="discount-box premium-discount-panel">
 
               <h4 className="shipping-title">
-                🎟 Research Discount Code
+                Discount Code
               </h4>
 
               <div className="shipping-zip-row">
@@ -364,6 +338,10 @@ export default function Checkout({
                   </span>
                 </div>
 
+                <div className="delivery-estimate">
+                  Estimated delivery: 2‑5 business days
+                </div>
+
                 {discountAmount > 0 && (
                   <div className="checkout-savings">
                     You saved ${discountAmount.toFixed(2)} today
@@ -376,19 +354,19 @@ export default function Checkout({
 
                 {orderSubtotal < FREE_STANDARD_SHIPPING && (
                   <div className="shipping-label">
-                    🚚 ${amountToStandard.toFixed(2)} away from <strong>Free Shipping</strong>
+                    ${amountToStandard.toFixed(2)} until free shipping
                   </div>
                 )}
 
                 {orderSubtotal >= FREE_STANDARD_SHIPPING && orderSubtotal < FREE_EXPRESS_SHIPPING && (
                   <div className="shipping-label">
-                    ⚡ ${amountToExpress.toFixed(2)} away from <strong>Free 2‑Day</strong>
+                    ${amountToExpress.toFixed(2)} until free 2‑day
                   </div>
                 )}
 
                 {orderSubtotal >= FREE_EXPRESS_SHIPPING && (
                   <div className="shipping-unlocked">
-                    🎉 Free 2‑Day Shipping Unlocked
+                    Free 2‑Day Shipping Unlocked
                   </div>
                 )}
 
@@ -411,28 +389,23 @@ export default function Checkout({
             {/* RESEARCH CONFIRMATION */}
 
             <div className="research-confirm premium-confirm">
-
               <input
                 type="checkbox"
                 checked={confirmed}
                 onChange={(e) => setConfirmed(e.target.checked)}
               />
-
               <div className="confirm-text">
                 <strong>Research Use Confirmation</strong>
                 <p>
-                  I confirm these compounds are being purchased strictly for
-                  laboratory research and analytical purposes and not for
-                  human or veterinary consumption.
+                  I confirm this purchase is for laboratory research purposes only.
                 </p>
               </div>
-
             </div>
 
 
             {/* PAYPAL */}
 
-            <div className="paypal-section">
+            <div className="paypal-section premium-paypal">
 
               <PayPalButtons
                 style={{
@@ -492,30 +465,14 @@ export default function Checkout({
 
             {/* CHECKOUT TRUST PANEL */}
 
-            <div className="checkout-trust-panel">
+            <div className="checkout-trust-panel checkout-trust-minimal">
               <strong>Secure Laboratory Checkout</strong>
               <p>
-                All research compounds are produced in certified laboratory
-                environments and verified through third‑party analytical
-                testing. Payments are processed through encrypted
-                infrastructure and secured payment providers.
-              </p>
-              <p>
-                Orders are packaged in laboratory‑grade sterile containers
-                and shipped with tracking from verified fulfillment partners.
+                Payments are encrypted and processed through secure PayPal infrastructure.
+                All compounds are verified research batches and shipped with tracking.
               </p>
             </div>
 
-            {/* PAYMENT ICONS */}
-
-            <div className="checkout-cards">
-
-              <span>💳 Visa</span>
-              <span>💳 Mastercard</span>
-              <span>💳 Amex</span>
-              <span>🅿 PayPal</span>
-
-            </div>
 
           </div>
 

@@ -5571,11 +5571,129 @@ inset 0 0 6px rgba(110,193,255,.12);
 
 /* product row */
 /* =====================================================
-   FINAL CHECKOUT PREMIUM OVERRIDES (FORCE VISUAL UPDATE)
+   FINAL CHECKOUT PREMIUM OVERRIDES
+   Clean stable version to prevent rendering glitches
    ===================================================== */
 
-.checkout-item{
+
+/* ================= PREMIUM ORDER SUMMARY REBUILD ================= */
+
+.checkout-payment{
+  background:linear-gradient(160deg,#0b1e31,#071423);
+  border:1px solid rgba(110,193,255,.35);
+  border-radius:22px;
+  padding:40px;
+
+  box-shadow:
+  0 0 60px rgba(110,193,255,.15),
+  inset 0 0 25px rgba(110,193,255,.05);
+
+  position:sticky;
+  top:120px;
+}
+
+/* summary header */
+
+.checkout-payment h3{
+  font-size:22px;
+  font-weight:700;
+
+  background:linear-gradient(90deg,#ffffff,#6ec1ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  margin-bottom:25px;
+}
+
+/* order total card */
+
+.summary-row.total{
   display:flex;
+  justify-content:space-between;
   align-items:center;
-  gap:26px;
+
+  padding:22px 26px;
+
+  border-radius:18px;
+
+  background:linear-gradient(160deg,#0e2238,#081523);
+
+  border:1px solid rgba(110,193,255,.45);
+
+  box-shadow:
+  0 0 35px rgba(110,193,255,.18),
+  inset 0 0 18px rgba(110,193,255,.06);
+
+  margin:25px 0;
+}
+
+.summary-row.total span:first-child{
+  font-size:13px;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  color:#7fa3c4;
+}
+
+.summary-row.total span:last-child{
+  font-size:38px;
+  font-weight:900;
+
+  background:linear-gradient(90deg,#6ec1ff,#9fd6ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:
+  0 0 30px rgba(110,193,255,.9),
+  0 0 60px rgba(110,193,255,.45);
+}
+
+/* free shipping progress */
+
+.shipping-progress{
+  margin-top:18px;
+  padding:18px 20px;
+
+  border-radius:16px;
+
+  background:rgba(110,193,255,.06);
+
+  border:1px solid rgba(110,193,255,.25);
+
+  font-size:14px;
+  line-height:1.4;
+
+  color:#cfe7ff;
+}
+
+.shipping-bar{
+  height:8px;
+  border-radius:10px;
+  background:#0b1b2e;
+
+  margin-top:10px;
+  overflow:hidden;
+}
+
+.shipping-fill{
+  height:100%;
+
+  background:linear-gradient(90deg,#6ec1ff,#4ea8ff);
+
+  box-shadow:0 0 20px rgba(110,193,255,.9);
+
+  transition:width .4s ease;
+}
+
+/* secure badge */
+
+.checkout-security{
+  margin-top:20px;
+
+  font-size:13px;
+
+  text-align:center;
+
+  color:#9bb3c9;
+
+  letter-spacing:.4px;
 }

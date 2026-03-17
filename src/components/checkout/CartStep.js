@@ -2,11 +2,17 @@ import React from "react";
 
 export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) {
 
+  const total = cart.reduce((sum, item) => {
+    return sum + (item.price || 0) * (item.quantity || 1);
+  }, 0);
+
   return (
 
-    <div className="cart-step-container">
+    <div className="cart-step-container" style={{ maxWidth: "720px", margin: "0 auto" }}>
 
-      <h2 style={{ marginBottom: "24px" }}>Your Cart</h2>
+      <h2 style={{ marginBottom: "24px", fontSize: "22px", fontWeight: "600" }}>
+        Your Cart
+      </h2>
 
       {cart.map((item) => {
 
@@ -14,27 +20,41 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
 
         return (
 
-          <div key={item._id} className="cart-card">
+          <div
+            key={item._id}
+            className="cart-card"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              padding: "16px",
+              marginBottom: "14px",
+              borderRadius: "12px",
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.06)",
+              backdropFilter: "blur(8px)"
+            }}
+          >
 
             <img
               src={item.image}
               alt={item.name}
               style={{
-                width: "60px",
-                height: "60px",
+                width: "56px",
+                height: "56px",
                 objectFit: "cover",
-                borderRadius: "8px",
-                border: "1px solid rgba(255,255,255,0.08)"
+                borderRadius: "10px",
+                border: "1px solid rgba(255,255,255,0.1)"
               }}
             />
 
             <div style={{ flex: 1 }}>
 
-              <h3 style={{ margin: "0 0 6px 0", fontSize: "15px" }}>
+              <div style={{ fontSize: "15px", fontWeight: "500" }}>
                 {item.name}
-              </h3>
+              </div>
 
-              <div style={{ fontSize: "13px", opacity: 0.75 }}>
+              <div style={{ fontSize: "13px", opacity: 0.7, marginTop: "4px" }}>
                 ${item.price} each
               </div>
 
@@ -44,13 +64,29 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
 
             </div>
 
-            <div className="qty">
+            <div
+              className="qty"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                background: "rgba(255,255,255,0.05)",
+                padding: "6px 10px",
+                borderRadius: "8px"
+              }}
+            >
 
-              <button onClick={() => decreaseQty(item._id)}>-</button>
+              <button onClick={() => decreaseQty(item._id)} style={{ cursor: "pointer" }}>
+                −
+              </button>
 
-              <span>{item.quantity}</span>
+              <span style={{ minWidth: "18px", textAlign: "center" }}>
+                {item.quantity}
+              </span>
 
-              <button onClick={() => increaseQty(item._id)}>+</button>
+              <button onClick={() => increaseQty(item._id)} style={{ cursor: "pointer" }}>
+                +
+              </button>
 
             </div>
 
@@ -60,19 +96,36 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
 
       })}
 
+      <div
+        style={{
+          marginTop: "24px",
+          paddingTop: "16px",
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: "16px",
+          fontWeight: "600"
+        }}
+      >
+        <span>Total</span>
+        <span>${total.toFixed(2)}</span>
+      </div>
+
       <button
         className="checkout-next"
         onClick={next}
         style={{
-          marginTop: "30px",
-          padding: "14px 22px",
-          borderRadius: "8px",
+          marginTop: "24px",
+          padding: "14px",
+          borderRadius: "10px",
           border: "none",
-          background: "#0ea5e9",
+          background: "linear-gradient(90deg,#0ea5e9,#0284c7)",
           color: "white",
           fontWeight: "600",
           cursor: "pointer",
-          width: "100%"
+          width: "100%",
+          fontSize: "15px",
+          letterSpacing: "0.3px"
         }}
       >
         Continue to Shipping

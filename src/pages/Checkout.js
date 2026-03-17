@@ -332,7 +332,7 @@ export default function Checkout({
 
             </div>
 
-            <div className="checkout-total summary-card">
+            <div className="checkout-total summary-card" style={{ backdropFilter: "none", WebkitBackdropFilter: "none", filter: "none" }}>
 
               <div className="summary-header">
                 <span className="summary-header-label">Secure Research Order</span>

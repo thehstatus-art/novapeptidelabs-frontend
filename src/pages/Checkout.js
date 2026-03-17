@@ -268,8 +268,20 @@ export default function Checkout({
             <div className="checkout-total summary-card">
 
               <div className="summary-label">
-                Research Order Total
+                Secure Research Order
               </div>
+
+              <div className="summary-row">
+                <span>Products</span>
+                <span>${cartTotal.toFixed(2)}</span>
+              </div>
+
+              {selectedRate && (
+                <div className="summary-row">
+                  <span>Shipping</span>
+                  <span>${shippingCost.toFixed(2)}</span>
+                </div>
+              )}
 
               <div className="checkout-total-price premium-total">
                 ${(cartTotal + shippingCost).toFixed(2)}
@@ -313,7 +325,7 @@ export default function Checkout({
                   shape: "rect",
                   height: 50
                 }}
-                disabled={!confirmed}
+                disabled={!confirmed || !selectedRate}
                 createOrder={(data, actions) =>
                   actions.order.create({
                     purchase_units: [

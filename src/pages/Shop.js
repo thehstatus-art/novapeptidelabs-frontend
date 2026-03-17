@@ -7,6 +7,10 @@ function Shop({ products = [], addToCart }) {
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
+  const [restockModal, setRestockModal] = useState(false);
+  const [restockProduct, setRestockProduct] = useState(null);
+  const [restockEmail, setRestockEmail] = useState("");
+  const [restockSubmitted, setRestockSubmitted] = useState(false);
 
   const categories = [
     "all",
@@ -94,6 +98,10 @@ function Shop({ products = [], addToCart }) {
 
                   <div className="product-image-wrapper">
 
+                    {product.stock === 0 && (
+                      <div className="sold-out-badge">SOLD OUT</div>
+                    )}
+
                     <img
                       src={imageUrl}
                       alt={product.name}
@@ -127,6 +135,12 @@ function Shop({ products = [], addToCart }) {
                       ${product.price?.toFixed(2)}
                     </p>
 
+                    {product.stock > 0 && product.stock <= 5 && (
+                      <span className="low-stock">
+                        Only {product.stock} left
+                      </span>
+                    )}
+
                   </div>
 
                 </Link>
@@ -134,8 +148,15 @@ function Shop({ products = [], addToCart }) {
                 <div className="card-overlay">
 
                   <button
-                    disabled={product.stock === 0}
-                    onClick={() => addToCart(product)}
+                    className={product.stock === 0 ? "sold-out-btn" : "add-cart-btn"}
+                    onClick={() => {
+                      if (product.stock > 0) {
+                        addToCart(product);
+                      } else {
+                        setRestockProduct(product);
+                        setRestockModal(true);
+                      }
+                    }}
                   >
                     {product.stock > 0 ? "ADD TO CART" : "SOLD OUT"}
                   </button>
@@ -151,6 +172,85 @@ function Shop({ products = [], addToCart }) {
         )}
 
       </div>
+
+      {restockModal && (
+        <div
+          className="restock-modal-overlay"
+          onClick={() => {
+            setRestockModal(false);
+            setRestockEmail("");
+            setRestockSubmitted(false);
+          }}
+        >
+          <div
+            className="restock-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>Compound Currently Unavailable</h3>
+            <p>
+              {restockProduct?.name} is currently unavailable.
+            </p>
+            <p>
+              <strong>Next Lab Batch Arrival: ~7 Days</strong>
+            </p>
+
+            <p className="modal-sub">
+              Enter your email to get notified when this compound is restocked.
+            </p>
+
+            {!restockSubmitted ? (
+              <div className="restock-email-capture">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={restockEmail}
+                  onChange={(e) => setRestockEmail(e.target.value)}
+                  className="restock-email-input"
+                />
+
+                <button
+                  className="restock-modal-btn"
+                  onClick={() => {
+                    if (!restockEmail) return;
+                    console.log("Restock request for", restockProduct?.name, restockEmail);
+                    setRestockSubmitted(true);
+                  }}
+                >
+                  Notify Me
+                </button>
+              </div>
+            ) : (
+              <p className="restock-success">
+                You're on the list! We'll notify you when the next batch arrives.
+              </p>
+            )}
+
+            <div className="modal-actions">
+              <button
+                className="restock-modal-btn"
+                onClick={() => {
+                  setRestockModal(false);
+                  setRestockEmail("");
+                  setRestockSubmitted(false);
+                }}
+              >
+                Continue Browsing
+              </button>
+
+              <button
+                className="restock-modal-btn"
+                onClick={() => {
+                  setRestockModal(false);
+                  setRestockEmail("");
+                  setRestockSubmitted(false);
+                }}
+              >
+                Join Newsletter
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

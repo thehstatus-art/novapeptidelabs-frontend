@@ -4139,6 +4139,8 @@ z-index:-1;
 
 .batch-section{
 
+display:none;
+
 margin-top:120px;
 text-align:center;
 
@@ -4326,21 +4328,7 @@ margin-top:4px;
 
 
 .coa-btn{
-  margin-top:14px;
-  padding:9px 14px;
-  border-radius:12px;
-  background:linear-gradient(135deg,#6ec1ff,#4ea8ff);
-  border:none;
-  color:#081523;
-  font-weight:700;
-  box-shadow:0 0 18px rgba(110,193,255,.7);
-  cursor:pointer;
-  transition:.25s ease;
-}
-
-.coa-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 35px rgba(110,193,255,.95);
+  display:none;
 }
 
 
@@ -6807,4 +6795,75 @@ align-items:flex-start;
 text-align:left;
 }
 
+}
+/* ===== SHIPPING PROGRESS PANEL ===== */
+
+.shipping-progress{
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+padding:18px 22px;
+
+border-radius:16px;
+
+background:linear-gradient(
+160deg,
+rgba(8,21,35,.95),
+rgba(5,15,25,.95)
+);
+
+border:1px solid rgba(110,193,255,.25);
+
+box-shadow:
+0 0 25px rgba(110,193,255,.12),
+inset 0 0 10px rgba(110,193,255,.05);
+
+margin-bottom:20px;
+}
+
+/* left side */
+
+.shipping-label{
+font-size:13px;
+letter-spacing:.4px;
+color:#9bb3c9;
+}
+
+/* order value */
+
+.shipping-total{
+font-size:18px;
+font-weight:700;
+color:#6ec1ff;
+}
+
+/* right side message */
+
+.shipping-remaining{
+font-size:14px;
+font-weight:600;
+
+color:#cfe7ff;
+}
+
+.shipping-remaining strong{
+color:#6ec1ff;
+}
+
+/* progress bar */
+
+.shipping-bar{
+margin-top:10px;
+height:6px;
+border-radius:8px;
+background:#0b1b2e;
+overflow:hidden;
+}
+
+.shipping-fill{
+height:100%;
+background:linear-gradient(90deg,#6ec1ff,#4ea8ff);
+box-shadow:0 0 12px rgba(110,193,255,.8);
+transition:width .4s ease;
 }

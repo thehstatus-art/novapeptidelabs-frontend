@@ -146,10 +146,10 @@ export default function Checkout({
 
                     <h3 className="checkout-product-title">{item.name}</h3>
 
-                    <div className="checkout-specs">
-                      <span>≥99% Purity Verified</span>
-                      <span>COA Batch Tested</span>
-                      <span>Research Compound</span>
+                    <div className="checkout-specs premium-specs">
+                      <span className="spec-badge">≥99% Purity</span>
+                      <span className="spec-badge">COA Verified</span>
+                      <span className="spec-badge">Lab Grade</span>
                     </div>
 
                     <p className="checkout-price">
@@ -325,7 +325,7 @@ export default function Checkout({
                   shape: "rect",
                   height: 50
                 }}
-                disabled={!confirmed || !selectedRate}
+                disabled={!confirmed || (shippingRates.length > 0 && !selectedRate)}
                 createOrder={(data, actions) =>
                   actions.order.create({
                     purchase_units: [

@@ -1,3 +1,4 @@
+const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PayPalButtons } from "@paypal/react-paypal-js";
@@ -32,7 +33,7 @@ export default function Checkout({
 
       setLoadingRates(true);
 
-      const res = await fetch("/api/shipping/rates", {
+      const res = await fetch(`${API}/api/shipping/rates`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

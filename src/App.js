@@ -180,13 +180,32 @@ function App() {
   };
 
   const handlePayPalSuccess = async (orderID) => {
-    await fetch(`${API}/api/orders/paypal`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ paypalOrderId: orderID, items: cart }),
-    });
+    try {
+      const res = await fetch(`${API}/api/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paypalOrderId: orderID,
+          items: cart.map((item) => ({
+            productId: item._id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+          })),
+          totalAmount: cartTotal,
+          email: "paypal-order@novapeptidelabs.org"
+        }),
+      });
 
-    setCart([]);
+      const data = await res.json();
+
+      console.log("Order saved:", data);
+
+      setCart([]);
+
+    } catch (err) {
+      console.error("Order save failed:", err);
+    }
   };
 
   if (loading) {

@@ -26,6 +26,16 @@ export default function Checkout({
     ? Number(selectedRate.price ?? selectedRate.amount ?? 0)
     : 0;
 
+  const FREE_STANDARD_SHIPPING = 100;
+  const FREE_EXPRESS_SHIPPING = 175;
+
+  const orderSubtotal = cartTotal - discountAmount;
+
+  const amountToStandard = Math.max(FREE_STANDARD_SHIPPING - orderSubtotal, 0);
+  const amountToExpress = Math.max(FREE_EXPRESS_SHIPPING - orderSubtotal, 0);
+
+  const shippingProgress = Math.min((orderSubtotal / FREE_EXPRESS_SHIPPING) * 100, 100);
+
   const applyDiscount = () => {
 
     const code = discountCode.trim().toUpperCase();
@@ -324,35 +334,83 @@ export default function Checkout({
 
             <div className="checkout-total summary-card">
 
-              <div className="summary-label">
-                Secure Research Order
+              <div className="summary-header">
+                <span className="summary-header-label">Secure Research Order</span>
               </div>
 
               <div className="summary-row">
-                <span>Products</span>
-                <span>${cartTotal.toFixed(2)}</span>
+                <span className="summary-name">Products</span>
+                <span className="summary-value">${cartTotal.toFixed(2)}</span>
               </div>
 
               {discountAmount > 0 && (
-                <div className="summary-row">
-                  <span>Discount</span>
-                  <span>- ${discountAmount.toFixed(2)}</span>
+                <div className="summary-row discount-row">
+                  <span className="summary-name">Discount</span>
+                  <span className="summary-value">- ${discountAmount.toFixed(2)}</span>
                 </div>
               )}
 
               {selectedRate && (
                 <div className="summary-row">
-                  <span>Shipping</span>
-                  <span>${shippingCost.toFixed(2)}</span>
+                  <span className="summary-name">Shipping</span>
+                  <span className="summary-value">${shippingCost.toFixed(2)}</span>
                 </div>
               )}
 
-              <div className="checkout-total-price premium-total">
-                ${(cartTotal + shippingCost - discountAmount).toFixed(2)}
+              <div className="summary-divider"></div>
+
+              <div className="summary-total-row">
+                <span className="summary-total-label">Order Total</span>
+                <span className="summary-total-price">
+                  ${(cartTotal + shippingCost - discountAmount).toFixed(2)}
+                </span>
+              </div>
+
+              {/* SAVINGS LINE */}
+
+              {discountAmount > 0 && (
+                <div className="checkout-savings">
+                  You saved ${discountAmount.toFixed(2)} on this research order 🎉
+                </div>
+              )}
+
+              {/* FREE SHIPPING PROGRESS */}
+
+              <div className="shipping-progress">
+
+                {orderSubtotal < FREE_STANDARD_SHIPPING && (
+                  <div className="shipping-label">
+                    🚚 ${amountToStandard.toFixed(2)} away from <strong>FREE standard shipping</strong>
+                  </div>
+                )}
+
+                {orderSubtotal >= FREE_STANDARD_SHIPPING && orderSubtotal < FREE_EXPRESS_SHIPPING && (
+                  <div className="shipping-label">
+                    ⚡ ${amountToExpress.toFixed(2)} away from <strong>FREE 2-day shipping</strong>
+                  </div>
+                )}
+
+                {orderSubtotal >= FREE_EXPRESS_SHIPPING && (
+                  <div className="shipping-unlocked">
+                    🎉 Free 2-Day Research Shipping Unlocked
+                  </div>
+                )}
+
+                <div className="shipping-bar">
+                  <div
+                    className="shipping-fill"
+                    style={{ width: `${shippingProgress}%` }}
+                  ></div>
+                </div>
+
+                <div className="shipping-tier-labels">
+                  <span>Free Standard · $100</span>
+                  <span>Free 2-Day · $175</span>
+                </div>
+
               </div>
 
             </div>
-
 
             {/* RESEARCH CONFIRMATION */}
 
@@ -375,8 +433,9 @@ export default function Checkout({
 
             </div>
 
-
-
+            <div className="research-batch-badge">
+              Verified Research Batch
+            </div>
 
             {/* PAYPAL */}
 

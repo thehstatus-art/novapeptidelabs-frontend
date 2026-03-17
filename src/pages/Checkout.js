@@ -334,65 +334,61 @@ export default function Checkout({
 
             <div className="checkout-total" style={{ backdropFilter: "none", WebkitBackdropFilter: "none", filter: "none", background: "rgba(8,20,40,0.92)", border: "1px solid rgba(120,180,255,0.25)", boxShadow: "0 0 0 rgba(0,0,0,0)" }}>
 
-              <div className="summary-header">
-                <span className="summary-header-label">Secure Research Order</span>
-              </div>
+              <div className="summary-main">
 
-              <div className="summary-row">
-                <span className="summary-name">Products</span>
-                <span className="summary-value">${cartTotal.toFixed(2)}</span>
-              </div>
-
-              {discountAmount > 0 && (
-                <div className="summary-row discount-row">
-                  <span className="summary-name">Discount</span>
-                  <span className="summary-value">- ${discountAmount.toFixed(2)}</span>
-                </div>
-              )}
-
-              {selectedRate && (
                 <div className="summary-row">
-                  <span className="summary-name">Shipping</span>
-                  <span className="summary-value">${shippingCost.toFixed(2)}</span>
+                  <span className="summary-name">Products</span>
+                  <span className="summary-value">${cartTotal.toFixed(2)}</span>
                 </div>
-              )}
 
-              <div className="summary-divider"></div>
+                {discountAmount > 0 && (
+                  <div className="summary-row discount-row">
+                    <span className="summary-name">Discount</span>
+                    <span className="summary-value">- ${discountAmount.toFixed(2)}</span>
+                  </div>
+                )}
 
-              <div className="summary-total-row">
-                <span className="summary-total-label">Order Total</span>
-                <span className="summary-total-price">
-                  ${(cartTotal + shippingCost - discountAmount).toFixed(2)}
-                </span>
+                {selectedRate && (
+                  <div className="summary-row">
+                    <span className="summary-name">Shipping</span>
+                    <span className="summary-value">${shippingCost.toFixed(2)}</span>
+                  </div>
+                )}
+
+                <div className="summary-divider"></div>
+
+                <div className="summary-total-row">
+                  <span className="summary-total-label">Order Total</span>
+                  <span className="summary-total-price">
+                    ${(cartTotal + shippingCost - discountAmount).toFixed(2)}
+                  </span>
+                </div>
+
+                {discountAmount > 0 && (
+                  <div className="checkout-savings">
+                    You saved ${discountAmount.toFixed(2)} today
+                  </div>
+                )}
+
               </div>
 
-              {/* SAVINGS LINE */}
-
-              {discountAmount > 0 && (
-                <div className="checkout-savings">
-                  You saved ${discountAmount.toFixed(2)} on this research order 🎉
-                </div>
-              )}
-
-              {/* FREE SHIPPING PROGRESS */}
-
-              <div className="shipping-progress">
+              <div className="shipping-progress-panel">
 
                 {orderSubtotal < FREE_STANDARD_SHIPPING && (
                   <div className="shipping-label">
-                    🚚 ${amountToStandard.toFixed(2)} away from <strong>FREE standard shipping</strong>
+                    🚚 ${amountToStandard.toFixed(2)} away from <strong>Free Shipping</strong>
                   </div>
                 )}
 
                 {orderSubtotal >= FREE_STANDARD_SHIPPING && orderSubtotal < FREE_EXPRESS_SHIPPING && (
                   <div className="shipping-label">
-                    ⚡ ${amountToExpress.toFixed(2)} away from <strong>FREE 2-day shipping</strong>
+                    ⚡ ${amountToExpress.toFixed(2)} away from <strong>Free 2‑Day</strong>
                   </div>
                 )}
 
                 {orderSubtotal >= FREE_EXPRESS_SHIPPING && (
                   <div className="shipping-unlocked">
-                    🎉 Free 2-Day Research Shipping Unlocked
+                    🎉 Free 2‑Day Shipping Unlocked
                   </div>
                 )}
 
@@ -404,8 +400,8 @@ export default function Checkout({
                 </div>
 
                 <div className="shipping-tier-labels">
-                  <span>Free Standard · $100</span>
-                  <span>Free 2-Day · $175</span>
+                  <span>$100 Free Standard</span>
+                  <span>$175 Free 2‑Day</span>
                 </div>
 
               </div>

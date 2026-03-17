@@ -6725,3 +6725,86 @@ font-weight:800;
 color:#8ecbff;
 text-shadow:0 0 15px rgba(142,203,255,.6);
 }
+.shipping-tier-labels{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  margin-top:6px;
+  opacity:.65;
+}
+/* ================= CLEAN CHECKOUT SUMMARY LAYOUT ================= */
+
+/* wrapper for total + shipping */
+.checkout-summary{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:40px;
+  flex-wrap:wrap;
+}
+
+/* left side (order total area) */
+.checkout-summary-left{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+/* product subtotal line */
+.checkout-products-line{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  font-size:15px;
+  color:#9bb3c9;
+}
+
+/* order total */
+.checkout-total{
+  font-size:40px;
+  font-weight:900;
+  letter-spacing:.5px;
+
+  background:linear-gradient(90deg,#6ec1ff,#9fd6ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:0 0 25px rgba(110,193,255,.9);
+}
+
+/* right side shipping info */
+.checkout-shipping{
+  text-align:right;
+  max-width:180px;
+
+  font-size:14px;
+  line-height:1.4;
+
+  color:#9bb3c9;
+}
+
+/* highlight amount remaining */
+.shipping-remaining{
+  font-weight:700;
+  color:#6ec1ff;
+}
+
+/* free shipping unlocked */
+.shipping-free{
+  color:#7fffc8;
+  font-weight:700;
+}
+
+/* mobile stacking */
+@media(max-width:700px){
+
+.checkout-summary{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.checkout-shipping{
+text-align:left;
+}
+
+}

@@ -220,7 +220,7 @@ export default function Checkout({
 
           {/* RIGHT — PAYMENT */}
 
-          <div className="checkout-payment premium-summary">
+          <div className="checkout-payment" style={{ backdropFilter: "none", WebkitBackdropFilter: "none", filter: "none", background: "#0b1b2e" }}>
 
             <h3 className="summary-title">Secure Order Summary</h3>
 

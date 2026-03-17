@@ -6673,3 +6673,55 @@ letter-spacing:.3px;
   border-radius:50%;
   font-size:12px;
 }
+/* ORDER SUMMARY */
+
+.summary-header{
+font-size:12px;
+letter-spacing:2px;
+text-transform:uppercase;
+opacity:.6;
+margin-bottom:12px;
+}
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+font-size:14px;
+}
+
+.summary-name{
+opacity:.8;
+}
+
+.summary-value{
+font-weight:600;
+}
+
+.discount-row{
+color:#6ec1ff;
+}
+
+.summary-divider{
+height:1px;
+background:rgba(110,193,255,.25);
+margin:14px 0;
+}
+
+.summary-total-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.summary-total-label{
+font-size:16px;
+font-weight:600;
+}
+
+.summary-total-price{
+font-size:36px;
+font-weight:800;
+color:#8ecbff;
+text-shadow:0 0 15px rgba(142,203,255,.6);
+}

@@ -5697,3 +5697,275 @@ inset 0 0 6px rgba(110,193,255,.12);
 
   letter-spacing:.4px;
 }
+/* =====================================================
+   BIOTECH CHECKOUT UI CLEANUP
+   Fix alignment + give cleaner lab-style interface
+   ===================================================== */
+
+/* section spacing */
+.checkout-payment h3,
+.checkout-payment h4{
+  letter-spacing:.4px;
+  margin-bottom:14px;
+}
+
+/* input rows */
+.checkout-payment input{
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid rgba(110,193,255,.35);
+  background:#0b1b2e;
+  color:white;
+  outline:none;
+  min-width:180px;
+
+  box-shadow:0 0 10px rgba(110,193,255,.12);
+}
+
+.checkout-payment input:focus{
+  border-color:#6ec1ff;
+  box-shadow:0 0 20px rgba(110,193,255,.35);
+}
+
+/* small action buttons */
+.checkout-payment button{
+  padding:11px 16px;
+  border-radius:10px;
+  border:1px solid rgba(110,193,255,.35);
+  background:linear-gradient(135deg,#0f2a44,#081523);
+  color:#6ec1ff;
+  font-weight:600;
+  cursor:pointer;
+
+  transition:.25s ease;
+}
+
+.checkout-payment button:hover{
+  border-color:#6ec1ff;
+  color:white;
+  box-shadow:0 0 15px rgba(110,193,255,.35);
+}
+
+/* form rows layout */
+.checkout-payment form,
+.checkout-payment .shipping-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom:22px;
+}
+
+/* order summary container fix */
+.summary-row.total{
+  display:flex !important;
+  justify-content:space-between !important;
+  align-items:center !important;
+
+  padding:22px 26px !important;
+
+  background:linear-gradient(160deg,#0e2238,#081523);
+  border-radius:16px;
+  border:1px solid rgba(110,193,255,.35);
+
+  box-shadow:
+  0 0 30px rgba(110,193,255,.12),
+  inset 0 0 15px rgba(110,193,255,.05);
+}
+
+.summary-row.total span:first-child{
+  font-size:14px;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+  color:#7fa3c4;
+}
+
+.summary-row.total span:last-child{
+  font-size:34px;
+  font-weight:900;
+
+  background:linear-gradient(90deg,#6ec1ff,#9fd6ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:0 0 25px rgba(110,193,255,.8);
+}
+
+/* shipping progress card */
+.shipping-progress-card{
+  background:linear-gradient(160deg,#0e2238,#081523);
+
+  padding:26px;
+
+  border-radius:18px;
+
+  border:1px solid rgba(110,193,255,.35);
+
+  box-shadow:
+  0 0 35px rgba(110,193,255,.15),
+  inset 0 0 15px rgba(110,193,255,.05);
+
+  text-align:center;
+}
+
+.shipping-progress-card strong{
+  color:#6ec1ff;
+}
+
+/* progress bar */
+.shipping-bar{
+  height:8px;
+  margin:14px 0;
+
+  background:#0b1b2e;
+
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.shipping-bar-fill{
+  height:100%;
+
+  background:linear-gradient(90deg,#6ec1ff,#4ea8ff);
+
+  box-shadow:0 0 20px rgba(110,193,255,.8);
+
+  transition:width .4s ease;
+}
+
+/* cleaner summary container */
+.checkout-products{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+
+/* make checkout visually balanced */
+.checkout-grid{
+  align-items:start;
+}
+/* =====================================================
+FINAL CHECKOUT STABILITY FIX
+This overrides earlier duplicated checkout rules
+===================================================== */
+
+.checkout-page{
+  min-height:100vh;
+  padding:120px 40px;
+  background:#05080f;
+}
+
+.checkout-container{
+  max-width:1200px;
+  margin:auto;
+}
+
+.checkout-grid{
+  display:grid !important;
+  grid-template-columns:1.4fr .8fr !important;
+  gap:60px !important;
+  align-items:start;
+}
+
+/* LEFT COLUMN */
+
+.checkout-products{
+  background:#081523;
+  padding:40px;
+  border-radius:20px;
+  border:1px solid rgba(110,193,255,.2);
+  box-shadow:0 0 40px rgba(110,193,255,.08);
+}
+
+/* PRODUCT ROW */
+
+.checkout-item{
+  display:flex !important;
+  align-items:center !important;
+  gap:26px !important;
+
+  padding:24px;
+  margin-bottom:20px;
+
+  background:linear-gradient(
+    160deg,
+    rgba(8,21,35,.98),
+    rgba(4,14,24,.98)
+  );
+
+  border-radius:18px;
+
+  border:1px solid rgba(110,193,255,.35);
+
+  box-shadow:
+  0 0 35px rgba(110,193,255,.12),
+  inset 0 0 18px rgba(110,193,255,.06);
+}
+
+/* RIGHT COLUMN */
+
+.checkout-payment{
+  position:sticky !important;
+  top:120px !important;
+
+  background:#081523;
+  padding:40px;
+  border-radius:20px;
+
+  border:1px solid rgba(110,193,255,.25);
+
+  box-shadow:
+  0 0 40px rgba(110,193,255,.12),
+  inset 0 0 20px rgba(110,193,255,.05);
+}
+
+/* TOTAL BOX */
+
+.summary-row.total{
+  margin-top:20px;
+  padding:20px;
+
+  border-radius:16px;
+
+  background:linear-gradient(
+    160deg,
+    #0e2238,
+    #081523
+  );
+
+  border:1px solid rgba(110,193,255,.45);
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* GLOWING TOTAL */
+
+.summary-row.total span:last-child{
+  font-size:36px;
+  font-weight:900;
+
+  background:linear-gradient(90deg,#6ec1ff,#9fd6ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:
+  0 0 25px rgba(110,193,255,.9),
+  0 0 60px rgba(110,193,255,.45);
+}
+
+/* MOBILE FIX */
+
+@media(max-width:900px){
+
+  .checkout-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  .checkout-payment{
+    position:relative !important;
+    top:auto !important;
+    margin-top:40px;
+  }
+
+}

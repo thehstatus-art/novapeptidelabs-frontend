@@ -433,9 +433,6 @@ export default function Checkout({
 
             </div>
 
-            <div className="research-batch-badge">
-              Verified Research Batch
-            </div>
 
             {/* PAYPAL */}
 

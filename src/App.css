@@ -4968,12 +4968,12 @@ animation:gridShift 18s linear infinite;
   background:linear-gradient(
     120deg,
     transparent,
-    rgba(110,193,255,.35),
+    rgba(110,193,255,.25),
     transparent
   );
 
-  opacity:.35;
-  filter:blur(12px);
+  opacity:.18;
+  filter:blur(4px);
   z-index:-1;
 }
 
@@ -5517,11 +5517,20 @@ PREMIUM CHECKOUT HEADER
 ================================ */
 
 .checkout-lab-header h1{
-font-size:32px;
-font-weight:700;
-letter-spacing:.5px;
-margin-bottom:20px;
-color:#ffffff;
+  font-size:32px;
+  font-weight:700;
+  letter-spacing:.5px;
+  margin-bottom:20px;
+  color:#ffffff;
+  position:relative;
+  z-index:2;
+}
+
+.checkout-lab-header .premium-badges,
+.checkout-total,
+.summary-row.total{
+  position:relative;
+  z-index:2;
 }
 
 .premium-badges{

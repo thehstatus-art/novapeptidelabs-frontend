@@ -98,10 +98,6 @@ function Shop({ products = [], addToCart }) {
 
                   <div className="product-image-wrapper">
 
-                    {product.stock === 0 && (
-                      <div className="sold-out-badge">SOLD OUT</div>
-                    )}
-
                     <img
                       src={imageUrl}
                       alt={product.name}
@@ -136,9 +132,10 @@ function Shop({ products = [], addToCart }) {
                     </p>
 
                     {product.stock > 0 && product.stock <= 5 && (
-                      <span className="low-stock">
-                        Only {product.stock} left
-                      </span>
+                      <div className="low-stock-premium">
+                        <span className="low-stock-dot"></span>
+                        Only {product.stock} left in stock
+                      </div>
                     )}
 
                   </div>

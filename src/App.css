@@ -5521,13 +5521,18 @@ text-shadow:
   font-size:36px !important;
   font-weight:900 !important;
 
-  background:linear-gradient(90deg,#6ec1ff,#9fd6ff) !important;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  /* fallback visible color */
+  color:#6ec1ff;
 
+  /* gradient text */
+  background:linear-gradient(90deg,#6ec1ff,#9fd6ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+
+  /* keep glow but avoid disappearing text */
   text-shadow:
-    0 0 25px rgba(110,193,255,.9),
-    0 0 60px rgba(110,193,255,.45);
+    0 0 20px rgba(110,193,255,.8),
+    0 0 40px rgba(110,193,255,.35);
 }
 /* ===============================
 PREMIUM CHECKOUT HEADER

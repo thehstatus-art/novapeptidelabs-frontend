@@ -43,23 +43,24 @@ export default function CheckoutFlow(props) {
 
   return (
 
-    <div className="checkout-wrapper">
+    <div className="checkout-container">
 
-      <CheckoutSteps step={step} />
+      <div className="checkout-header">
+        <CheckoutSteps step={step} />
+      </div>
 
-      <div className="checkout-layout">
+      <div className="checkout-content">
 
         <div className="checkout-main">
-
           {renderStep()}
-
         </div>
 
-        <div className="checkout-summary">
-
-          <OrderSummary {...props} />
-
-        </div>
+        {/* Hide order summary on final step for cleaner UX */}
+        {step !== 5 && (
+          <div className="checkout-summary">
+            <OrderSummary {...props} />
+          </div>
+        )}
 
       </div>
 

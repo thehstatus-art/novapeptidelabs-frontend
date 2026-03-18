@@ -2,26 +2,35 @@ import React from "react";
 
 export default function CheckoutSteps({ step }) {
 
-  const steps = ["Cart","Shipping","Delivery","Payment","Review"]
+  const steps = ["Cart","Shipping","Delivery","Payment","Review"];
 
-  return(
+  return (
 
     <div className="checkout-steps">
 
-      {steps.map((label,i)=>(
+      {steps.map((label, i) => {
+        const current = i + 1;
+        const status = step === current ? "active" : step > current ? "done" : "";
 
-        <div key={label} className={`step ${step === i+1 ? "active":""}`}>
+        return (
+          <div key={label} className={`step ${status}`}>
 
-          <span>{i+1}</span>
+            <div className="step-circle">
+              {step > current ? "✓" : current}
+            </div>
 
-          {label}
+            <div className="step-label">{label}</div>
 
-        </div>
+            {i !== steps.length - 1 && (
+              <div className={`step-line ${step > current ? "filled" : ""}`} />
+            )}
 
-      ))}
+          </div>
+        );
+      })}
 
     </div>
 
-  )
+  );
 
 }

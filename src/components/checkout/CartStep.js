@@ -8,7 +8,7 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
 
   return (
 
-    <div className="cart-step-container" style={{ maxWidth: "720px", margin: "0 auto" }}>
+    <div className="cart-step-container">
 
       <h2 style={{ marginBottom: "24px", fontSize: "22px", fontWeight: "600" }}>
         Your Cart
@@ -23,29 +23,12 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
           <div
             key={item._id}
             className="cart-card"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-              padding: "16px",
-              marginBottom: "14px",
-              borderRadius: "12px",
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.06)",
-              backdropFilter: "blur(8px)"
-            }}
           >
 
             <img
               src={item.image}
               alt={item.name}
-              style={{
-                width: "56px",
-                height: "56px",
-                objectFit: "cover",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,255,255,0.1)"
-              }}
+              className="cart-product-image"
             />
 
             <div style={{ flex: 1 }}>
@@ -65,15 +48,7 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
             </div>
 
             <div
-              className="qty"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                background: "rgba(255,255,255,0.05)",
-                padding: "6px 10px",
-                borderRadius: "8px"
-              }}
+              className="cart-qty"
             >
 
               <button onClick={() => decreaseQty(item._id)} style={{ cursor: "pointer" }}>
@@ -112,21 +87,8 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
       </div>
 
       <button
-        className="checkout-next"
+        className="checkout-next-btn"
         onClick={next}
-        style={{
-          marginTop: "24px",
-          padding: "14px",
-          borderRadius: "10px",
-          border: "none",
-          background: "linear-gradient(90deg,#0ea5e9,#0284c7)",
-          color: "white",
-          fontWeight: "600",
-          cursor: "pointer",
-          width: "100%",
-          fontSize: "15px",
-          letterSpacing: "0.3px"
-        }}
       >
         Continue to Shipping
       </button>

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CheckoutSteps({ step }) {
+export default function CheckoutSteps({ step, goToStep }) {
 
   const steps = ["Cart","Shipping","Delivery","Payment","Review"];
 
@@ -13,7 +13,12 @@ export default function CheckoutSteps({ step }) {
         const status = step === current ? "active" : step > current ? "done" : "";
 
         return (
-          <div key={label} className={`step ${status}`}>
+          <div
+            key={label}
+            className={`step ${status}`}
+            onClick={() => goToStep && goToStep(current)}
+            style={{ cursor: "pointer" }}
+          >
 
             <div className="step-circle">
               {step > current ? "✓" : current}

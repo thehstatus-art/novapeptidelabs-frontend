@@ -2814,6 +2814,25 @@ inset 0 0 15px rgba(255,255,255,.25);
 .add-cart-btn:active{
 transform:scale(.97);
 }
+/* SOLD OUT STATE ONLY ON CART BUTTON */
+
+.add-cart-btn.sold-out{
+
+background:#1a2230;
+color:#7fa3c4;
+
+cursor:not-allowed;
+
+border:1px solid rgba(255,255,255,.08);
+
+box-shadow:none;
+
+}
+
+.add-cart-btn.sold-out:hover{
+transform:none;
+box-shadow:none;
+}
 .shop-search {
 margin: 20px 0;
 }
@@ -4024,9 +4043,7 @@ color:#ff8e8e;
 }
 
 .stock-out{
-background:rgba(255,255,255,.05);
-border-color:rgba(255,255,255,.12);
-color:#b8c3d1;
+display:none;
 }
 .coa-preview{
 margin-top:12px;

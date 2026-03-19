@@ -134,7 +134,7 @@ function Shop({ products = [], addToCart }) {
                     {product.stock > 0 && product.stock <= 5 && (
                       <div className="low-stock-premium">
                         <span className="low-stock-dot"></span>
-                        Only {product.stock} left in stock
+                        Limited Batch • {product.stock} Remaining
                       </div>
                     )}
 

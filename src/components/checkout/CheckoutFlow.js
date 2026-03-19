@@ -60,7 +60,7 @@ export default function CheckoutFlow(props) {
             </div>
           </div>
 
-          {step !== 5 && (
+          {step !== 1 && step !== 5 && (
             <div className="checkout-payment">
               <OrderSummary {...props} />
             </div>

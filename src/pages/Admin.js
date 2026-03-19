@@ -9,7 +9,7 @@ import {
   ResponsiveContainer
 } from "recharts";
 
-const API = process.env.REACT_APP_API_URL;
+const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
 
 function Admin() {
   const token = localStorage.getItem("token");
@@ -143,7 +143,7 @@ useEffect(() => {
   /* ================= ORDER ACTIONS ================= */
 
   const updateOrderStatus = async (id, status) => {
-    await fetch(`${API}/api/orders/${id}`, {
+    await fetch(`${API}/api/admin/orders/${id}/status`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -156,11 +156,7 @@ useEffect(() => {
 
   const handleRefund = async (id) => {
     if (!window.confirm("Issue refund?")) return;
-    await fetch(`${API}/api/orders/refund/${id}`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    fetchOrders();
+    alert("Refund route is not wired yet.");
   };
 
   /* ================= CSV EXPORT ================= */

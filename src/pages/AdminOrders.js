@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 
-const API = process.env.REACT_APP_API_URL;
+const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);

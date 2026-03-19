@@ -1,6 +1,14 @@
 import React from "react";
 
-export default function ShippingStep({ next, back }) {
+export default function ShippingStep({ next, back, shippingAddress, onShippingChange }) {
+  const canContinue = Boolean(
+    shippingAddress.name &&
+    shippingAddress.email &&
+    shippingAddress.street &&
+    shippingAddress.city &&
+    shippingAddress.state &&
+    shippingAddress.zip
+  );
 
   return (
     <div className="checkout-step checkout-step--shipping">
@@ -13,12 +21,12 @@ export default function ShippingStep({ next, back }) {
         </div>
 
         <div className="checkout-step__form">
-          <input className="checkout-step__input" placeholder="Full Name" />
-          <input className="checkout-step__input" placeholder="Email Address" />
-          <input className="checkout-step__input checkout-step__input--wide" placeholder="Street Address" />
-          <input className="checkout-step__input" placeholder="City" />
-          <input className="checkout-step__input" placeholder="State" />
-          <input className="checkout-step__input" placeholder="ZIP Code" />
+          <input className="checkout-step__input" placeholder="Full Name" value={shippingAddress.name} onChange={(e) => onShippingChange("name", e.target.value)} />
+          <input className="checkout-step__input" placeholder="Email Address" value={shippingAddress.email} onChange={(e) => onShippingChange("email", e.target.value)} />
+          <input className="checkout-step__input checkout-step__input--wide" placeholder="Street Address" value={shippingAddress.street} onChange={(e) => onShippingChange("street", e.target.value)} />
+          <input className="checkout-step__input" placeholder="City" value={shippingAddress.city} onChange={(e) => onShippingChange("city", e.target.value)} />
+          <input className="checkout-step__input" placeholder="State" value={shippingAddress.state} onChange={(e) => onShippingChange("state", e.target.value)} />
+          <input className="checkout-step__input" placeholder="ZIP Code" value={shippingAddress.zip} onChange={(e) => onShippingChange("zip", e.target.value)} />
         </div>
 
         <div className="checkout-step__actions">
@@ -26,7 +34,7 @@ export default function ShippingStep({ next, back }) {
             Back
           </button>
 
-          <button className="checkout-step__button checkout-step__button--primary" onClick={next}>
+          <button className="checkout-step__button checkout-step__button--primary" onClick={next} disabled={!canContinue}>
             Continue
           </button>
         </div>

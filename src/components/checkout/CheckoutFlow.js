@@ -11,10 +11,31 @@ import OrderSummary from "./OrderSummary";
 export default function CheckoutFlow(props) {
 
   const [step, setStep] = useState(1);
+  const [shippingAddress, setShippingAddress] = useState({
+    name: "",
+    email: "",
+    street: "",
+    city: "",
+    state: "",
+    zip: "",
+    country: "US",
+  });
+  const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
 
   const next = () => setStep(prev => Math.min(5, prev + 1));
   const back = () => setStep(prev => Math.max(1, prev - 1));
   const goTo = (s) => setStep(prev => Math.min(5, Math.max(1, s)));
+  const updateShippingField = (field, value) => {
+    setShippingAddress((prev) => ({ ...prev, [field]: value }));
+  };
+  const isShippingComplete = Boolean(
+    shippingAddress.name &&
+    shippingAddress.email &&
+    shippingAddress.street &&
+    shippingAddress.city &&
+    shippingAddress.state &&
+    shippingAddress.zip
+  );
 
   const renderStep = () => {
 
@@ -24,16 +45,50 @@ export default function CheckoutFlow(props) {
         return <CartStep {...props} next={next} />
 
       case 2:
-        return <ShippingStep {...props} next={next} back={back} />
+        return (
+          <ShippingStep
+            {...props}
+            next={next}
+            back={back}
+            shippingAddress={shippingAddress}
+            onShippingChange={updateShippingField}
+          />
+        )
 
       case 3:
         return <DeliveryStep {...props} next={next} back={back} />
 
       case 4:
-        return <PaymentStep {...props} next={next} back={back} />
+        return (
+          <PaymentStep
+            {...props}
+            next={next}
+            back={back}
+            shippingAddress={shippingAddress}
+            isShippingComplete={isShippingComplete}
+            isSubmittingOrder={isSubmittingOrder}
+            onPaymentApproved={async (orderID) => {
+              setIsSubmittingOrder(true);
+              try {
+                const success = await props.handlePayPalSuccess?.({
+                  orderID,
+                  shippingAddress,
+                });
+
+                if (success) {
+                  next();
+                } else {
+                  alert("Order was paid but could not be saved. Please contact support.");
+                }
+              } finally {
+                setIsSubmittingOrder(false);
+              }
+            }}
+          />
+        )
 
       case 5:
-        return <ReviewStep {...props} back={back} />
+        return <ReviewStep {...props} back={back} shippingAddress={shippingAddress} />
 
       default:
         return null

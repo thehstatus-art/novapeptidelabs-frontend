@@ -52,21 +52,31 @@ export default function CheckoutFlow(props) {
           </div>
         </div>
 
-        <div className={step === 1 || step === 5 ? "checkout-grid single" : "checkout-grid"}>
+        {step === 1 || step === 5 ? (
 
-          <div className="checkout-left">
+          <div className="checkout-left full-width">
             <div className="checkout-step-content">
               {renderStep()}
             </div>
           </div>
 
-          {step !== 1 && step !== 5 && (
+        ) : (
+
+          <div className="checkout-grid">
+
+            <div className="checkout-left">
+              <div className="checkout-step-content">
+                {renderStep()}
+              </div>
+            </div>
+
             <div className="checkout-payment">
               <OrderSummary {...props} />
             </div>
-          )}
 
-        </div>
+          </div>
+
+        )}
 
       </div>
     </div>

@@ -8,12 +8,19 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
 
   return (
 
-    <div className="cart-step-container">
+    <div className="cart-step-container cart-step-full">
 
-      <h2 style={{ marginBottom: "24px", fontSize: "22px", fontWeight: "600" }}>
+      <h2 className="cart-title">
         Your Cart
       </h2>
 
+      {cart.length === 0 && (
+        <div className="cart-empty">
+          <p>Your cart is empty.</p>
+        </div>
+      )}
+
+      <div className="cart-list">
       {cart.map((item) => {
 
         const subtotal = (item.price || 0) * (item.quantity || 1);
@@ -33,15 +40,15 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
 
             <div style={{ flex: 1 }}>
 
-              <div style={{ fontSize: "15px", fontWeight: "500" }}>
+              <div className="cart-product-name">
                 {item.name}
               </div>
 
-              <div style={{ fontSize: "13px", opacity: 0.7, marginTop: "4px" }}>
+              <div className="cart-product-price">
                 ${item.price} each
               </div>
 
-              <div style={{ fontSize: "13px", marginTop: "4px", opacity: 0.85 }}>
+              <div className="cart-product-subtotal">
                 Subtotal: ${subtotal.toFixed(2)}
               </div>
 
@@ -51,15 +58,15 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
               className="cart-qty"
             >
 
-              <button onClick={() => decreaseQty(item._id)} style={{ cursor: "pointer" }}>
+              <button className="qty-btn" onClick={() => decreaseQty(item._id)}>
                 −
               </button>
 
-              <span style={{ minWidth: "18px", textAlign: "center" }}>
+              <span className="qty-value">
                 {item.quantity}
               </span>
 
-              <button onClick={() => increaseQty(item._id)} style={{ cursor: "pointer" }}>
+              <button className="qty-btn" onClick={() => increaseQty(item._id)}>
                 +
               </button>
 
@@ -70,18 +77,9 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
         );
 
       })}
+      </div>
 
-      <div
-        style={{
-          marginTop: "24px",
-          paddingTop: "16px",
-          borderTop: "1px solid rgba(255,255,255,0.08)",
-          display: "flex",
-          justifyContent: "space-between",
-          fontSize: "16px",
-          fontWeight: "600"
-        }}
-      >
+      <div className="cart-total">
         <span>Total</span>
         <span>${total.toFixed(2)}</span>
       </div>

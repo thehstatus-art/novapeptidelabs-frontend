@@ -5793,3 +5793,79 @@ text-shadow:
   padding:40px;
   text-align:center;
 }
+/* ===== CART STEP PREMIUM FIX ===== */
+
+.cart-step-full{
+  width:100%;
+  max-width:100%;
+}
+
+.cart-list{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+.cart-card{
+  display:flex;
+  gap:20px;
+  align-items:center;
+  background:rgba(8,21,35,0.9);
+  border:1px solid rgba(110,193,255,.2);
+  border-radius:16px;
+  padding:20px;
+}
+
+.cart-product-image{
+  width:80px;
+  height:80px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+.cart-product-name{
+  font-size:16px;
+  font-weight:600;
+  color:white;
+}
+
+.cart-product-price{
+  font-size:13px;
+  opacity:.6;
+}
+
+.cart-product-subtotal{
+  font-size:13px;
+  color:#6ec1ff;
+}
+
+.cart-qty{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.qty-btn{
+  width:28px;
+  height:28px;
+  border-radius:6px;
+  border:none;
+  background:#0b1b2e;
+  color:#6ec1ff;
+  cursor:pointer;
+}
+
+.qty-value{
+  min-width:20px;
+  text-align:center;
+}
+
+.cart-total{
+  margin-top:30px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,0.08);
+  display:flex;
+  justify-content:space-between;
+  font-size:18px;
+  font-weight:600;
+}

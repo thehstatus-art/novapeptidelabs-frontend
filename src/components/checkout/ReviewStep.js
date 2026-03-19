@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ReviewStep({ cart = [] }) {
+export default function ReviewStep({ cart = [], back }) {
 
   const total = cart.reduce((sum, item) => {
     return sum + (item.price || 0) * (item.quantity || 1);
@@ -11,6 +11,7 @@ export default function ReviewStep({ cart = [] }) {
 
       {/* HEADER */}
       <div className="review-header">
+        <div className="step-panel-eyebrow">Step 5 of 5</div>
         <h2>Review Your Order</h2>
         <p className="review-subtitle">
           Confirm your research compounds before placing order
@@ -69,6 +70,12 @@ export default function ReviewStep({ cart = [] }) {
       <button className="checkout-complete premium-btn">
         Place Secure Order →
       </button>
+
+      <div className="payment-actions">
+        <button type="button" className="payment-back" onClick={back}>
+          Back
+        </button>
+      </div>
 
     </div>
   );

@@ -2,10 +2,6 @@ import React from "react";
 
 export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) {
 
-  const total = cart.reduce((sum, item) => {
-    return sum + (item.price || 0) * (item.quantity || 1);
-  }, 0);
-
   return (
     <div className="cart-step-container cart-step-premium">
 
@@ -22,100 +18,68 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
       )}
 
       {/* MAIN GRID */}
-      <div className="cart-grid">
+      <div className="cart-flow-panel">
+        <div className="cart-list">
+          {cart.map((item) => {
 
-        {/* LEFT SIDE - PRODUCTS */}
-        <div className="cart-left">
+            const subtotal = (item.price || 0) * (item.quantity || 1);
 
-          <div className="cart-list">
-            {cart.map((item) => {
+            return (
+              <div key={item._id} className="cart-card premium-card">
 
-              const subtotal = (item.price || 0) * (item.quantity || 1);
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="cart-product-image"
+                />
 
-              return (
-                <div key={item._id} className="cart-card premium-card">
+                <div className="cart-info">
 
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="cart-product-image"
-                  />
-
-                  <div className="cart-info">
-
-                    <div className="cart-product-name">
-                      {item.name}
-                    </div>
-
-                    <div className="cart-product-price">
-                      ${item.price} each
-                    </div>
-
-                    <div className="cart-product-subtotal">
-                      ${subtotal.toFixed(2)}
-                    </div>
-
+                  <div className="cart-product-name">
+                    {item.name}
                   </div>
 
-                  <div className="cart-qty">
+                  <div className="cart-product-price">
+                    ${item.price} each
+                  </div>
 
-                    <button className="qty-btn" onClick={() => decreaseQty(item._id)}>
-                      −
-                    </button>
-
-                    <span className="qty-value">
-                      {item.quantity}
-                    </span>
-
-                    <button className="qty-btn" onClick={() => increaseQty(item._id)}>
-                      +
-                    </button>
-
+                  <div className="cart-product-subtotal">
+                    ${subtotal.toFixed(2)}
                   </div>
 
                 </div>
-              );
 
-            })}
-          </div>
+                <div className="cart-qty">
 
+                  <button className="qty-btn" onClick={() => decreaseQty(item._id)}>
+                    −
+                  </button>
+
+                  <span className="qty-value">
+                    {item.quantity}
+                  </span>
+
+                  <button className="qty-btn" onClick={() => increaseQty(item._id)}>
+                    +
+                  </button>
+
+                </div>
+
+              </div>
+            );
+
+          })}
         </div>
 
-        {/* RIGHT SIDE - SUMMARY */}
-        <div className="cart-right">
-
-          <div className="order-summary premium-summary">
-
-            <h3>Order Summary</h3>
-
-            <div className="summary-row">
-              <span>Subtotal</span>
-              <span>${total.toFixed(2)}</span>
-            </div>
-
-            <div className="summary-row">
-              <span>Shipping</span>
-              <span>Calculated next step</span>
-            </div>
-
-            <div className="summary-divider"></div>
-
-            <div className="summary-total">
-              <span>Total</span>
-              <span>${total.toFixed(2)}</span>
-            </div>
-
-            <button
-              className="checkout-next-btn premium-btn"
-              onClick={next}
-            >
-              Continue to Shipping →
-            </button>
-
-          </div>
-
+        <div className="step-footer-actions">
+          <button
+            className="checkout-next-btn premium-btn"
+            onClick={next}
+            disabled={cart.length === 0}
+          >
+            Continue to Shipping →
+          </button>
         </div>
-
       </div>
 
     </div>

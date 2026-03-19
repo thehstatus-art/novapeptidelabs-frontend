@@ -4,38 +4,42 @@ export default function CheckoutSteps({ step, goToStep }) {
 
   const steps = ["Cart","Shipping","Delivery","Payment","Review"];
 
-  return (
+    return (
+      <div className="checkout-steps modern-steps">
 
-    <div className="checkout-steps">
+        {steps.map((label, i) => {
+          const current = i + 1;
+          const isActive = step === current;
+          const isDone = step > current;
 
-      {steps.map((label, i) => {
-        const current = i + 1;
-        const status = step === current ? "active" : step > current ? "done" : "";
+          return (
+            <div
+              key={label}
+              className={`step ${isActive ? "active" : ""} ${isDone ? "done" : ""}`}
+              onClick={() => goToStep && goToStep(current)}
+            >
 
-        return (
-          <div
-            key={label}
-            className={`step ${status}`}
-            onClick={() => goToStep && goToStep(current)}
-            style={{ cursor: "pointer" }}
-          >
+              {/* Circle */}
+              <div className="step-circle">
+                {isDone ? "✓" : current}
+              </div>
 
-            <div className="step-circle">
-              {step > current ? "✓" : current}
+              {/* Label */}
+              <div className="step-label">{label}</div>
+
+              {/* Line */}
+              {i !== steps.length - 1 && (
+                <div className="step-line-wrapper">
+                  <div className="step-line" />
+                  <div className={`step-line-fill ${isDone ? "filled" : ""}`} />
+                </div>
+              )}
+
             </div>
+          );
+        })}
 
-            <div className="step-label">{label}</div>
-
-            {i !== steps.length - 1 && (
-              <div className={`step-line ${step > current ? "filled" : ""}`} />
-            )}
-
-          </div>
-        );
-      })}
-
-    </div>
-
-  );
-
+      </div>
+    );
+  
 }

@@ -46,14 +46,18 @@ export default function CheckoutFlow(props) {
     <div className="checkout-page">
       <div className="checkout-container">
 
-        <div className="checkout-header">
-          <CheckoutSteps step={step} onStepClick={goTo} />
+        <div className="checkout-header checkout-steps-bar">
+          <div className="checkout-steps-wrapper">
+            <CheckoutSteps step={step} onStepClick={goTo} />
+          </div>
         </div>
 
         <div className="checkout-grid">
 
           <div className="checkout-left">
-            {renderStep()}
+            <div className="checkout-step-content">
+              {renderStep()}
+            </div>
           </div>
 
           {step !== 5 && (

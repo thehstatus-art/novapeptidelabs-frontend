@@ -25,11 +25,13 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
             return (
               <div key={item._id} className="checkout-cart__item">
 
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="checkout-cart__image"
-                />
+                <div className="checkout-cart__media">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="checkout-cart__image"
+                  />
+                </div>
 
                 <div className="checkout-cart__info">
 

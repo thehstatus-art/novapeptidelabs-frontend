@@ -5628,3 +5628,23 @@ text-shadow:
     grid-template-columns:1fr !important;
   }
 }
+.checkout-grid{
+  display:grid;
+  grid-template-columns:1.4fr .8fr;
+  gap:40px;
+  align-items:start;
+  width:100%;
+}
+
+.checkout-left{
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+}
+
+.checkout-payment{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(110,193,255,0.15);
+  border-radius:16px;
+  padding:20px;
+}

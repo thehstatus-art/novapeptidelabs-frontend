@@ -43,39 +43,28 @@ export default function CheckoutFlow(props) {
   }
 
   return (
-    <div className="checkout-container">
+    <div className="checkout-page">
+      <div className="checkout-container">
 
-      <div className="checkout-header">
-        <CheckoutSteps step={step} onStepClick={goTo} />
-      </div>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1.4fr 0.8fr",
-          gap: "40px",
-          alignItems: "start",
-          width: "100%"
-        }}
-      >
-
-        <div style={{ width: "100%" }}>
-          {renderStep()}
+        <div className="checkout-header">
+          <CheckoutSteps step={step} onStepClick={goTo} />
         </div>
 
-        {step !== 5 && (
-          <div
-            style={{
-              position: "sticky",
-              top: "100px"
-            }}
-          >
-            <OrderSummary {...props} />
+        <div className="checkout-grid">
+
+          <div className="checkout-left">
+            {renderStep()}
           </div>
-        )}
+
+          {step !== 5 && (
+            <div className="checkout-payment">
+              <OrderSummary {...props} />
+            </div>
+          )}
+
+        </div>
 
       </div>
-
     </div>
   )
 

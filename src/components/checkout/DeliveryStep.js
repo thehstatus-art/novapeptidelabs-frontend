@@ -21,16 +21,16 @@ export default function DeliveryStep({ next, back }){
   const [selected, setSelected] = useState(deliveryOptions[0].id);
 
   return(
-    <div className="delivery-step-card">
-        <div className="step-panel-header">
-          <div className="step-panel-eyebrow">Step 3 of 5</div>
-          <h2 className="step-panel-title">Choose Delivery Speed</h2>
-          <p className="step-panel-copy">
+    <div className="checkout-step checkout-step--delivery">
+        <div className="checkout-step__header">
+          <div className="checkout-step__eyebrow">Step 3 of 5</div>
+          <h2 className="checkout-step__title">Choose Delivery Speed</h2>
+          <p className="checkout-step__copy">
             Select the shipping method that best matches your timeline.
           </p>
         </div>
 
-        <div className="delivery-options">
+        <div className="checkout-delivery">
           {deliveryOptions.map((option) => {
             const isSelected = selected === option.id;
 
@@ -38,27 +38,28 @@ export default function DeliveryStep({ next, back }){
               <button
                 key={option.id}
                 type="button"
-                className={`delivery-card ${isSelected ? "selected" : ""}`}
+                className={`checkout-delivery__option ${isSelected ? "is-selected" : ""}`}
                 onClick={() => setSelected(option.id)}
               >
-                <div className="delivery-card-top">
+                <div className="checkout-delivery__top">
                   <div>
-                    <div className="delivery-label">{option.label}</div>
-                    <div className="delivery-eta">{option.eta}</div>
+                    <div className="checkout-delivery__label">{option.label}</div>
+                    <div className="checkout-delivery__eta">{option.eta}</div>
                   </div>
-                  <div className="delivery-price">${option.price.toFixed(2)}</div>
+                  <div className="checkout-delivery__price">${option.price.toFixed(2)}</div>
                 </div>
-                <div className="delivery-description">{option.description}</div>
+                <div className="checkout-delivery__description">{option.description}</div>
               </button>
             );
           })}
         </div>
 
-        <div className="checkout-nav">
-          <button type="button" onClick={back}>Back</button>
-          <button type="button" onClick={next}>Continue</button>
+        <div className="checkout-step__actions">
+          <button type="button" className="checkout-step__button checkout-step__button--secondary" onClick={back}>Back</button>
+          <button type="button" className="checkout-step__button checkout-step__button--primary" onClick={next}>Continue</button>
         </div>
-        <div className="delivery-selected-note">
+
+        <div className="checkout-delivery__note">
           Selected: {deliveryOptions.find((option) => option.id === selected)?.label} for ${deliveryOptions.find((option) => option.id === selected)?.price.toFixed(2)}
         </div>
     </div>

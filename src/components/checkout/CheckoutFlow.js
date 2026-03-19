@@ -43,28 +43,26 @@ export default function CheckoutFlow(props) {
   }
 
   return (
-    <div className="checkout-page">
-      <div className="checkout-container">
+    <div className="checkout-shell">
+      <div className="checkout-shell__inner">
 
-        <div className="checkout-header checkout-steps-bar" style={{ marginBottom: "30px" }}>
-          <div className="checkout-steps-wrapper">
+        <div className="checkout-shell__header">
+          <div className="checkout-shell__steps">
             <CheckoutSteps step={step} onStepClick={goTo} />
           </div>
         </div>
 
-        <div className="checkout-grid">
+        <div className="checkout-shell__grid">
 
-          {/* LEFT SIDE */}
-          <div className="checkout-left">
-            <div className="checkout-step-content">
+          <div className="checkout-shell__main">
+            <div className="checkout-shell__panel">
               {renderStep()}
             </div>
           </div>
 
-          {/* RIGHT SIDE */}
-          <div className="checkout-payment">
+          <aside className="checkout-shell__summary">
             <OrderSummary {...props} />
-          </div>
+          </aside>
 
         </div>
 

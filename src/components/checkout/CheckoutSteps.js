@@ -5,7 +5,7 @@ export default function CheckoutSteps({ step, onStepClick }) {
   const steps = ["Cart","Shipping","Delivery","Payment","Review"];
 
     return (
-      <div className="checkout-steps modern-steps premium-steps">
+      <div className="checkout-progress">
 
         {steps.map((label, i) => {
           const current = i + 1;
@@ -15,25 +15,21 @@ export default function CheckoutSteps({ step, onStepClick }) {
           return (
             <div
               key={label}
-              className={`step ${isActive ? "active" : ""} ${isDone ? "done" : ""}`}
+              className={`checkout-progress__step ${isActive ? "is-active" : ""} ${isDone ? "is-done" : ""}`}
               onClick={() => {
                 if (onStepClick) onStepClick(current);
               }}
             >
 
-              {/* Circle */}
-              <div className="step-circle">
+              <div className="checkout-progress__badge">
                 {isDone ? "✓" : current}
               </div>
 
-              {/* Label */}
-              <div className="step-label">{label}</div>
+              <div className="checkout-progress__label">{label}</div>
 
-              {/* Line */}
               {i !== steps.length - 1 && (
-                <div className="step-line-wrapper">
-                  <div className="step-line" />
-                  <div className={`step-line-fill ${isDone ? "filled" : ""}`} />
+                <div className="checkout-progress__line">
+                  <div className={`checkout-progress__line-fill ${isDone ? "is-filled" : ""}`} />
                 </div>
               )}
 

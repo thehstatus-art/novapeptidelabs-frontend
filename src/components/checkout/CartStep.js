@@ -3,63 +3,61 @@ import React from "react";
 export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) {
 
   return (
-    <div className="cart-step-container cart-step-premium">
+    <div className="checkout-cart">
 
-      {/* HEADER */}
-      <div className="cart-header">
-        <h2 className="cart-title">Your Cart</h2>
-        <p className="cart-subtitle">Review your selected research compounds</p>
+      <div className="checkout-cart__header">
+        <h2 className="checkout-cart__title">Your Cart</h2>
+        <p className="checkout-cart__subtitle">Review your selected research compounds</p>
       </div>
 
       {cart.length === 0 && (
-        <div className="cart-empty">
+        <div className="checkout-cart__empty">
           <p>Your cart is empty.</p>
         </div>
       )}
 
-      {/* MAIN GRID */}
-      <div className="cart-flow-panel">
-        <div className="cart-list">
+      <div className="checkout-cart__panel">
+        <div className="checkout-cart__list">
           {cart.map((item) => {
 
             const subtotal = (item.price || 0) * (item.quantity || 1);
 
             return (
-              <div key={item._id} className="cart-card premium-card">
+              <div key={item._id} className="checkout-cart__item">
 
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="cart-product-image"
+                  className="checkout-cart__image"
                 />
 
-                <div className="cart-info">
+                <div className="checkout-cart__info">
 
-                  <div className="cart-product-name">
+                  <div className="checkout-cart__name">
                     {item.name}
                   </div>
 
-                  <div className="cart-product-price">
+                  <div className="checkout-cart__price">
                     ${item.price} each
                   </div>
 
-                  <div className="cart-product-subtotal">
+                  <div className="checkout-cart__subtotal">
                     ${subtotal.toFixed(2)}
                   </div>
 
                 </div>
 
-                <div className="cart-qty">
+                <div className="checkout-cart__qty">
 
-                  <button className="qty-btn" onClick={() => decreaseQty(item._id)}>
+                  <button className="checkout-cart__qty-btn" onClick={() => decreaseQty(item._id)}>
                     −
                   </button>
 
-                  <span className="qty-value">
+                  <span className="checkout-cart__qty-value">
                     {item.quantity}
                   </span>
 
-                  <button className="qty-btn" onClick={() => increaseQty(item._id)}>
+                  <button className="checkout-cart__qty-btn" onClick={() => increaseQty(item._id)}>
                     +
                   </button>
 
@@ -71,9 +69,9 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
           })}
         </div>
 
-        <div className="step-footer-actions">
+        <div className="checkout-cart__actions">
           <button
-            className="checkout-next-btn premium-btn"
+            className="checkout-cart__continue"
             onClick={next}
             disabled={cart.length === 0}
           >

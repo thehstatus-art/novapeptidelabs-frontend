@@ -4,21 +4,21 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 export default function PaymentStep({ cartTotal = 0, next, back }){
 
   return(
-    <div className="payment-step-card">
-        <div className="step-panel-header">
-          <div className="step-panel-eyebrow">Step 4 of 5</div>
-          <h2 className="step-panel-title">Payment</h2>
-          <p className="step-panel-copy">
+    <div className="checkout-step checkout-step--payment">
+        <div className="checkout-step__header">
+          <div className="checkout-step__eyebrow">Step 4 of 5</div>
+          <h2 className="checkout-step__title">Payment</h2>
+          <p className="checkout-step__copy">
             Complete checkout securely with PayPal. Your order summary remains visible on the right.
           </p>
         </div>
 
-        <div className="payment-total-banner">
+        <div className="checkout-payment-step__banner">
           <span>Amount Due</span>
           <strong>${cartTotal.toFixed(2)}</strong>
         </div>
 
-        <div className="payment-provider-card">
+        <div className="checkout-payment-step__provider">
           <PayPalButtons
             createOrder={(data, actions) => actions.order.create({
               purchase_units: [{ amount: { value: cartTotal.toFixed(2) } }]
@@ -30,8 +30,8 @@ export default function PaymentStep({ cartTotal = 0, next, back }){
           />
         </div>
 
-        <div className="payment-actions">
-          <button type="button" className="payment-back" onClick={back}>
+        <div className="checkout-step__actions">
+          <button type="button" className="checkout-step__button checkout-step__button--secondary" onClick={back}>
             Back
           </button>
         </div>

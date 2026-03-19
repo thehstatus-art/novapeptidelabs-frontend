@@ -7,45 +7,43 @@ export default function ReviewStep({ cart = [], back }) {
   }, 0);
 
   return (
-    <div className="review-container">
+    <div className="checkout-step checkout-step--review">
 
-      {/* HEADER */}
-      <div className="review-header">
-        <div className="step-panel-eyebrow">Step 5 of 5</div>
-        <h2>Review Your Order</h2>
-        <p className="review-subtitle">
+      <div className="checkout-step__header">
+        <div className="checkout-step__eyebrow">Step 5 of 5</div>
+        <h2 className="checkout-step__title">Review Your Order</h2>
+        <p className="checkout-step__copy">
           Confirm your research compounds before placing order
         </p>
       </div>
 
-      {/* ORDER LIST */}
-      <div className="review-list">
+      <div className="checkout-review">
 
         {cart.map((item) => {
 
           const subtotal = (item.price || 0) * (item.quantity || 1);
 
           return (
-            <div key={item._id} className="review-card">
+            <div key={item._id} className="checkout-review__item">
 
-              <div className="review-left">
+              <div className="checkout-review__left">
 
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="review-image"
+                  className="checkout-review__image"
                 />
 
                 <div>
-                  <div className="review-name">{item.name}</div>
-                  <div className="review-meta">
+                  <div className="checkout-review__name">{item.name}</div>
+                  <div className="checkout-review__meta">
                     Qty: {item.quantity}
                   </div>
                 </div>
 
               </div>
 
-              <div className="review-right">
+              <div className="checkout-review__right">
                 ${subtotal.toFixed(2)}
               </div>
 
@@ -56,23 +54,21 @@ export default function ReviewStep({ cart = [], back }) {
 
       </div>
 
-      {/* TOTAL */}
-      <div className="review-summary">
+      <div className="checkout-review__summary">
 
-        <div className="review-total-row">
+        <div className="checkout-review__total">
           <span>Total</span>
           <span>${total.toFixed(2)}</span>
         </div>
 
       </div>
 
-      {/* CTA */}
-      <button className="checkout-complete premium-btn">
+      <button className="checkout-step__button checkout-step__button--primary checkout-step__button--full">
         Place Secure Order →
       </button>
 
-      <div className="payment-actions">
-        <button type="button" className="payment-back" onClick={back}>
+      <div className="checkout-step__actions">
+        <button type="button" className="checkout-step__button checkout-step__button--secondary" onClick={back}>
           Back
         </button>
       </div>

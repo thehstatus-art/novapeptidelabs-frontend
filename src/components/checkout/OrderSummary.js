@@ -4,21 +4,21 @@ export default function OrderSummary({cart=[],cartTotal=0}){
 
   return (
 
-    <div className="order-summary-premium">
+    <div className="checkout-summary">
 
-      <h3 className="summary-title">Order Summary</h3>
+      <h3 className="checkout-summary__title">Order Summary</h3>
 
-      <div className="summary-items">
+      <div className="checkout-summary__items">
         {cart.map(item => (
 
-          <div key={item._id} className="summary-item">
+          <div key={item._id} className="checkout-summary__item">
 
-            <div className="summary-product">
-              <span className="product-name">{item.name}</span>
-              <span className="product-qty">Qty {item.quantity}</span>
+            <div className="checkout-summary__product">
+              <span className="checkout-summary__name">{item.name}</span>
+              <span className="checkout-summary__qty">Qty {item.quantity}</span>
             </div>
 
-            <div className="product-price">
+            <div className="checkout-summary__price">
               ${(item.quantity * item.price).toFixed(2)}
             </div>
 
@@ -27,24 +27,24 @@ export default function OrderSummary({cart=[],cartTotal=0}){
         ))}
       </div>
 
-      <div className="summary-divider"></div>
+      <div className="checkout-summary__divider"></div>
 
-      <div className="summary-row">
+      <div className="checkout-summary__row">
         <span>Subtotal</span>
         <span>${cartTotal.toFixed(2)}</span>
       </div>
 
-      <div className="summary-row">
+      <div className="checkout-summary__row">
         <span>Shipping</span>
         <span>Calculated at next step</span>
       </div>
 
-      <div className="summary-row total">
+      <div className="checkout-summary__row checkout-summary__row--total">
         <span>Total</span>
         <span>${cartTotal.toFixed(2)}</span>
       </div>
 
-      <div className="checkout-security">
+      <div className="checkout-summary__security">
         🔒 Secure Checkout • 256-bit SSL
       </div>
 

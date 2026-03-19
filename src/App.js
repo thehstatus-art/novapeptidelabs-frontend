@@ -67,6 +67,10 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (location.pathname === "/checkout") {
+      return undefined;
+    }
+
     const lenis = new Lenis({ duration: 1.1, smooth: true });
     let rafId;
 
@@ -81,7 +85,7 @@ function App() {
       cancelAnimationFrame(rafId);
       lenis.destroy();
     };
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     fetch(`${API}/api/products`)

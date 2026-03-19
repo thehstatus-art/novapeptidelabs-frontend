@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import Lenis from "@studio-freight/lenis";
 import Particles from "@tsparticles/react";
 import { io } from "socket.io-client";
 import AgeGate from "./components/AgeGate";
@@ -65,27 +64,6 @@ function App() {
     const timer = setTimeout(() => setLoading(false), 900);
     return () => clearTimeout(timer);
   }, []);
-
-  useEffect(() => {
-    if (location.pathname === "/checkout") {
-      return undefined;
-    }
-
-    const lenis = new Lenis({ duration: 1.1, smooth: true });
-    let rafId;
-
-    function raf(time) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-
-    rafId = requestAnimationFrame(raf);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
-    };
-  }, [location.pathname]);
 
   useEffect(() => {
     fetch(`${API}/api/products`)

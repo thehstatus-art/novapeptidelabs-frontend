@@ -12,8 +12,9 @@ export default function CheckoutFlow(props) {
 
   const [step, setStep] = useState(1);
 
-  const next = () => setStep(step + 1);
-  const back = () => setStep(step - 1);
+  const next = () => setStep(prev => Math.min(5, prev + 1));
+  const back = () => setStep(prev => Math.max(1, prev - 1));
+  const goTo = (s) => setStep(prev => Math.min(5, Math.max(1, s)));
 
   const renderStep = () => {
 
@@ -42,22 +43,33 @@ export default function CheckoutFlow(props) {
   }
 
   return (
-
     <div className="checkout-container">
 
       <div className="checkout-header">
-        <CheckoutSteps step={step} />
+        <CheckoutSteps step={step} onStepClick={goTo} />
       </div>
 
-      <div className="checkout-content">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1.4fr 0.8fr",
+          gap: "40px",
+          alignItems: "start",
+          width: "100%"
+        }}
+      >
 
-        <div className="checkout-main">
+        <div style={{ width: "100%" }}>
           {renderStep()}
         </div>
 
-        {/* Hide order summary on final step for cleaner UX */}
         {step !== 5 && (
-          <div className="checkout-summary">
+          <div
+            style={{
+              position: "sticky",
+              top: "100px"
+            }}
+          >
             <OrderSummary {...props} />
           </div>
         )}
@@ -65,7 +77,6 @@ export default function CheckoutFlow(props) {
       </div>
 
     </div>
-
   )
 
 }

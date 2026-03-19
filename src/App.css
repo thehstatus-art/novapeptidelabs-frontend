@@ -131,6 +131,8 @@ body::after{
   width:220px;
   margin:auto;
   margin-bottom:20px;
+  position:relative;
+  z-index:1;
 }
 
 /* ===== PREMIUM CARD GLOW UPGRADE ===== */
@@ -2621,6 +2623,32 @@ inset 0 0 20px rgba(110,193,255,0.04);
 position:relative;
 }
 
+/* SOLD OUT OVERLAY */
+
+.sold-out-badge{
+  position:absolute;
+  top:12px;
+  left:12px;
+
+  padding:6px 12px;
+  border-radius:14px;
+
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.6px;
+
+  background:rgba(255,80,80,.15);
+  border:1px solid rgba(255,80,80,.6);
+
+  color:#ff6b6b;
+
+  box-shadow:0 0 12px rgba(255,80,80,.5);
+
+  backdrop-filter:blur(4px);
+
+  z-index:5;
+}
+
 .purity-stamp{
 position:absolute;
 
@@ -4024,13 +4052,12 @@ animation:float2 22s infinite linear;
 100%{transform:translate(0,0)}
 }
 html, body {
-  height: auto !important;
-  overflow-y: auto !important;
+  height: 100%;
+  overflow-x: hidden;
 }
 
 #root {
   min-height: 100vh;
-  overflow-y: auto;
 }
 /* ================= DEDICATED CHECKOUT PAGE LAYOUT ================= */
 
@@ -5565,30 +5592,39 @@ text-shadow:
   margin-bottom:20px;
 }
 
-/* ===== Order Total Card ===== */
 
-.summary-row.total{
-  margin-top:20px;
-  padding:18px;
+/* ===== FORCE RESET FOR PRODUCT + CHECKOUT ===== */
 
-  border-radius:14px;
+.product-image-wrapper{
+  position:relative !important;
+}
 
-  background:linear-gradient(
-    160deg,
-    #0b1e31,
-    #071423
-  );
+.product-image-wrapper img{
+  position:relative !important;
+  z-index:1 !important;
+}
 
-  border:1px solid rgba(110,193,255,.35);
+.sold-out-badge{
+  display:none !important;
+}
 
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.checkout-page,
+.checkout-container,
+.checkout-grid,
+.checkout-products,
+.checkout-payment{
+  all:unset;
+  display:block;
+}
 
-  font-size:18px;
-  font-weight:600;
+.checkout-grid{
+  display:grid !important;
+  grid-template-columns:1.4fr .8fr !important;
+  gap:60px !important;
+}
 
-  color:#e8f7ff;
-
-  box-shadow: 0 0 25px rgba(110,193,255,.15), inset 0 0 12px rgba(110,193,255,.05);
+@media(max-width:900px){
+  .checkout-grid{
+    grid-template-columns:1fr !important;
+  }
 }

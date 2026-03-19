@@ -52,7 +52,7 @@ export default function CheckoutFlow(props) {
           </div>
         </div>
 
-        <div className="checkout-grid">
+        <div className={step === 1 || step === 5 ? "checkout-grid single" : "checkout-grid"}>
 
           <div className="checkout-left">
             <div className="checkout-step-content">

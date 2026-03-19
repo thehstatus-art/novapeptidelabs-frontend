@@ -1765,26 +1765,6 @@ color:#9bb3c9;
 }
 /* ================= MINI CART DRAWER ================= */
 
-.mini-cart{
-position:fixed;
-right:0;
-top:0;
-
-width:380px;
-min-height:100vh;
-
-background:#081523;
-
-padding:30px;
-
-border-left:1px solid rgba(110,193,255,.25);
-
-box-shadow:-20px 0 60px rgba(0,0,0,.5);
-
-z-index:2000;
-
-overflow-y:auto;
-}
 
 /* overlay behind drawer */
 

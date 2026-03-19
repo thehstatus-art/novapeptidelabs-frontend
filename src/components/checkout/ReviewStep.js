@@ -1,29 +1,75 @@
 import React from "react";
 
-export default function ReviewStep({cart=[]}){
+export default function ReviewStep({ cart = [] }) {
 
-  return(
+  const total = cart.reduce((sum, item) => {
+    return sum + (item.price || 0) * (item.quantity || 1);
+  }, 0);
 
-    <div>
+  return (
+    <div className="review-container">
 
-      <h2>Review Order</h2>
+      {/* HEADER */}
+      <div className="review-header">
+        <h2>Review Your Order</h2>
+        <p className="review-subtitle">
+          Confirm your research compounds before placing order
+        </p>
+      </div>
 
-      {cart.map(item=>(
+      {/* ORDER LIST */}
+      <div className="review-list">
 
-        <div key={item._id}>
+        {cart.map((item) => {
 
-          {item.name} — {item.quantity}
+          const subtotal = (item.price || 0) * (item.quantity || 1);
 
+          return (
+            <div key={item._id} className="review-card">
+
+              <div className="review-left">
+
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="review-image"
+                />
+
+                <div>
+                  <div className="review-name">{item.name}</div>
+                  <div className="review-meta">
+                    Qty: {item.quantity}
+                  </div>
+                </div>
+
+              </div>
+
+              <div className="review-right">
+                ${subtotal.toFixed(2)}
+              </div>
+
+            </div>
+          );
+
+        })}
+
+      </div>
+
+      {/* TOTAL */}
+      <div className="review-summary">
+
+        <div className="review-total-row">
+          <span>Total</span>
+          <span>${total.toFixed(2)}</span>
         </div>
 
-      ))}
+      </div>
 
-      <button className="checkout-complete">
-        Place Order
+      {/* CTA */}
+      <button className="checkout-complete premium-btn">
+        Place Secure Order →
       </button>
 
     </div>
-
-  )
-
+  );
 }

@@ -1,11 +1,11 @@
 import React from "react";
 
-export default function CheckoutSteps({ step, goToStep }) {
+export default function CheckoutSteps({ step, onStepClick }) {
 
   const steps = ["Cart","Shipping","Delivery","Payment","Review"];
 
     return (
-      <div className="checkout-steps modern-steps">
+      <div className="checkout-steps modern-steps premium-steps">
 
         {steps.map((label, i) => {
           const current = i + 1;
@@ -16,7 +16,9 @@ export default function CheckoutSteps({ step, goToStep }) {
             <div
               key={label}
               className={`step ${isActive ? "active" : ""} ${isDone ? "done" : ""}`}
-              onClick={() => goToStep && goToStep(current)}
+              onClick={() => {
+                if (onStepClick) onStepClick(current);
+              }}
             >
 
               {/* Circle */}

@@ -8,7 +8,7 @@ export default function PaymentStep({
   isShippingComplete,
   isSubmittingOrder,
   onPaymentApproved,
-}){
+}) {
 
   return(
     <div className="checkout-step checkout-step--payment">
@@ -43,11 +43,20 @@ export default function PaymentStep({
                 onApprove={async (data, actions) => {
                   const details = await actions.order.capture();
 
-                  // Pass full details to parent so it can save order to backend
-                  await onPaymentApproved?.({
-                    orderID: data.orderID,
-                    details
-                  });
+                  try {
+                    await onPaymentApproved?.({
+                      orderID: data.orderID,
+                      details,
+                      shippingAddress: {
+                        ...shippingAddress,
+                        email: details?.payer?.email_address || shippingAddress?.email || "",
+                      },
+                    });
+
+                  } catch (err) {
+                    console.error("ORDER SAVE ERROR:", err);
+                    alert("Payment succeeded but order failed to save. Contact support.");
+                  }
                 }}
                 onError={(err) => {
                   console.error("PayPal error:", err);

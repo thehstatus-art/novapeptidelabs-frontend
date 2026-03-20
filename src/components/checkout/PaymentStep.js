@@ -36,12 +36,22 @@ export default function PaymentStep({
 
             <div className="checkout-payment-step__provider">
               <PayPalButtons
+                style={{ layout: "vertical", color: "gold", shape: "rect", label: "paypal" }}
                 createOrder={(data, actions) => actions.order.create({
                   purchase_units: [{ amount: { value: cartTotal.toFixed(2) } }]
                 })}
                 onApprove={async (data, actions) => {
-                  await actions.order.capture();
-                  await onPaymentApproved?.(data.orderID);
+                  const details = await actions.order.capture();
+
+                  // Pass full details to parent so it can save order to backend
+                  await onPaymentApproved?.({
+                    orderID: data.orderID,
+                    details
+                  });
+                }}
+                onError={(err) => {
+                  console.error("PayPal error:", err);
+                  alert("Payment failed. Please try again.");
                 }}
               />
             </div>

@@ -45,7 +45,8 @@ function Orders() {
 
               {order.items.map((item, index) => (
                 <div key={index} style={{ marginLeft: "10px" }}>
-                  Product ID: {item.productId} — Qty: {item.quantity}
+                  <span style={{ opacity: 0.7 }}>Product:</span> {item.product || item.productId} 
+                  <span style={{ marginLeft: "10px", opacity: 0.7 }}>Qty:</span> {item.quantity}
                 </div>
               ))}
             </div>

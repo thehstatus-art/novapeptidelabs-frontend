@@ -7385,9 +7385,9 @@ text-shadow:
   padding:18px;
   border-radius:22px;
   background:
-    radial-gradient(circle at 50% 18%, rgba(108,228,181,.12), transparent 46%),
-    linear-gradient(180deg, rgba(14,33,32,.96), rgba(8,18,24,.94));
-  border:1px solid rgba(100,232,180,.14);
+    radial-gradient(circle at 50% 18%, rgba(108,228,181,.16), transparent 44%),
+    linear-gradient(180deg, rgba(13,38,34,.97), rgba(7,20,23,.95));
+  border:1px solid rgba(100,232,180,.18);
   margin-bottom:18px;
   min-height:260px;
   display:flex;
@@ -7396,7 +7396,7 @@ text-shadow:
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.04),
     0 16px 34px rgba(0,0,0,.18),
-    0 0 32px rgba(100,232,180,.08);
+    0 0 40px rgba(100,232,180,.12);
 }
 
 .compound-db-card .compound-image{
@@ -7411,7 +7411,8 @@ text-shadow:
   border:1px solid rgba(255,255,255,.52);
   box-shadow:
     0 20px 34px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.62);
+    inset 0 1px 0 rgba(255,255,255,.62),
+    0 0 0 1px rgba(100,232,180,.08);
   object-fit:contain;
   object-position:center;
 }

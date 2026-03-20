@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   LineChart,
   Line,
@@ -13,12 +14,14 @@ const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender
 
 function Admin() {
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [stats, setStats] = useState(null);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [subscriberCount, setSubscriberCount] = useState(0);
+  const [authError, setAuthError] = useState("");
 
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -45,22 +48,51 @@ function Admin() {
 
 const fetchOrders = useCallback(async () => {
   try {
+    if (!token) {
+      setAuthError("Admin login required.");
+      navigate("/login");
+      return;
+    }
+
     const res = await fetch(`${API}/api/admin/orders`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     const data = await res.json();
+
+    if (res.status === 401 || res.status === 403) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("adminUser");
+      setAuthError(data.message || "Your admin session expired.");
+      navigate("/login");
+      return;
+    }
+
+    if (!res.ok) {
+      throw new Error(data.message || "Orders fetch failed");
+    }
+
     setOrders(data);
   } catch (err) {
     console.error("Orders fetch failed", err);
+    setAuthError(err.message || "Orders fetch failed");
   }
-}, [token]);
+}, [navigate, token]);
 
 const fetchStats = useCallback(async () => {
   try {
+    if (!token) {
+      return;
+    }
+
     const res = await fetch(`${API}/api/admin/stats`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Stats fetch failed");
+    }
+
     setStats(data);
   } catch (err) {
     console.error("Stats fetch failed", err);
@@ -80,6 +112,12 @@ const fetchSubscribers = useCallback(async () => {
 }, [token]);
 
 useEffect(() => {
+  if (!token) {
+    setAuthError("Admin login required.");
+    navigate("/login");
+    return;
+  }
+
   fetchProducts();
   fetchStats();
   fetchOrders();
@@ -92,7 +130,7 @@ useEffect(() => {
   }, 10000);
 
   return () => clearInterval(interval);
-}, [fetchProducts, fetchStats, fetchOrders, fetchSubscribers]);
+}, [fetchProducts, fetchStats, fetchOrders, fetchSubscribers, navigate, token]);
 
   /* ================= REVENUE CHART ================= */
 
@@ -229,6 +267,10 @@ useEffect(() => {
   return (
     <div style={adminWrapper}>
       <h1>Nova Admin Control Center</h1>
+
+      {authError ? (
+        <div style={authErrorStyle}>{authError}</div>
+      ) : null}
 
       <div style={tabBar}>
   <button
@@ -545,6 +587,15 @@ const adminWrapper = {
   padding: "60px",
   background: "linear-gradient(135deg,#05080f,#0d1f35)",
   color: "white"
+};
+
+const authErrorStyle = {
+  marginBottom: "20px",
+  padding: "14px 16px",
+  borderRadius: "12px",
+  border: "1px solid rgba(248,113,113,.35)",
+  background: "rgba(127,29,29,.22)",
+  color: "#fecaca"
 };
 
 const tabBar = {

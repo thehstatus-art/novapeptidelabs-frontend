@@ -19,6 +19,7 @@ import Terms from "./pages/Terms";
 import Orders from "./pages/Orders";
 import Admin from "./pages/Admin";
 import AdminOrders from "./pages/AdminOrders";
+import AdminLogin from "./pages/AdminLogin";
 import ResearchLibrary from "./pages/ResearchLibrary";
 import ReconstitutionTool from "./pages/ReconstitutionTool";
 import VerifyBatch from "./pages/VerifyBatch";
@@ -277,6 +278,7 @@ function App() {
           <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
           <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
           <Route path="/orders" element={<PageWrapper><Orders /></PageWrapper>} />
+          <Route path="/login" element={<PageWrapper><AdminLogin /></PageWrapper>} />
           <Route path="/admin" element={<PageWrapper><Admin /></PageWrapper>} />
           <Route path="/admin/orders" element={<PageWrapper><AdminOrders /></PageWrapper>} />
           <Route path="/research" element={<PageWrapper><ResearchLibrary products={products} /></PageWrapper>} />

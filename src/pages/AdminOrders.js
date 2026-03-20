@@ -1,26 +1,84 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
 
   const fetchOrders = useCallback(async () => {
-    const res = await fetch(`${API}/api/admin/orders`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    if (!token) {
+      setError("Admin login required.");
+      setLoading(false);
+      navigate("/login");
+      return;
+    }
 
-    const data = await res.json();
-    setOrders(data);
-  }, [token]);
+    try {
+      setLoading(true);
+      setError("");
+
+      const res = await fetch(`${API}/api/admin/orders`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (res.status === 401 || res.status === 403) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("adminUser");
+        setError(data.message || "Your admin session expired.");
+        navigate("/login");
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to load admin orders");
+      }
+
+      setOrders(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Admin orders fetch failed:", err);
+      setError(err.message || "Failed to load admin orders");
+      setOrders([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [navigate, token]);
 
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
+
+  if (loading) {
+    return (
+      <div style={{ padding: "40px", color: "white", maxWidth: "1200px", margin: "auto" }}>
+        <h1>Fulfillment Dashboard</h1>
+        <p>Loading orders...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ padding: "40px", color: "white", maxWidth: "1200px", margin: "auto" }}>
+        <h1>Fulfillment Dashboard</h1>
+        <div style={errorCard}>
+          <p style={{ marginTop: 0 }}>{error}</p>
+          <button style={btn} onClick={() => navigate("/login")}>
+            Go To Login
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const totalRevenue = orders.reduce(
     (sum, order) => sum + order.totalAmount,
@@ -234,6 +292,14 @@ const btn = {
   padding: "8px 14px",
   borderRadius: "6px",
   cursor: "pointer",
+};
+
+const errorCard = {
+  marginTop: "24px",
+  padding: "20px",
+  background: "rgba(127, 29, 29, 0.2)",
+  borderRadius: "12px",
+  border: "1px solid rgba(248,113,113,.35)",
 };
 
 export default AdminOrders;

@@ -7439,14 +7439,9 @@ text-shadow:
 }
 
 .compound-db-badges .badge-green{
-  color:#f3fff9;
-  background:
-    linear-gradient(180deg, rgba(31,88,73,.98), rgba(13,50,41,.96));
-  border:1px solid rgba(133,245,197,.34);
-  box-shadow:
-    0 12px 28px rgba(0,0,0,.2),
-    0 0 18px rgba(100,232,180,.14),
-    inset 0 1px 0 rgba(255,255,255,.1);
+  color:#dcfff1;
+  background:linear-gradient(180deg, rgba(17,63,54,.96), rgba(10,43,37,.94));
+  border:1px solid rgba(100,232,180,.28);
 }
 
 /* ================= PREMIUM SHOP CARDS ================= */
@@ -7541,14 +7536,12 @@ text-shadow:
   font-size:11px;
   font-weight:800;
   letter-spacing:.06em;
-  color:#f3fff9;
-  background:
-    linear-gradient(180deg, rgba(31,88,73,.98), rgba(13,50,41,.96));
-  border:1px solid rgba(133,245,197,.34);
+  color:#dcfff1;
+  background:linear-gradient(180deg, rgba(17,63,54,.96), rgba(10,43,37,.94));
+  border:1px solid rgba(100,232,180,.28);
   box-shadow:
-    0 12px 28px rgba(0,0,0,.2),
-    0 0 18px rgba(100,232,180,.14),
-    inset 0 1px 0 rgba(255,255,255,.1);
+    0 10px 24px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.08);
   backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);
   z-index:2;

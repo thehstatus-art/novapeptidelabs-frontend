@@ -7212,3 +7212,318 @@ text-shadow:
   border-radius:8px;
   cursor:not-allowed;
 }
+
+/* ================= PREMIUM COMPOUND DATABASE ================= */
+
+.compound-db-page{
+  position:relative;
+  max-width:1320px;
+  padding:120px 24px 110px;
+}
+
+.compound-db-orb{
+  position:absolute;
+  width:360px;
+  height:360px;
+  border-radius:50%;
+  filter:blur(70px);
+  opacity:.34;
+  pointer-events:none;
+  z-index:0;
+}
+
+.compound-db-orb--left{
+  top:90px;
+  left:-140px;
+  background:radial-gradient(circle, rgba(55,168,255,.28), transparent 68%);
+}
+
+.compound-db-orb--right{
+  top:220px;
+  right:-120px;
+  background:radial-gradient(circle, rgba(133,207,255,.2), transparent 68%);
+}
+
+.compound-db-hero,
+.compound-db-grid{
+  position:relative;
+  z-index:1;
+}
+
+.compound-db-hero{
+  margin-bottom:56px;
+  padding:38px 36px 34px;
+  border-radius:32px;
+  background:
+    linear-gradient(160deg, rgba(9,20,35,.94), rgba(5,12,22,.88)),
+    radial-gradient(circle at top, rgba(88,176,255,.16), transparent 55%);
+  border:1px solid rgba(116,196,255,.18);
+  box-shadow:
+    0 28px 70px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.compound-db-hero__eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 12px;
+  border-radius:999px;
+  border:1px solid rgba(116,196,255,.22);
+  background:rgba(108,184,255,.08);
+  color:#8acfff;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.compound-db-intro{
+  max-width:760px;
+  font-size:17px;
+  line-height:1.75;
+  margin-bottom:34px;
+}
+
+.compound-db-stats{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin:0 auto 28px;
+  max-width:980px;
+}
+
+.compound-db-stat{
+  padding:18px 18px 16px;
+  border-radius:20px;
+  background:linear-gradient(180deg, rgba(13,28,45,.88), rgba(8,18,31,.9));
+  border:1px solid rgba(116,196,255,.14);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.compound-db-stat span{
+  display:block;
+  margin-bottom:10px;
+  color:#85a4bf;
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.compound-db-stat strong{
+  display:block;
+  color:#f4fbff;
+  font-size:1.15rem;
+  font-weight:700;
+}
+
+.compound-db-search{
+  position:relative;
+  max-width:620px;
+  margin:0 auto;
+}
+
+.compound-db-search__icon{
+  position:absolute;
+  left:22px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#7fb7df;
+  font-size:12px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  pointer-events:none;
+}
+
+.compound-db-search input{
+  width:100%;
+  max-width:none;
+  padding:18px 22px 18px 104px;
+  border-radius:18px;
+  border:1px solid rgba(116,196,255,.18);
+  background:linear-gradient(180deg, rgba(7,16,28,.96), rgba(12,24,39,.92));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.04),
+    0 18px 35px rgba(0,0,0,.22);
+}
+
+.compound-db-grid{
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:28px;
+}
+
+.compound-db-card{
+  min-height:430px;
+  padding:22px;
+  border-radius:28px;
+  background:
+    linear-gradient(180deg, rgba(11,23,37,.96), rgba(5,12,22,.98));
+  border:1px solid rgba(116,196,255,.16);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.compound-db-card::before{
+  inset:auto;
+}
+
+.compound-db-card__frame{
+  position:absolute;
+  inset:1px;
+  border-radius:27px;
+  border:1px solid rgba(255,255,255,.03);
+  pointer-events:none;
+}
+
+.compound-db-image-wrap{
+  padding:16px;
+  border-radius:22px;
+  background:
+    radial-gradient(circle at top, rgba(116,196,255,.12), transparent 55%),
+    linear-gradient(180deg, rgba(14,30,46,.95), rgba(8,17,28,.94));
+  border:1px solid rgba(116,196,255,.14);
+  margin-bottom:18px;
+}
+
+.compound-db-card .compound-image{
+  height:200px;
+  margin-bottom:0;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+}
+
+.compound-db-badges{
+  top:14px;
+  right:14px;
+}
+
+.compound-db-card__topline{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.compound-db-card__category,
+.compound-db-card__sku{
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.compound-db-card__category{
+  color:#8acfff;
+}
+
+.compound-db-card__sku{
+  color:#6f8da7;
+}
+
+.compound-db-name{
+  margin:0 0 12px;
+  font-size:28px;
+  line-height:1.1;
+}
+
+.compound-db-card .compound-description{
+  min-height:66px;
+  margin-bottom:18px;
+  color:#9ab3c7;
+  font-size:14px;
+}
+
+.compound-db-data{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+.compound-db-data__cell{
+  padding:14px 14px 12px;
+  border-radius:16px;
+  background:rgba(106,182,255,.05);
+  border:1px solid rgba(116,196,255,.12);
+}
+
+.compound-db-data__cell span{
+  display:block;
+  margin-bottom:7px;
+}
+
+.compound-db-data__cell p{
+  margin:0;
+  font-size:14px;
+  line-height:1.4;
+}
+
+.compound-db-footer{
+  margin-top:auto;
+  padding-top:18px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.compound-db-footer__note span{
+  display:block;
+  margin-bottom:5px;
+  color:#6f8da7;
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.compound-db-footer__note strong{
+  color:#eaf7ff;
+  font-size:14px;
+  font-weight:700;
+}
+
+.compound-db-view{
+  margin-top:0;
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid rgba(116,196,255,.18);
+  background:rgba(116,196,255,.06);
+  text-align:center;
+  white-space:nowrap;
+}
+
+.compound-db-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(116,196,255,.26);
+  box-shadow:
+    0 32px 70px rgba(0,0,0,.28),
+    0 0 55px rgba(110,193,255,.12);
+}
+
+.compound-db-card:hover .compound-db-view{
+  background:rgba(116,196,255,.1);
+  border-color:rgba(116,196,255,.28);
+}
+
+@media(max-width:900px){
+  .compound-db-hero{
+    padding:28px 22px 24px;
+  }
+
+  .compound-db-stats{
+    grid-template-columns:1fr;
+  }
+
+  .compound-db-data{
+    grid-template-columns:1fr;
+  }
+
+  .compound-db-footer{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .compound-db-view{
+    width:100%;
+  }
+}

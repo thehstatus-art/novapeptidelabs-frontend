@@ -99,18 +99,24 @@ export default function CompoundDatabase({ products = [] }) {
 
             <div className="compound-data compound-db-data">
               <div className="compound-db-data__cell">
-                <span>Molecular Weight</span>
-                <p>{product.molecularWeight || "Research Data"}</p>
+                <span>Mol. Weight</span>
+                <p className="compound-db-data__value">
+                  {product.molecularWeight || "Research Data"}
+                </p>
               </div>
 
               <div className="compound-db-data__cell">
-                <span>Formula</span>
-                <p>{product.formula || "Peptide Chain"}</p>
+                <span>Molecular Formula</span>
+                <p className="compound-db-data__value compound-db-data__value--formula">
+                  {product.formula || "Peptide Chain"}
+                </p>
               </div>
 
               <div className="compound-db-data__cell">
-                <span>Storage</span>
-                <p>{product.storage || "-20°C"}</p>
+                <span>Storage Temp</span>
+                <p className="compound-db-data__value">
+                  {product.storage || "Store at -20°C"}
+                </p>
               </div>
             </div>
 

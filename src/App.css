@@ -7414,6 +7414,33 @@ text-shadow:
   top:14px;
   right:14px;
   z-index:2;
+  gap:10px;
+}
+
+.compound-db-badges .badge-blue,
+.compound-db-badges .badge-green{
+  padding:10px 16px;
+  border-radius:14px;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.06em;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.compound-db-badges .badge-blue{
+  color:#d9efff;
+  background:linear-gradient(180deg, rgba(20,53,82,.96), rgba(14,37,58,.94));
+  border:1px solid rgba(115,190,255,.3);
+}
+
+.compound-db-badges .badge-green{
+  color:#dcfff1;
+  background:linear-gradient(180deg, rgba(17,63,54,.96), rgba(10,43,37,.94));
+  border:1px solid rgba(100,232,180,.28);
 }
 
 .compound-db-card__topline{

@@ -95,7 +95,7 @@ export default function DeliveryStep({
     return () => {
       isMounted = false;
     };
-  }, [shippingAddress?.zip, onSelectShipping, selectedShipping]);
+  }, [cart, onSelectShipping, selectedShipping, shippingAddress]);
 
   useEffect(() => {
     if (!selectedShipping && deliveryOptions.length > 0) {

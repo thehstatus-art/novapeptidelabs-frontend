@@ -21,6 +21,7 @@ export default function CheckoutFlow(props) {
     country: "US",
   });
   const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
+  const [selectedShipping, setSelectedShipping] = useState(null);
 
   const next = () => setStep(prev => Math.min(5, prev + 1));
   const back = () => setStep(prev => Math.max(1, prev - 1));
@@ -36,6 +37,8 @@ export default function CheckoutFlow(props) {
     shippingAddress.state &&
     shippingAddress.zip
   );
+  const shippingCost = Number(selectedShipping?.price || 0);
+  const orderTotal = props.cartTotal + shippingCost;
 
   const renderStep = () => {
 
@@ -56,7 +59,16 @@ export default function CheckoutFlow(props) {
         )
 
       case 3:
-        return <DeliveryStep {...props} next={next} back={back} />
+        return (
+          <DeliveryStep
+            {...props}
+            next={next}
+            back={back}
+            shippingAddress={shippingAddress}
+            selectedShipping={selectedShipping}
+            onSelectShipping={setSelectedShipping}
+          />
+        )
 
       case 4:
         return (
@@ -67,12 +79,17 @@ export default function CheckoutFlow(props) {
             shippingAddress={shippingAddress}
             isShippingComplete={isShippingComplete}
             isSubmittingOrder={isSubmittingOrder}
+            cartTotal={props.cartTotal}
+            shippingCost={shippingCost}
+            selectedShipping={selectedShipping}
             onPaymentApproved={async (orderID) => {
               setIsSubmittingOrder(true);
               try {
                 const success = await props.handlePayPalSuccess?.({
                   orderID,
                   shippingAddress,
+                  shippingCost,
+                  shippingMethod: selectedShipping?.label || "",
                 });
 
                 if (success) {
@@ -88,7 +105,14 @@ export default function CheckoutFlow(props) {
         )
 
       case 5:
-        return <ReviewStep {...props} back={back} shippingAddress={shippingAddress} />
+        return (
+          <ReviewStep
+            {...props}
+            back={back}
+            shippingAddress={shippingAddress}
+            isShippingComplete={isShippingComplete}
+          />
+        )
 
       default:
         return null
@@ -116,7 +140,12 @@ export default function CheckoutFlow(props) {
           </div>
 
           <aside className="checkout-shell__summary">
-            <OrderSummary {...props} />
+            <OrderSummary
+              {...props}
+              shippingCost={shippingCost}
+              shippingLabel={selectedShipping?.label || ""}
+              orderTotal={orderTotal}
+            />
           </aside>
 
         </div>

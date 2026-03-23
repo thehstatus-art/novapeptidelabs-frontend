@@ -137,7 +137,7 @@ function App() {
     );
   };
 
-  const handleCheckout = async (email) => {
+  const handleCheckout = async ({ email, shippingAddress }) => {
     if (cart.length === 0) return alert("Cart is empty.");
 
     try {
@@ -146,6 +146,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
+          shippingAddress,
           items: cart.map((item) => ({
             productId: item._id,
             quantity: item.quantity,
@@ -162,7 +163,12 @@ function App() {
     }
   };
 
-  const handlePayPalSuccess = async ({ orderID, shippingAddress }) => {
+  const handlePayPalSuccess = async ({
+    orderID,
+    shippingAddress,
+    shippingCost,
+    shippingMethod,
+  }) => {
     try {
       const res = await fetch(`${API}/api/orders/paypal`, {
         method: "POST",
@@ -175,6 +181,8 @@ function App() {
           })),
           email: shippingAddress?.email || "",
           shippingAddress,
+          shippingCost,
+          shippingMethod,
         }),
       });
 

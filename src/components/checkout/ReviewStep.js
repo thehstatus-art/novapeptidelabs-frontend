@@ -1,6 +1,12 @@
 import React from "react";
 
-export default function ReviewStep({ cart = [], back }) {
+export default function ReviewStep({
+  cart = [],
+  back,
+  handleCheckout,
+  shippingAddress,
+  isShippingComplete,
+}) {
 
   const total = cart.reduce((sum, item) => {
     return sum + (item.price || 0) * (item.quantity || 1);
@@ -63,7 +69,17 @@ export default function ReviewStep({ cart = [], back }) {
 
       </div>
 
-      <button className="checkout-step__button checkout-step__button--primary checkout-step__button--full">
+      <button
+        className="checkout-step__button checkout-step__button--primary checkout-step__button--full"
+        onClick={() =>
+          handleCheckout?.({
+            email: shippingAddress?.email || "",
+            shippingAddress,
+          })
+        }
+        disabled={!isShippingComplete}
+        type="button"
+      >
         Place Secure Order →
       </button>
 

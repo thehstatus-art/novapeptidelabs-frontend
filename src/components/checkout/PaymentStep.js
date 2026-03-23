@@ -3,12 +3,16 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 
 export default function PaymentStep({
   cartTotal = 0,
+  shippingCost = 0,
+  selectedShipping,
   back,
   shippingAddress,
   isShippingComplete,
   isSubmittingOrder,
   onPaymentApproved,
 }) {
+  const amountDue = cartTotal + shippingCost;
+  const canPay = isShippingComplete && Boolean(selectedShipping);
 
   return(
     <div className="checkout-step checkout-step--payment">
@@ -22,10 +26,10 @@ export default function PaymentStep({
 
         <div className="checkout-payment-step__banner">
           <span>Amount Due</span>
-          <strong>${cartTotal.toFixed(2)}</strong>
+          <strong>${amountDue.toFixed(2)}</strong>
         </div>
 
-        {isShippingComplete ? (
+        {canPay ? (
           <>
             <div className="checkout-payment-step__shipping">
               <strong>Shipping To</strong>
@@ -34,11 +38,18 @@ export default function PaymentStep({
               </span>
             </div>
 
+            <div className="checkout-payment-step__shipping">
+              <strong>Shipping Method</strong>
+              <span>
+                {selectedShipping?.label} • ${Number(shippingCost).toFixed(2)}
+              </span>
+            </div>
+
             <div className="checkout-payment-step__provider">
               <PayPalButtons
                 style={{ layout: "vertical", color: "gold", shape: "rect", label: "paypal" }}
                 createOrder={(data, actions) => actions.order.create({
-                  purchase_units: [{ amount: { value: cartTotal.toFixed(2) } }]
+                  purchase_units: [{ amount: { value: amountDue.toFixed(2) } }]
                 })}
                 onApprove={async (data, actions) => {
                   const details = await actions.order.capture();
@@ -47,6 +58,8 @@ export default function PaymentStep({
                     await onPaymentApproved?.({
                       orderID: data.orderID,
                       details,
+                      shippingCost,
+                      shippingMethod: selectedShipping?.label || "",
                       shippingAddress: {
                         ...shippingAddress,
                         email: details?.payer?.email_address || shippingAddress?.email || "",
@@ -67,7 +80,7 @@ export default function PaymentStep({
           </>
         ) : (
           <div className="checkout-payment-step__warning">
-            Complete your shipping address before paying so the order can be saved and labeled correctly.
+            Complete your shipping address and choose a shipping option before paying so the order can be saved and labeled correctly.
           </div>
         )}
 

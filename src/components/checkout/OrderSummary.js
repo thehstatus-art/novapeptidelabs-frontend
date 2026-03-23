@@ -1,6 +1,12 @@
 import React from "react";
 
-export default function OrderSummary({cart=[],cartTotal=0}){
+export default function OrderSummary({
+  cart=[],
+  cartTotal=0,
+  shippingCost=0,
+  shippingLabel="",
+  orderTotal=0,
+}){
   const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
 
   return (
@@ -54,12 +60,19 @@ export default function OrderSummary({cart=[],cartTotal=0}){
 
       <div className="checkout-summary__row">
         <span>Shipping</span>
-        <span>Calculated at next step</span>
+        <span>{shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : "Calculated at next step"}</span>
       </div>
+
+      {shippingLabel ? (
+        <div className="checkout-summary__row">
+          <span>Method</span>
+          <span>{shippingLabel}</span>
+        </div>
+      ) : null}
 
       <div className="checkout-summary__row checkout-summary__row--total">
         <span>Total</span>
-        <span>${cartTotal.toFixed(2)}</span>
+        <span>${(orderTotal || cartTotal).toFixed(2)}</span>
       </div>
 
       <div className="checkout-summary__security">

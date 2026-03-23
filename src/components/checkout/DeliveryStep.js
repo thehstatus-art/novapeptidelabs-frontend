@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const deliveryOptions = [
+const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
+
+const fallbackDeliveryOptions = [
   {
     id: "standard",
     label: "Standard Shipping",
@@ -17,8 +19,89 @@ const deliveryOptions = [
   },
 ];
 
-export default function DeliveryStep({ next, back }){
-  const [selected, setSelected] = useState(deliveryOptions[0].id);
+export default function DeliveryStep({
+  next,
+  back,
+  cart,
+  shippingAddress,
+  selectedShipping,
+  onSelectShipping,
+}) {
+  const [deliveryOptions, setDeliveryOptions] = useState(fallbackDeliveryOptions);
+  const [isLoadingRates, setIsLoadingRates] = useState(false);
+  const [rateError, setRateError] = useState("");
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchRates = async () => {
+      if (!shippingAddress?.zip) {
+        setDeliveryOptions(fallbackDeliveryOptions);
+        return;
+      }
+
+      try {
+        setIsLoadingRates(true);
+        setRateError("");
+
+        const res = await fetch(`${API}/api/shipping/rates`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            shippingAddress,
+            items: (cart || []).map((item) => ({
+              productId: item._id,
+              quantity: item.quantity,
+            })),
+          }),
+        });
+
+        const data = await res.json();
+
+        if (!isMounted) return;
+
+        if (!res.ok || !Array.isArray(data) || data.length === 0) {
+          setDeliveryOptions(fallbackDeliveryOptions);
+          setRateError("Live shipping rates unavailable. Showing backup rates.");
+          return;
+        }
+
+        const normalizedOptions = data.map((rate) => ({
+          id: rate.rateId,
+          label: `${rate.provider} ${rate.service}`,
+          eta: rate.estimated_days ? `${rate.estimated_days} business days` : "Tracked delivery",
+          price: Number(rate.price),
+          description: "Live carrier rate based on the shipping address.",
+        }));
+
+        setDeliveryOptions(normalizedOptions);
+
+        if (!selectedShipping || !normalizedOptions.some((option) => option.id === selectedShipping.id)) {
+          onSelectShipping?.(normalizedOptions[0]);
+        }
+      } catch (err) {
+        if (!isMounted) return;
+        setDeliveryOptions(fallbackDeliveryOptions);
+        setRateError("Live shipping rates unavailable. Showing backup rates.");
+      } finally {
+        if (isMounted) {
+          setIsLoadingRates(false);
+        }
+      }
+    };
+
+    fetchRates();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [shippingAddress?.zip, onSelectShipping, selectedShipping]);
+
+  useEffect(() => {
+    if (!selectedShipping && deliveryOptions.length > 0) {
+      onSelectShipping?.(deliveryOptions[0]);
+    }
+  }, [deliveryOptions, onSelectShipping, selectedShipping]);
 
   return(
     <div className="checkout-step checkout-step--delivery">
@@ -31,22 +114,26 @@ export default function DeliveryStep({ next, back }){
         </div>
 
         <div className="checkout-delivery">
+          {isLoadingRates ? (
+            <div className="checkout-delivery__note">Loading live shipping rates...</div>
+          ) : null}
+
           {deliveryOptions.map((option) => {
-            const isSelected = selected === option.id;
+            const isSelected = selectedShipping?.id === option.id;
 
             return (
               <button
                 key={option.id}
                 type="button"
                 className={`checkout-delivery__option ${isSelected ? "is-selected" : ""}`}
-                onClick={() => setSelected(option.id)}
+                onClick={() => onSelectShipping?.(option)}
               >
                 <div className="checkout-delivery__top">
                   <div>
                     <div className="checkout-delivery__label">{option.label}</div>
                     <div className="checkout-delivery__eta">{option.eta}</div>
                   </div>
-                  <div className="checkout-delivery__price">${option.price.toFixed(2)}</div>
+                  <div className="checkout-delivery__price">${Number(option.price).toFixed(2)}</div>
                 </div>
                 <div className="checkout-delivery__description">{option.description}</div>
               </button>
@@ -56,13 +143,16 @@ export default function DeliveryStep({ next, back }){
 
         <div className="checkout-step__actions">
           <button type="button" className="checkout-step__button checkout-step__button--secondary" onClick={back}>Back</button>
-          <button type="button" className="checkout-step__button checkout-step__button--primary" onClick={next}>Continue</button>
+          <button type="button" className="checkout-step__button checkout-step__button--primary" onClick={next} disabled={!selectedShipping}>Continue</button>
         </div>
 
         <div className="checkout-delivery__note">
-          Selected: {deliveryOptions.find((option) => option.id === selected)?.label} for ${deliveryOptions.find((option) => option.id === selected)?.price.toFixed(2)}
+          {rateError || (
+            selectedShipping
+              ? `Selected: ${selectedShipping.label} for $${Number(selectedShipping.price).toFixed(2)}`
+              : "Choose a shipping option to continue."
+          )}
         </div>
     </div>
   );
-
 }

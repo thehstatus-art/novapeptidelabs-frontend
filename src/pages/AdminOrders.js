@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 
 const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
+const socket = io(API);
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -56,6 +58,24 @@ function AdminOrders() {
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
+
+  useEffect(() => {
+    const handleNewOrder = (order) => {
+      setOrders((prev) => {
+        if (prev.some((existing) => existing._id === order._id)) {
+          return prev;
+        }
+
+        return [order, ...prev];
+      });
+    };
+
+    socket.on("new-order", handleNewOrder);
+
+    return () => {
+      socket.off("new-order", handleNewOrder);
+    };
+  }, []);
 
   if (loading) {
     return (

@@ -28,7 +28,7 @@ export default function EmailCapture() {
 
       setLoading(true);
 
-      const res = await fetch(`${API}/api/email/subscribe`, {
+      const res = await fetch(`${API}/api/subscribers/subscribe`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

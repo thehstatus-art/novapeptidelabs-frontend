@@ -5,6 +5,24 @@ import { io } from "socket.io-client";
 const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
 const socket = io(API);
 
+const parseApiResponse = async (res) => {
+  const raw = await res.text();
+
+  try {
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return { message: raw };
+  }
+};
+
+const getFriendlyRequestError = (err, fallbackMessage) => {
+  if (err?.message === "Failed to fetch") {
+    return "Unable to reach the backend. The server may still be deploying, unavailable, or blocked by a network/CORS issue.";
+  }
+
+  return err?.message || fallbackMessage;
+};
+
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -144,14 +162,7 @@ function AdminOrders() {
         },
       });
 
-      const raw = await res.text();
-      let data = {};
-
-      try {
-        data = raw ? JSON.parse(raw) : {};
-      } catch {
-        data = { message: raw };
-      }
+      const data = await parseApiResponse(res);
 
       if (!res.ok) {
         throw new Error(data.error || data.message || "Failed to send newsletter");
@@ -160,7 +171,7 @@ function AdminOrders() {
       alert(data.message || "Newsletter sent successfully");
     } catch (err) {
       console.error(err);
-      alert(err.message || "Failed to send newsletter");
+      alert(getFriendlyRequestError(err, "Failed to send newsletter"));
     }
   };
 
@@ -182,14 +193,7 @@ function AdminOrders() {
         }),
       });
 
-      const raw = await res.text();
-      let data = {};
-
-      try {
-        data = raw ? JSON.parse(raw) : {};
-      } catch {
-        data = { message: raw };
-      }
+      const data = await parseApiResponse(res);
 
       if (!res.ok) {
         throw new Error(data.error || data.message || "Failed to send test newsletter");
@@ -198,7 +202,7 @@ function AdminOrders() {
       alert(data.message || "Test newsletter sent successfully");
     } catch (err) {
       console.error(err);
-      alert(err.message || "Failed to send test newsletter");
+      alert(getFriendlyRequestError(err, "Failed to send test newsletter"));
     }
   };
 

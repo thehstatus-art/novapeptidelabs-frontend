@@ -12,6 +12,24 @@ import {
 
 const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
 
+const parseApiResponse = async (res) => {
+  const raw = await res.text();
+
+  try {
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return { message: raw };
+  }
+};
+
+const getFriendlyRequestError = (err, fallbackMessage) => {
+  if (err?.message === "Failed to fetch") {
+    return "Unable to reach the backend. The server may still be deploying, unavailable, or blocked by a network/CORS issue.";
+  }
+
+  return err?.message || fallbackMessage;
+};
+
 function Admin() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -252,14 +270,7 @@ useEffect(() => {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      const raw = await res.text();
-      let data = {};
-
-      try {
-        data = raw ? JSON.parse(raw) : {};
-      } catch {
-        data = { message: raw };
-      }
+      const data = await parseApiResponse(res);
 
       if (!res.ok) {
         throw new Error(data.error || data.message || "Newsletter failed");
@@ -269,7 +280,7 @@ useEffect(() => {
 
     } catch (err) {
       console.error("Newsletter failed", err);
-      alert(err.message || "Newsletter failed");
+      alert(getFriendlyRequestError(err, "Newsletter failed"));
     }
   };
 
@@ -288,14 +299,7 @@ useEffect(() => {
         })
       });
 
-      const raw = await res.text();
-      let data = {};
-
-      try {
-        data = raw ? JSON.parse(raw) : {};
-      } catch {
-        data = { message: raw };
-      }
+      const data = await parseApiResponse(res);
 
       if (!res.ok) {
         throw new Error(data.error || data.message || "Test newsletter failed");
@@ -305,7 +309,7 @@ useEffect(() => {
 
     } catch (err) {
       console.error("Test newsletter failed", err);
-      alert(err.message || "Test newsletter failed");
+      alert(getFriendlyRequestError(err, "Test newsletter failed"));
     }
   };
 

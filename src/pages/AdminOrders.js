@@ -144,7 +144,14 @@ function AdminOrders() {
         },
       });
 
-      const data = await res.json();
+      const raw = await res.text();
+      let data = {};
+
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        data = { message: raw };
+      }
 
       if (!res.ok) {
         throw new Error(data.error || data.message || "Failed to send newsletter");
@@ -175,7 +182,14 @@ function AdminOrders() {
         }),
       });
 
-      const data = await res.json();
+      const raw = await res.text();
+      let data = {};
+
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        data = { message: raw };
+      }
 
       if (!res.ok) {
         throw new Error(data.error || data.message || "Failed to send test newsletter");

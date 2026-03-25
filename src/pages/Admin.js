@@ -252,7 +252,14 @@ useEffect(() => {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      const data = await res.json();
+      const raw = await res.text();
+      let data = {};
+
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        data = { message: raw };
+      }
 
       if (!res.ok) {
         throw new Error(data.error || data.message || "Newsletter failed");
@@ -281,7 +288,14 @@ useEffect(() => {
         })
       });
 
-      const data = await res.json();
+      const raw = await res.text();
+      let data = {};
+
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        data = { message: raw };
+      }
 
       if (!res.ok) {
         throw new Error(data.error || data.message || "Test newsletter failed");

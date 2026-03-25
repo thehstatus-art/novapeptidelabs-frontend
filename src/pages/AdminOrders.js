@@ -152,6 +152,32 @@ function AdminOrders() {
     }
   };
 
+  const sendTestNewsletter = async () => {
+    const confirmSend = window.confirm(
+      "Send test newsletter to thehstatus@gmail.com?"
+    );
+    if (!confirmSend) return;
+
+    try {
+      const res = await fetch(`${API}/api/admin/newsletter/test`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          email: "thehstatus@gmail.com",
+        }),
+      });
+
+      const data = await res.json();
+      alert(data.message || "Test newsletter sent successfully");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send test newsletter");
+    }
+  };
+
   return (
     <div
       style={{
@@ -177,6 +203,21 @@ function AdminOrders() {
           onClick={sendNewsletter}
         >
           📧 Send Newsletter to Subscribers
+        </button>
+        <button
+          style={{
+            background: "#1f2937",
+            color: "white",
+            border: "none",
+            padding: "10px 16px",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "600",
+            marginLeft: "10px",
+          }}
+          onClick={sendTestNewsletter}
+        >
+          Send Test Newsletter
         </button>
       </div>
 

@@ -262,6 +262,31 @@ useEffect(() => {
     }
   };
 
+  const sendTestNewsletter = async () => {
+    if (!window.confirm("Send test newsletter to thehstatus@gmail.com?")) return;
+
+    try {
+      const res = await fetch(`${API}/api/admin/newsletter/test`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          email: "thehstatus@gmail.com"
+        })
+      });
+
+      const data = await res.json();
+
+      alert(data.message || "Test newsletter sent successfully");
+
+    } catch (err) {
+      console.error("Test newsletter failed", err);
+      alert("Test newsletter failed");
+    }
+  };
+
   /* ================= UI ================= */
 
   return (
@@ -311,6 +336,12 @@ useEffect(() => {
                 onClick={sendNewsletter}
               >
                 Send Newsletter
+              </button>
+              <button
+                style={{ ...primaryBtn, marginTop: "10px", background: "#1f2937" }}
+                onClick={sendTestNewsletter}
+              >
+                Send Test Newsletter
               </button>
             </div>
           </div>

@@ -145,10 +145,15 @@ function AdminOrders() {
       });
 
       const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || data.message || "Failed to send newsletter");
+      }
+
       alert(data.message || "Newsletter sent successfully");
     } catch (err) {
       console.error(err);
-      alert("Failed to send newsletter");
+      alert(err.message || "Failed to send newsletter");
     }
   };
 
@@ -171,10 +176,15 @@ function AdminOrders() {
       });
 
       const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || data.message || "Failed to send test newsletter");
+      }
+
       alert(data.message || "Test newsletter sent successfully");
     } catch (err) {
       console.error(err);
-      alert("Failed to send test newsletter");
+      alert(err.message || "Failed to send test newsletter");
     }
   };
 

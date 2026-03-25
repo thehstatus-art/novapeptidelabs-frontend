@@ -254,11 +254,15 @@ useEffect(() => {
 
       const data = await res.json();
 
+      if (!res.ok) {
+        throw new Error(data.error || data.message || "Newsletter failed");
+      }
+
       alert(data.message || "Newsletter sent successfully");
 
     } catch (err) {
       console.error("Newsletter failed", err);
-      alert("Newsletter failed");
+      alert(err.message || "Newsletter failed");
     }
   };
 
@@ -279,11 +283,15 @@ useEffect(() => {
 
       const data = await res.json();
 
+      if (!res.ok) {
+        throw new Error(data.error || data.message || "Test newsletter failed");
+      }
+
       alert(data.message || "Test newsletter sent successfully");
 
     } catch (err) {
       console.error("Test newsletter failed", err);
-      alert("Test newsletter failed");
+      alert(err.message || "Test newsletter failed");
     }
   };
 

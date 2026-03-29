@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
+import { API } from "../../config/api";
 
 const fallbackDeliveryOptions = [
   {

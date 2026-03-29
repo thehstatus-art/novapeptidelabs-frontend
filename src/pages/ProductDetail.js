@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
-const API = process.env.REACT_APP_API_URL;
+import { API } from "../config/api";
 
 export default function ProductDetail({ products = [], addToCart }) {
   const { id } = useParams();

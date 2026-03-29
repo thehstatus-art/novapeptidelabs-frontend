@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-
-const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
+import { API } from "../config/api";
 const socket = io(API);
 
 const parseApiResponse = async (res) => {

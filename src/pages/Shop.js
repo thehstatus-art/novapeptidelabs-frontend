@@ -35,9 +35,9 @@ function Shop({ products = [], addToCart }) {
   });
 
   return (
-    <div style={{ padding: "40px" }}>
+    <div className="shop-page-premium" style={{ padding: "40px" }}>
 
-      <h1>Shop Research Compounds</h1>
+      <h1 className="shop-page-premium__title">Shop Research Compounds</h1>
 
       {/* SEARCH BAR */}
 
@@ -72,7 +72,7 @@ function Shop({ products = [], addToCart }) {
 
       {/* PRODUCT GRID */}
 
-      <div className="product-grid fade-in">
+      <div className="product-grid fade-in shop-page-premium__grid">
 
         {filteredProducts.length === 0 ? (
 
@@ -89,14 +89,14 @@ function Shop({ products = [], addToCart }) {
 
             return (
 
-              <div key={product._id} className="card">
+              <div key={product._id} className="card shop-page-premium__card">
 
                 <Link
                   to={`/product/${product._id}`}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
 
-                  <div className="product-image-wrapper">
+                  <div className="product-image-wrapper shop-page-premium__image-wrap">
 
                     <img
                       src={imageUrl}
@@ -107,7 +107,7 @@ function Shop({ products = [], addToCart }) {
                       }}
                     />
 
-                    <span className="purity-stamp">
+                    <span className="purity-stamp shop-page-premium__purity">
                       99%+ Purity
                     </span>
 

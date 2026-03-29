@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useSearchParams, useNavigate } from "react-router-dom"
-
-const API = "https://nova-backend-lu2l.onrender.com"
+import { API } from "../config/api"
 
 function Success() {
   const [searchParams] = useSearchParams()

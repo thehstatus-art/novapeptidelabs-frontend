@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
+import { API } from "../config/api";
 
 function AdminLogin() {
   const navigate = useNavigate();

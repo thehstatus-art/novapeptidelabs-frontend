@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-
-const API = process.env.REACT_APP_API_URL;
+import { API } from "../config/api";
 
 export default function VerifyBatch() {
 

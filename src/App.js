@@ -25,11 +25,9 @@ import ReconstitutionTool from "./pages/ReconstitutionTool";
 import VerifyBatch from "./pages/VerifyBatch";
 import CompoundDatabase from "./pages/CompoundDatabase";
 import Checkout from "./pages/Checkout";
+import { API } from "./config/api";
 
 import "./App.css";
-
-
-const API = "https://nova-backend-lu2l.onrender.com";
 
 // live purchase socket connection
 const socket = io(API);
@@ -197,7 +195,7 @@ function App() {
 
     } catch (err) {
       console.error("Order save failed:", err);
-      return false;
+      throw err;
     }
   };
 

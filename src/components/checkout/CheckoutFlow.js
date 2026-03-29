@@ -82,14 +82,15 @@ export default function CheckoutFlow(props) {
             cartTotal={props.cartTotal}
             shippingCost={shippingCost}
             selectedShipping={selectedShipping}
-            onPaymentApproved={async (orderID) => {
+            onPaymentApproved={async (paymentResult) => {
               setIsSubmittingOrder(true);
               try {
                 const success = await props.handlePayPalSuccess?.({
-                  orderID,
-                  shippingAddress,
-                  shippingCost,
-                  shippingMethod: selectedShipping?.label || "",
+                  ...(paymentResult || {}),
+                  orderID: paymentResult?.orderID || "",
+                  shippingAddress: paymentResult?.shippingAddress || shippingAddress,
+                  shippingCost: paymentResult?.shippingCost ?? shippingCost,
+                  shippingMethod: paymentResult?.shippingMethod || selectedShipping?.label || "",
                 });
 
                 if (success) {
@@ -97,6 +98,9 @@ export default function CheckoutFlow(props) {
                 } else {
                   alert("Order was paid but could not be saved. Please contact support.");
                 }
+              } catch (err) {
+                console.error("PayPal order finalization failed:", err);
+                alert(err?.message || "Payment succeeded but order failed to save. Contact support.");
               } finally {
                 setIsSubmittingOrder(false);
               }

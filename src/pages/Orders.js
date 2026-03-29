@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
+import { API } from "../config/api";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -45,8 +44,15 @@ function Orders() {
 
               {order.items.map((item, index) => (
                 <div key={index} style={{ marginLeft: "10px" }}>
-                  <span style={{ opacity: 0.7 }}>Product:</span> {item.product || item.productId} 
+                  <span style={{ opacity: 0.7 }}>Product:</span>{" "}
+                  {item.name || item.product?.name || item.productId || item.product || "Unknown Product"}
                   <span style={{ marginLeft: "10px", opacity: 0.7 }}>Qty:</span> {item.quantity}
+                  {typeof item.price === "number" && (
+                    <>
+                      <span style={{ marginLeft: "10px", opacity: 0.7 }}>Price:</span> $
+                      {(item.price * item.quantity).toFixed(2)}
+                    </>
+                  )}
                 </div>
               ))}
             </div>

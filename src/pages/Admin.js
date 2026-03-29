@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { API } from "../config/api";
 import {
   LineChart,
   Line,
@@ -9,8 +10,6 @@ import {
   CartesianGrid,
   ResponsiveContainer
 } from "recharts";
-
-const API = process.env.REACT_APP_API_URL || "https://nova-backend-lu2l.onrender.com";
 
 const parseApiResponse = async (res) => {
   const raw = await res.text();
@@ -222,6 +221,13 @@ useEffect(() => {
 
     const rows = orders.map(order => ({
       id: order._id,
+      products: (order.items || [])
+        .map((item) => {
+          const name = item.product?.name || item.name || "Unknown Product";
+          const qty = item.quantity || 1;
+          return `${name} x ${qty}`;
+        })
+        .join(" | "),
       total: order.totalAmount || 0,
       status: order.status,
       email: order.email || order.customerEmail || ""

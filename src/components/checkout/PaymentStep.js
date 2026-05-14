@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
 export default function PaymentStep({
@@ -13,6 +13,9 @@ export default function PaymentStep({
 }) {
   const amountDue = cartTotal + shippingCost;
   const canPay = isShippingComplete && Boolean(selectedShipping);
+
+  const [paypalLoading, setPaypalLoading] = useState(false);
+  const isCapturingRef = useRef(false);
 
   return(
     <div className="checkout-step checkout-step--payment">
@@ -48,13 +51,22 @@ export default function PaymentStep({
             <div className="checkout-payment-step__provider">
               <PayPalButtons
                 style={{ layout: "vertical", color: "gold", shape: "rect", label: "paypal" }}
+                disabled={paypalLoading || isSubmittingOrder}
+                forceReRender={[amountDue]}
                 createOrder={(data, actions) => actions.order.create({
-                  purchase_units: [{ amount: { value: amountDue.toFixed(2) } }]
+                  purchase_units: [{
+                    amount: {
+                      currency_code: "USD",
+                      value: amountDue.toFixed(2),
+                    },
+                  }]
                 })}
                 onApprove={async (data, actions) => {
-                  const details = await actions.order.capture();
-
+                  if (isCapturingRef.current) return;
+                  isCapturingRef.current = true;
+                  setPaypalLoading(true);
                   try {
+                    const details = await actions.order.capture();
                     await onPaymentApproved?.({
                       orderID: data.orderID,
                       details,
@@ -65,13 +77,16 @@ export default function PaymentStep({
                         email: details?.payer?.email_address || shippingAddress?.email || "",
                       },
                     });
-
                   } catch (err) {
                     console.error("ORDER SAVE ERROR:", err);
                     alert("Payment succeeded but order failed to save. Contact support.");
+                  } finally {
+                    isCapturingRef.current = false;
+                    setPaypalLoading(false);
                   }
                 }}
                 onError={(err) => {
+                  setPaypalLoading(false);
                   console.error("PayPal error:", err);
                   alert("Payment failed. Please try again.");
                 }}

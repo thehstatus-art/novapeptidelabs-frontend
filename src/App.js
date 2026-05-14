@@ -163,6 +163,7 @@ function App() {
 
   const handlePayPalSuccess = async ({
     orderID,
+    details,
     shippingAddress,
     shippingCost,
     shippingMethod,
@@ -173,6 +174,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           paypalOrderId: orderID,
+          paymentDetails: details,
           items: cart.map((item) => ({
             productId: item._id,
             quantity: item.quantity,

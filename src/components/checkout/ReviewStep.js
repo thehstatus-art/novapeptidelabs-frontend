@@ -69,6 +69,14 @@ export default function ReviewStep({
 
       </div>
 
+      <div style={emailNoticeStyle}>
+        <strong>After payment:</strong> Please email{" "}
+        <a href="mailto:support@novapeptidelabs.org" style={emailNoticeLinkStyle}>
+          support@novapeptidelabs.org
+        </a>{" "}
+        with the product name and quantity for each item you purchased.
+      </div>
+
       <button
         className="checkout-step__button checkout-step__button--primary checkout-step__button--full"
         onClick={() =>
@@ -92,3 +100,18 @@ export default function ReviewStep({
     </div>
   );
 }
+
+const emailNoticeStyle = {
+  background: "#fff3cd",
+  color: "#856404",
+  border: "1px solid #ffeeba",
+  borderRadius: "8px",
+  padding: "14px",
+  margin: "18px 0",
+  fontWeight: 500,
+};
+
+const emailNoticeLinkStyle = {
+  color: "#5f4300",
+  fontWeight: 700,
+};

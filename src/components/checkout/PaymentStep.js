@@ -27,6 +27,25 @@ export default function PaymentStep({
           </p>
         </div>
 
+
+        <div style={{
+          background: '#fff3cd',
+          color: '#856404',
+          border: '1px solid #ffeeba',
+          borderRadius: '8px',
+          padding: '16px',
+          marginBottom: '20px',
+          fontWeight: 500
+        }}>
+          <strong>After you pay:</strong> Please email <a href="mailto:support@novapeptidelabs.org">support@novapeptidelabs.org</a> with:
+          <ul style={{margin: '8px 0 0 18px'}}>
+            <li>The product(s) you are ordering</li>
+            <li>The quantity of each product</li>
+            <li>Your PayPal payment screenshot or confirmation</li>
+          </ul>
+          This helps us verify and fulfill your order if there are any issues.
+        </div>
+
         <div className="checkout-payment-step__banner">
           <span>Amount Due</span>
           <strong>${amountDue.toFixed(2)}</strong>

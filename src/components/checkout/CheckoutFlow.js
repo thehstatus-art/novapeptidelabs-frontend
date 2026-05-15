@@ -22,10 +22,14 @@ export default function CheckoutFlow(props) {
   });
   const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
   const [selectedShipping, setSelectedShipping] = useState(null);
+  const [completedOrder, setCompletedOrder] = useState(null);
 
   const next = () => setStep(prev => Math.min(5, prev + 1));
   const back = () => setStep(prev => Math.max(1, prev - 1));
-  const goTo = (s) => setStep(prev => Math.min(5, Math.max(1, s)));
+  const goTo = (s) => {
+    if (s === 5 && !completedOrder) return;
+    setStep(Math.min(5, Math.max(1, s)));
+  };
   const updateShippingField = (field, value) => {
     setShippingAddress((prev) => ({ ...prev, [field]: value }));
   };
@@ -84,6 +88,7 @@ export default function CheckoutFlow(props) {
             selectedShipping={selectedShipping}
             onPaymentApproved={async (paymentResult) => {
               setIsSubmittingOrder(true);
+              const purchasedItems = (props.cart || []).map((item) => ({ ...item }));
               try {
                 const success = await props.handlePayPalSuccess?.({
                   ...(paymentResult || {}),
@@ -94,7 +99,14 @@ export default function CheckoutFlow(props) {
                 });
 
                 if (success) {
-                  next();
+                  setCompletedOrder({
+                    items: purchasedItems,
+                    paypalOrderId: paymentResult?.orderID || "",
+                    shippingAddress: paymentResult?.shippingAddress || shippingAddress,
+                    shippingCost: paymentResult?.shippingCost ?? shippingCost,
+                    shippingMethod: paymentResult?.shippingMethod || selectedShipping?.label || "",
+                  });
+                  setStep(5);
                 } else {
                   alert("Order was paid but could not be saved. Please contact support.");
                 }
@@ -111,10 +123,9 @@ export default function CheckoutFlow(props) {
       case 5:
         return (
           <ReviewStep
-            {...props}
+            cart={completedOrder?.items || []}
             back={back}
-            shippingAddress={shippingAddress}
-            isShippingComplete={isShippingComplete}
+            completedOrder={completedOrder}
           />
         )
 

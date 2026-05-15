@@ -31,7 +31,7 @@ function Privacy() {
 
       <h2>Third-Party Services</h2>
       <p>
-        We use secure third-party providers including Stripe and PayPal
+        We use secure third-party payment processing through PayPal
         for payment processing.
       </p>
 

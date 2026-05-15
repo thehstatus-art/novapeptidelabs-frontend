@@ -51,14 +51,6 @@ function Success() {
         <h1>Payment Successful</h1>
         <p>Your order has been received and is being processed.</p>
 
-        <div style={styles.emailNotice}>
-          <strong>After payment:</strong> Please email{" "}
-          <a href="mailto:support@novapeptidelabs.org" style={styles.emailLink}>
-            support@novapeptidelabs.org
-          </a>{" "}
-          with the product name and quantity for each item you purchased.
-        </div>
-
         {loading && <p>Loading order details...</p>}
 
         {error && <p style={{ color: "red" }}>{error}</p>}
@@ -169,20 +161,6 @@ const styles = {
   icon: {
     fontSize: 50,
     marginBottom: 15
-  },
-  emailNotice: {
-    background: "#fff3cd",
-    color: "#856404",
-    border: "1px solid #ffeeba",
-    borderRadius: 8,
-    padding: 16,
-    margin: "20px 0",
-    textAlign: "left",
-    fontWeight: 500
-  },
-  emailLink: {
-    color: "#5f4300",
-    fontWeight: 700
   }
 }
 

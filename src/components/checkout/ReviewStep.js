@@ -3,23 +3,31 @@ import React from "react";
 export default function ReviewStep({
   cart = [],
   back,
-  handleCheckout,
-  shippingAddress,
-  isShippingComplete,
+  completedOrder,
 }) {
 
   const total = cart.reduce((sum, item) => {
     return sum + (item.price || 0) * (item.quantity || 1);
   }, 0);
+  const emailBody = [
+    "Hi NovaPeptide Labs,",
+    "",
+    "I completed payment for my order. Here are the products and quantities I purchased:",
+    "",
+    ...cart.map((item) => `${item.name} - Qty ${item.quantity || 1}`),
+    "",
+    completedOrder?.paypalOrderId ? `PayPal Order ID: ${completedOrder.paypalOrderId}` : "",
+  ].filter(Boolean).join("\n");
+  const emailHref = `mailto:support@novapeptidelabs.org?subject=${encodeURIComponent("Paid order details")}&body=${encodeURIComponent(emailBody)}`;
 
   return (
     <div className="checkout-step checkout-step--review">
 
       <div className="checkout-step__header">
         <div className="checkout-step__eyebrow">Step 5 of 5</div>
-        <h2 className="checkout-step__title">Review Your Order</h2>
+        <h2 className="checkout-step__title">Payment Received</h2>
         <p className="checkout-step__copy">
-          Confirm your research compounds before placing order
+          Your PayPal payment was completed. Please send us your order details so fulfillment can verify the items.
         </p>
       </div>
 
@@ -70,8 +78,8 @@ export default function ReviewStep({
       </div>
 
       <div style={emailNoticeStyle}>
-        <strong>After payment:</strong> Please email{" "}
-        <a href="mailto:support@novapeptidelabs.org" style={emailNoticeLinkStyle}>
+        <strong>Required next step:</strong> Please email{" "}
+        <a href={emailHref} style={emailNoticeLinkStyle}>
           support@novapeptidelabs.org
         </a>{" "}
         with the product name and quantity for each item you purchased.
@@ -79,19 +87,18 @@ export default function ReviewStep({
 
       <button
         className="checkout-step__button checkout-step__button--primary checkout-step__button--full"
-        onClick={() =>
-          handleCheckout?.({
-            email: shippingAddress?.email || "",
-            shippingAddress,
-          })
-        }
-        disabled={!isShippingComplete}
+        onClick={() => {
+          window.location.href = emailHref;
+        }}
         type="button"
       >
-        Place Secure Order →
+        Email Order Details
       </button>
 
       <div className="checkout-step__actions">
+        <button type="button" className="checkout-step__button checkout-step__button--secondary" onClick={() => window.location.assign("/shop")}>
+          Continue Shopping
+        </button>
         <button type="button" className="checkout-step__button checkout-step__button--secondary" onClick={back}>
           Back
         </button>

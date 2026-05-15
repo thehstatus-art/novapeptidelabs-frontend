@@ -135,32 +135,6 @@ function App() {
     );
   };
 
-  const handleCheckout = async ({ email, shippingAddress }) => {
-    if (cart.length === 0) return alert("Cart is empty.");
-
-    try {
-      const res = await fetch(`${API}/api/orders/checkout`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          shippingAddress,
-          items: cart.map((item) => ({
-            productId: item._id,
-            quantity: item.quantity,
-          })),
-        }),
-      });
-
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-      else alert("Checkout failed.");
-    } catch (err) {
-      console.error(err);
-      alert("Checkout failed.");
-    }
-  };
-
   const handlePayPalSuccess = async ({
     orderID,
     details,
@@ -268,7 +242,6 @@ function App() {
                   cartTotal={cartTotal}
                   increaseQty={increaseQty}
                   decreaseQty={decreaseQty}
-                  handleCheckout={handleCheckout}
                   handlePayPalSuccess={handlePayPalSuccess}
                 />
               </div>

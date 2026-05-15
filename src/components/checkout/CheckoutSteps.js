@@ -2,7 +2,7 @@ import React from "react";
 
 export default function CheckoutSteps({ step, onStepClick }) {
 
-  const steps = ["Cart","Shipping","Delivery","Payment","Review"];
+  const steps = ["Cart","Shipping","Delivery","Payment","Confirmation"];
 
     return (
       <div className="checkout-progress">

@@ -1,4 +1,5 @@
 import React from "react";
+import { getProductImageUrl } from "../../utils/images";
 
 export default function ReviewStep({
   cart = [],
@@ -43,7 +44,7 @@ export default function ReviewStep({
               <div className="checkout-review__left">
 
                 <img
-                  src={item.image}
+                  src={getProductImageUrl(item.image)}
                   alt={item.name}
                   className="checkout-review__image"
                 />

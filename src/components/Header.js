@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { getProductImageUrl } from "../utils/images";
 
 const ENABLE_AUTH = false;
 
@@ -23,11 +24,6 @@ function Header({ cart, setCheckoutOpen }) {
 
   const isActive = (path) =>
     location.pathname === path ? "nav-btn active-link" : "nav-btn";
-
-  const getImageUrl = (image) => {
-    if (!image) return "/no-image.png";
-    return image.startsWith("http") ? image : "/no-image.png";
-  };
 
   return (
     <header className="navbar">
@@ -147,7 +143,7 @@ function Header({ cart, setCheckoutOpen }) {
                       >
 
                         <img
-                          src={getImageUrl(item.image)}
+                          src={getProductImageUrl(item.image)}
                           alt={item.name}
                         />
 

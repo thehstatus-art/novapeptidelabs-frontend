@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { API } from "../config/api";
+import { getProductImageUrl } from "../utils/images";
 
 export default function ProductDetail({ products = [], addToCart }) {
   const { id } = useParams();
@@ -85,7 +86,13 @@ export default function ProductDetail({ products = [], addToCart }) {
         <div className="product-detail-grid">
 
           <div className="product-detail-image">
-            <img src={`${API}${product.image}`} alt={product.name} />
+            <img
+              src={getProductImageUrl(product.image)}
+              alt={product.name}
+              onError={(e) => {
+                e.target.src = "/no-image.png";
+              }}
+            />
           </div>
 
           <div className="product-detail-info">

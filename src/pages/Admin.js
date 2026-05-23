@@ -48,7 +48,8 @@ function Admin() {
     stock: "",
     description: "",
     category: "",
-    image: ""
+    image: "",
+    imageFile: null
   });
 
   /* ================= FETCH DATA ================= */
@@ -249,20 +250,42 @@ useEffect(() => {
   /* ================= CREATE PRODUCT ================= */
 
   const handleCreateProduct = async () => {
-    await fetch(`${API}/api/products`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        ...formData,
-        price: Number(formData.price),
-        cost: Number(formData.cost),
-        stock: Number(formData.stock)
-      })
+    const payload = new FormData();
+
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key === "imageFile") return;
+      payload.append(key, value);
     });
 
+    if (formData.imageFile) {
+      payload.append("image", formData.imageFile);
+    }
+
+    const res = await fetch(`${API}/api/products`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      body: payload
+    });
+
+    const data = await parseApiResponse(res);
+
+    if (!res.ok) {
+      alert(data.error || data.message || "Product creation failed");
+      return;
+    }
+
+    setFormData({
+      name: "",
+      price: "",
+      cost: "",
+      stock: "",
+      description: "",
+      category: "",
+      image: "",
+      imageFile: null
+    });
     setShowModal(false);
     fetchProducts();
   };
@@ -612,18 +635,54 @@ useEffect(() => {
           <div style={modalBox}>
             <h2>Add Product</h2>
 
-            {Object.keys(formData).map(field => (
-              <input
-                key={field}
-                placeholder={field}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    [field]: e.target.value
-                  })
-                }
-              />
-            ))}
+            <input
+              placeholder="Product name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            />
+            <input
+              placeholder="Price"
+              type="number"
+              value={formData.price}
+              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+            />
+            <input
+              placeholder="Cost"
+              type="number"
+              value={formData.cost}
+              onChange={(e) => setFormData({ ...formData, cost: e.target.value })}
+            />
+            <input
+              placeholder="Stock"
+              type="number"
+              value={formData.stock}
+              onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+            />
+            <input
+              placeholder="Category"
+              value={formData.category}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+            />
+            <textarea
+              placeholder="Description"
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            />
+            <input
+              placeholder="Image URL (optional if uploading a file)"
+              value={formData.image}
+              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  imageFile: e.target.files?.[0] || null
+                })
+              }
+            />
 
             <button onClick={handleCreateProduct}>Create</button>
             <button onClick={() => setShowModal(false)}>Cancel</button>

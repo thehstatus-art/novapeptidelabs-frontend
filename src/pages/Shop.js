@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { getProductImageUrl } from "../utils/images";
 
 const FALLBACK_IMAGE = "/no-image.png";
 
@@ -19,6 +20,7 @@ function Shop({ products = [], addToCart }) {
     "growth-hormone",
     "antioxidant",
     "sleep",
+    "supplies",
     "experimental"
   ];
 
@@ -82,10 +84,7 @@ function Shop({ products = [], addToCart }) {
 
           filteredProducts.map((product) => {
 
-            const imageUrl =
-              product.image && product.image.startsWith("http")
-                ? product.image
-                : FALLBACK_IMAGE;
+            const imageUrl = getProductImageUrl(product.image);
 
             return (
 

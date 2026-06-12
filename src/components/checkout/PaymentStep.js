@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function PaymentStep({
   cartTotal = 0,
@@ -9,6 +9,7 @@ export default function PaymentStep({
   isShippingComplete,
   onConfirmPayment,
 }) {
+  const [copyStatus, setCopyStatus] = useState("Copy address");
   const amountDue = cartTotal + shippingCost;
   const walletAddress = "bc1q8q6y858k8scl7ky35r8usp6vuged5d2ycppxwd";
   const bitcoinUri = `bitcoin:${walletAddress}`;
@@ -33,17 +34,39 @@ export default function PaymentStep({
       <div className="checkout-payment-step__provider" style={{ border: "1px solid #ddd", borderRadius: 16, padding: 24, background: "#fafafa" }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
           <div style={{ textAlign: "center", color: "#333", marginBottom: 8 }}>
-            <strong>Scan to pay BTC</strong>
+            <strong>Copy the wallet address below to pay BTC</strong>
           </div>
-          <img
-            src={qrCodeUrl}
-            alt="BTC wallet QR code"
-            style={{ width: 260, height: 260, borderRadius: 16, background: "#fff", padding: 12, boxShadow: "0 0 0 1px rgba(0,0,0,0.08)" }}
-          />
           <div style={{ width: "100%", textAlign: "center" }}>
-            <code style={{ display: "block", fontSize: 14, padding: 14, border: "1px dashed #bbb", borderRadius: 10, background: "#fff", wordBreak: "break-all" }}>
-              {walletAddress}
-            </code>
+            <div style={{ marginBottom: 10, color: "#555" }}>BTC Wallet Address</div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
+              <code style={{ flex: "1 1 320px", minWidth: 0, fontSize: 16, padding: 18, border: "1px dashed #bbb", borderRadius: 10, background: "#fff", color: "#000", wordBreak: "break-all", textAlign: "left" }}>
+                {walletAddress}
+              </code>
+              <button
+                type="button"
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(walletAddress);
+                    setCopyStatus("Copied!");
+                    window.setTimeout(() => setCopyStatus("Copy address"), 2200);
+                  } catch (err) {
+                    setCopyStatus("Copy failed");
+                    window.setTimeout(() => setCopyStatus("Copy address"), 2200);
+                  }
+                }}
+                style={{
+                  padding: "10px 18px",
+                  borderRadius: 10,
+                  border: "1px solid #999",
+                  background: "#fff",
+                  cursor: "pointer",
+                  fontWeight: 600,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {copyStatus}
+              </button>
+            </div>
           </div>
           <div style={{ color: "#333", textAlign: "center", lineHeight: 1.6 }}>
             After sending BTC, please email your payment receipt and the products you ordered to <a href="mailto:support@novapeptidelabs.org">support@novapeptidelabs.org</a>.

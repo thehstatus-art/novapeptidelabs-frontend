@@ -10,6 +10,9 @@ export default function ReviewStep({
   const total = cart.reduce((sum, item) => {
     return sum + (item.price || 0) * (item.quantity || 1);
   }, 0);
+  const discountRate = total > 0 ? 0.1 : 0;
+  const discountAmount = Number((total * discountRate).toFixed(2));
+  const discountedTotal = total - discountAmount;
   const emailBody = [
     "Hi NovaPeptide Labs,",
     "",
@@ -69,9 +72,21 @@ export default function ReviewStep({
 
       <div className="checkout-review__summary">
 
+        <div className="checkout-review__row">
+          <span>Subtotal</span>
+          <span>${total.toFixed(2)}</span>
+        </div>
+
+        {discountRate > 0 ? (
+          <div className="checkout-review__row">
+            <span>BTC discount ({Math.round(discountRate * 100)}%)</span>
+            <span>-${discountAmount.toFixed(2)}</span>
+          </div>
+        ) : null}
+
         <div className="checkout-review__total">
           <span>Total</span>
-          <span>${total.toFixed(2)}</span>
+          <span>${discountedTotal.toFixed(2)}</span>
         </div>
 
       </div>

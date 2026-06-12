@@ -33,8 +33,7 @@ export default function PaymentStep({
 
       {discountRate > 0 ? (
         <div className="checkout-payment-step__note" style={{ marginBottom: 18, padding: 14, borderRadius: 12, background: "#eef9f1", color: "#1b5e20", border: "1px solid #c8e6c9" }}>
-          Bitcoin discount applied: {Math.round(discountRate * 100)}% off (${discountAmount.toFixed(2)} savings).
-          {discountRate === 0.2 && " Offer valid through July 15th."}
+          Bitcoin discount applied: 10% off (${discountAmount.toFixed(2)} savings).
         </div>
       ) : null}
 

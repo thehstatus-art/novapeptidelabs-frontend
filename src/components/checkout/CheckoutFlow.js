@@ -24,9 +24,7 @@ export default function CheckoutFlow(props) {
   const cart = props.cart || [];
   const cartTotal = Number(props.cartTotal ?? cart.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0));
   const shippingCost = Number(selectedShipping?.price || 0);
-  const today = new Date();
-  const july15 = new Date(today.getFullYear(), 6, 15, 23, 59, 59);
-  const discountRate = cartTotal > 200 ? (today <= july15 ? 0.2 : 0.1) : 0;
+  const discountRate = cartTotal > 0 ? 0.1 : 0;
   const discountAmount = Number((cartTotal * discountRate).toFixed(2));
   const orderTotal = cartTotal - discountAmount + shippingCost;
   const isShippingComplete = Boolean(

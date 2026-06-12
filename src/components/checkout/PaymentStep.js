@@ -4,16 +4,16 @@ export default function PaymentStep({
   cartTotal = 0,
   shippingCost = 0,
   selectedShipping,
+  discountRate = 0,
+  discountAmount = 0,
   back,
   shippingAddress,
   isShippingComplete,
   onConfirmPayment,
 }) {
   const [copyStatus, setCopyStatus] = useState("Copy address");
-  const amountDue = cartTotal + shippingCost;
+  const amountDue = cartTotal - discountAmount + shippingCost;
   const walletAddress = "bc1q8q6y858k8scl7ky35r8usp6vuged5d2ycppxwd";
-  const bitcoinUri = `bitcoin:${walletAddress}`;
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(bitcoinUri)}&size=260x260`;
   const canPay = isShippingComplete && Boolean(selectedShipping);
 
   return (
@@ -30,6 +30,13 @@ export default function PaymentStep({
         <span>Amount Due</span>
         <strong>${amountDue.toFixed(2)}</strong>
       </div>
+
+      {discountRate > 0 ? (
+        <div className="checkout-payment-step__note" style={{ marginBottom: 18, padding: 14, borderRadius: 12, background: "#eef9f1", color: "#1b5e20", border: "1px solid #c8e6c9" }}>
+          Bitcoin discount applied: {Math.round(discountRate * 100)}% off (${discountAmount.toFixed(2)} savings).
+          {discountRate === 0.2 && " Offer valid through July 15th."}
+        </div>
+      ) : null}
 
       <div className="checkout-payment-step__provider" style={{ border: "1px solid #ddd", borderRadius: 16, padding: 24, background: "#fafafa" }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>

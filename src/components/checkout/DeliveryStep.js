@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { API } from "../../config/api";
 
-const fallbackDeliveryOptions = [
+const flatShippingOption = [
   {
-    id: "standard",
-    label: "Standard Shipping",
+    id: "flat-rate",
+    label: "Flat Rate Shipping",
     eta: "3-5 business days",
-    price: 4.99,
-    description: "Reliable tracked delivery for most domestic orders.",
-  },
-  {
-    id: "express",
-    label: "Express Shipping",
-    eta: "1-2 business days",
     price: 9.99,
-    description: "Priority fulfillment when you need a faster turnaround.",
+    description: "Flat $9.99 shipping for all orders.",
   },
 ];
 
@@ -26,75 +18,7 @@ export default function DeliveryStep({
   selectedShipping,
   onSelectShipping,
 }) {
-  const [deliveryOptions, setDeliveryOptions] = useState(fallbackDeliveryOptions);
-  const [isLoadingRates, setIsLoadingRates] = useState(false);
-  const [rateError, setRateError] = useState("");
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchRates = async () => {
-      if (!shippingAddress?.zip) {
-        setDeliveryOptions(fallbackDeliveryOptions);
-        return;
-      }
-
-      try {
-        setIsLoadingRates(true);
-        setRateError("");
-
-        const res = await fetch(`${API}/api/shipping/rates`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            shippingAddress,
-            items: (cart || []).map((item) => ({
-              productId: item._id,
-              quantity: item.quantity,
-            })),
-          }),
-        });
-
-        const data = await res.json();
-
-        if (!isMounted) return;
-
-        if (!res.ok || !Array.isArray(data) || data.length === 0) {
-          setDeliveryOptions(fallbackDeliveryOptions);
-          setRateError("Live shipping rates unavailable. Showing backup rates.");
-          return;
-        }
-
-        const normalizedOptions = data.map((rate) => ({
-          id: rate.rateId,
-          label: `${rate.provider} ${rate.service}`,
-          eta: rate.estimated_days ? `${rate.estimated_days} business days` : "Tracked delivery",
-          price: Number(rate.price),
-          description: "Live carrier rate based on the shipping address.",
-        }));
-
-        setDeliveryOptions(normalizedOptions);
-
-        if (!selectedShipping || !normalizedOptions.some((option) => option.id === selectedShipping.id)) {
-          onSelectShipping?.(normalizedOptions[0]);
-        }
-      } catch (err) {
-        if (!isMounted) return;
-        setDeliveryOptions(fallbackDeliveryOptions);
-        setRateError("Live shipping rates unavailable. Showing backup rates.");
-      } finally {
-        if (isMounted) {
-          setIsLoadingRates(false);
-        }
-      }
-    };
-
-    fetchRates();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [cart, onSelectShipping, selectedShipping, shippingAddress]);
+  const [deliveryOptions] = useState(flatShippingOption);
 
   useEffect(() => {
     if (!selectedShipping && deliveryOptions.length > 0) {
@@ -113,10 +37,6 @@ export default function DeliveryStep({
         </div>
 
         <div className="checkout-delivery">
-          {isLoadingRates ? (
-            <div className="checkout-delivery__note">Loading live shipping rates...</div>
-          ) : null}
-
           {deliveryOptions.map((option) => {
             const isSelected = selectedShipping?.id === option.id;
 
@@ -146,11 +66,10 @@ export default function DeliveryStep({
         </div>
 
         <div className="checkout-delivery__note">
-          {rateError || (
-            selectedShipping
-              ? `Selected: ${selectedShipping.label} for $${Number(selectedShipping.price).toFixed(2)}`
-              : "Choose a shipping option to continue."
-          )}
+          {selectedShipping
+            ? `Selected: ${selectedShipping.label} for $${Number(selectedShipping.price).toFixed(2)}`
+            : "Shipping is a flat $9.99 rate."
+          }
         </div>
     </div>
   );

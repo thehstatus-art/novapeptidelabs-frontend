@@ -5,6 +5,8 @@ export default function OrderSummary({
   cartTotal=0,
   shippingCost=0,
   shippingLabel="",
+  discountRate=0,
+  discountAmount=0,
   orderTotal=0,
 }){
   const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
@@ -70,10 +72,23 @@ export default function OrderSummary({
         </div>
       ) : null}
 
-      <div className="checkout-summary__row checkout-summary__row--total">
-        <span>Total</span>
-        <span>${(orderTotal || cartTotal).toFixed(2)}</span>
-      </div>
+      {discountRate > 0 ? (
+        <>
+          <div className="checkout-summary__row">
+            <span>BTC discount ({Math.round(discountRate * 100)}%)</span>
+            <span>-${discountAmount.toFixed(2)}</span>
+          </div>
+          <div className="checkout-summary__row checkout-summary__row--total">
+            <span>Total</span>
+            <span>${orderTotal.toFixed(2)}</span>
+          </div>
+        </>
+      ) : (
+        <div className="checkout-summary__row checkout-summary__row--total">
+          <span>Total</span>
+          <span>${(orderTotal || cartTotal).toFixed(2)}</span>
+        </div>
+      )}
 
       <div className="checkout-summary__security">
         🔒 Secure Checkout • 256-bit SSL

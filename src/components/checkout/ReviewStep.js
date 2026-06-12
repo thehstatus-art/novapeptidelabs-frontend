@@ -16,8 +16,6 @@ export default function ReviewStep({
     "I completed payment for my order. Here are the products and quantities I purchased:",
     "",
     ...cart.map((item) => `${item.name} - Qty ${item.quantity || 1}`),
-    "",
-    completedOrder?.paypalOrderId ? `PayPal Order ID: ${completedOrder.paypalOrderId}` : "",
   ].filter(Boolean).join("\n");
   const emailHref = `mailto:support@novapeptidelabs.org?subject=${encodeURIComponent("Paid order details")}&body=${encodeURIComponent(emailBody)}`;
 
@@ -28,7 +26,7 @@ export default function ReviewStep({
         <div className="checkout-step__eyebrow">Step 5 of 5</div>
         <h2 className="checkout-step__title">Payment Received</h2>
         <p className="checkout-step__copy">
-          Your PayPal payment was completed. Please send us your order details so fulfillment can verify the items.
+          Your payment was completed. Please send us your order details so fulfillment can verify the items.
         </p>
       </div>
 
@@ -83,7 +81,7 @@ export default function ReviewStep({
         <a href={emailHref} style={emailNoticeLinkStyle}>
           support@novapeptidelabs.org
         </a>{" "}
-        with the product name and quantity for each item you purchased.
+        to confirm your payment and include the products you ordered, quantities, and your payment receipt.
       </div>
 
       <button

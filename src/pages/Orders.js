@@ -58,11 +58,7 @@ function Orders() {
             </div>
           )}
 
-          {order.paypalOrderId && (
-            <p>
-              <strong>PayPal Order:</strong> {order.paypalOrderId}
-            </p>
-          )}
+          {/* PayPal order info removed */}
         </div>
       ))}
     </div>

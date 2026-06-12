@@ -1,9 +1,24 @@
 import React from "react";
+import { getProductImageUrl } from "../../utils/images";
 
 export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) {
 
   return (
     <div className="checkout-cart">
+
+
+      <div style={{
+        background: '#fff3cd',
+        color: '#856404',
+        border: '1px solid #ffeeba',
+        borderRadius: '8px',
+        padding: '16px',
+        marginBottom: '20px',
+        fontWeight: 500
+      }}>
+        <strong>Note:</strong> After you place your order, please email <a href="mailto:support@novapeptidelabs.org">support@novapeptidelabs.org</a> with the product name(s) and quantity you ordered.<br/>
+        This helps us verify and fulfill your order quickly. Thank you!
+      </div>
 
       <div className="checkout-cart__header">
         <h2 className="checkout-cart__title">Your Cart</h2>
@@ -27,7 +42,7 @@ export default function CartStep({ cart = [], increaseQty, decreaseQty, next }) 
 
                 <div className="checkout-cart__media">
                   <img
-                    src={item.image}
+                    src={getProductImageUrl(item.image)}
                     alt={item.name}
                     className="checkout-cart__image"
                   />

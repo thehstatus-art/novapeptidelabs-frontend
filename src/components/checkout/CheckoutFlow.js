@@ -9,7 +9,6 @@ import ReviewStep from "./ReviewStep";
 import OrderSummary from "./OrderSummary";
 
 export default function CheckoutFlow(props) {
-
   const [step, setStep] = useState(1);
   const [shippingAddress, setShippingAddress] = useState({
     name: "",
@@ -18,21 +17,14 @@ export default function CheckoutFlow(props) {
     city: "",
     state: "",
     zip: "",
-    country: "US",
   });
-  const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
   const [selectedShipping, setSelectedShipping] = useState(null);
   const [completedOrder, setCompletedOrder] = useState(null);
 
-  const next = () => setStep(prev => Math.min(5, prev + 1));
-  const back = () => setStep(prev => Math.max(1, prev - 1));
-  const goTo = (s) => {
-    if (s === 5 && !completedOrder) return;
-    setStep(Math.min(5, Math.max(1, s)));
-  };
-  const updateShippingField = (field, value) => {
-    setShippingAddress((prev) => ({ ...prev, [field]: value }));
-  };
+  const cart = props.cart || [];
+  const cartTotal = Number(props.cartTotal ?? cart.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0));
+  const shippingCost = Number(selectedShipping?.price || 0);
+  const orderTotal = cartTotal + shippingCost;
   const isShippingComplete = Boolean(
     shippingAddress.name &&
     shippingAddress.email &&
@@ -41,105 +33,94 @@ export default function CheckoutFlow(props) {
     shippingAddress.state &&
     shippingAddress.zip
   );
-  const shippingCost = Number(selectedShipping?.price || 0);
-  const orderTotal = props.cartTotal + shippingCost;
+
+  const next = () => setStep((current) => Math.min(current + 1, 5));
+  const back = () => setStep((current) => Math.max(current - 1, 1));
+  const goTo = (index) => {
+    if (index >= 1 && index <= 5) {
+      setStep(index);
+    }
+  };
+
+  const onShippingChange = (field, value) => {
+    setShippingAddress((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const confirmPayment = () => {
+    setCompletedOrder({
+      items: cart,
+      shippingAddress,
+      shippingCost,
+      shippingMethod: selectedShipping?.label || "",
+      orderTotal,
+    });
+    setStep(5);
+  };
 
   const renderStep = () => {
-
-    switch(step){
-
+    switch (step) {
       case 1:
-        return <CartStep {...props} next={next} />
+        return (
+          <CartStep
+            cart={cart}
+            increaseQty={props.increaseQty}
+            decreaseQty={props.decreaseQty}
+            next={next}
+          />
+        );
 
       case 2:
         return (
           <ShippingStep
-            {...props}
             next={next}
             back={back}
             shippingAddress={shippingAddress}
-            onShippingChange={updateShippingField}
+            onShippingChange={onShippingChange}
           />
-        )
+        );
 
       case 3:
         return (
           <DeliveryStep
-            {...props}
             next={next}
             back={back}
+            cart={cart}
             shippingAddress={shippingAddress}
             selectedShipping={selectedShipping}
             onSelectShipping={setSelectedShipping}
           />
-        )
+        );
 
       case 4:
         return (
           <PaymentStep
-            {...props}
-            next={next}
             back={back}
             shippingAddress={shippingAddress}
             isShippingComplete={isShippingComplete}
-            isSubmittingOrder={isSubmittingOrder}
-            cartTotal={props.cartTotal}
+            cartTotal={cartTotal}
             shippingCost={shippingCost}
             selectedShipping={selectedShipping}
-            onPaymentApproved={async (paymentResult) => {
-              setIsSubmittingOrder(true);
-              const purchasedItems = (props.cart || []).map((item) => ({ ...item }));
-              try {
-                const success = await props.handlePayPalSuccess?.({
-                  ...(paymentResult || {}),
-                  orderID: paymentResult?.orderID || "",
-                  shippingAddress: paymentResult?.shippingAddress || shippingAddress,
-                  shippingCost: paymentResult?.shippingCost ?? shippingCost,
-                  shippingMethod: paymentResult?.shippingMethod || selectedShipping?.label || "",
-                });
-
-                if (success) {
-                  setCompletedOrder({
-                    items: purchasedItems,
-                    paypalOrderId: paymentResult?.orderID || "",
-                    shippingAddress: paymentResult?.shippingAddress || shippingAddress,
-                    shippingCost: paymentResult?.shippingCost ?? shippingCost,
-                    shippingMethod: paymentResult?.shippingMethod || selectedShipping?.label || "",
-                  });
-                  setStep(5);
-                } else {
-                  alert("Order was paid but could not be saved. Please contact support.");
-                }
-              } catch (err) {
-                console.error("PayPal order finalization failed:", err);
-                alert(err?.message || "Payment succeeded but order failed to save. Contact support.");
-              } finally {
-                setIsSubmittingOrder(false);
-              }
-            }}
+            onConfirmPayment={confirmPayment}
           />
-        )
+        );
 
       case 5:
         return (
           <ReviewStep
-            cart={completedOrder?.items || []}
+            cart={cart}
             back={back}
             completedOrder={completedOrder}
           />
-        )
+        );
 
       default:
-        return null
-
+        return null;
     }
-
-  }
+  };
 
   return (
     <div className="checkout-shell">
       <div className="checkout-shell__inner">
-
         <div className="checkout-shell__header">
           <div className="checkout-shell__steps">
             <CheckoutSteps step={step} onStepClick={goTo} />
@@ -147,11 +128,8 @@ export default function CheckoutFlow(props) {
         </div>
 
         <div className="checkout-shell__grid">
-
           <div className="checkout-shell__main">
-            <div className="checkout-shell__panel">
-              {renderStep()}
-            </div>
+            <div className="checkout-shell__panel">{renderStep()}</div>
           </div>
 
           <aside className="checkout-shell__summary">
@@ -162,11 +140,9 @@ export default function CheckoutFlow(props) {
               orderTotal={orderTotal}
             />
           </aside>
-
         </div>
-
       </div>
     </div>
-  )
-
+  );
 }
+

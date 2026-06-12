@@ -30,7 +30,7 @@ export default function TrustSection() {
         <div className="trust-icon">🔒</div>
         <div className="trust-content">
           <h4>Secure Checkout</h4>
-          <p>Payments processed securely through Stripe and PayPal encryption.</p>
+          <p>Payments processed securely through Stripe encryption.</p>
         </div>
       </div>
 

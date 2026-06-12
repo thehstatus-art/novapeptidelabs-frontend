@@ -135,45 +135,7 @@ function App() {
     );
   };
 
-  const handlePayPalSuccess = async ({
-    orderID,
-    details,
-    shippingAddress,
-    shippingCost,
-    shippingMethod,
-  }) => {
-    try {
-      const res = await fetch(`${API}/api/orders/paypal`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          paypalOrderId: orderID,
-          paymentDetails: details,
-          items: cart.map((item) => ({
-            productId: item._id,
-            quantity: item.quantity,
-          })),
-          email: shippingAddress?.email || "",
-          shippingAddress,
-          shippingCost,
-          shippingMethod,
-        }),
-      });
 
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
-        throw new Error(data.message || "Order save failed");
-      }
-
-      setCart([]);
-      return true;
-
-    } catch (err) {
-      console.error("Order save failed:", err);
-      throw err;
-    }
-  };
 
   if (loading) {
     return (
@@ -242,7 +204,7 @@ function App() {
                   cartTotal={cartTotal}
                   increaseQty={increaseQty}
                   decreaseQty={decreaseQty}
-                  handlePayPalSuccess={handlePayPalSuccess}
+
                 />
               </div>
             }

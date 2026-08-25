@@ -101,6 +101,7 @@ export default function CheckoutFlow(props) {
             isShippingComplete={isShippingComplete}
             cartTotal={cartTotal}
             shippingCost={shippingCost}
+            cart={cart}
             selectedShipping={selectedShipping}
             discountRate={discountRate}
             discountAmount={discountAmount}
